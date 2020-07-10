@@ -1,0 +1,55 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>e-shop</title>
+<link type="text/css" th:href="@{/css/css.css}" rel="stylesheet" />
+<script type="text/javascript" th:src="@{/js/jquery.js}"></script>
+<!-- <script type="text/javascript" th:src="@{/js/js.js}"></script> -->
+<script type="text/javascript" th:src="@{/js/shop/register.js}"></script>
+</head>
+<body style=" background:#FFF;">
+ <div class="loginLogo">
+  <div class="logoMid">
+   <h1 class="logo" style="height:71px;padding-top:10px;">
+   	<a href="index.html"><img th:src="@{/images/loginLogo.jpg}" width="241" height="71" /></a>
+   </h1>
+   <div class="loginReg">
+    已有会员账号?&nbsp;<a id="jq_user_login" style="cursor:pointer;">登录</a>
+   </div><!--loginReg/-->
+  </div><!--logoMid/-->
+ </div><!--loginLogo/-->
+ <div class="loginBox">
+  <img th:src="@{/images/chengnuo.jpg}" width="295" height="393" class="chengnuo" />
+  <form class="reg" id="jq_reg_form">
+   <div class="regList">
+    <label><span class="red">*</span> 账户名</label>
+    <input type="text" name="userName" id="userName" placeholder="请输入邮箱/用户名/手机号"/> 
+    <span style="color:#999;display:none;">请输入邮箱/用户名/手机号</span>
+    <span style="color:red;display:none;" id="name_err_tips">用戶名重复</span>
+   </div><!--regList/-->
+   <div class="regList">
+    <label><span class="red">*</span> 请设置密码</label>
+    <input type="password" name="password"/>
+   </div><!--regList/-->
+   <div class="regList">
+    <label><span class="password">*</span> 请确认密码</label>
+    <input type="text" name="rePassword"/>
+   </div><!--regList/-->
+   <div class="regList">
+    <label><span class="red">*</span> 验证码</label>
+    <input type="text" class="yanzheng" name="verifyCode"/>
+    <img th:src="@{/images/yanzheng.jpg}" width="103" height="38" />
+   </div><!--regList/-->
+   <div class="xieyi">
+    <input type="checkbox" id="jq_reg_checkbox"/> 我已经阅读并同意<a href="#">《e-shop用户注册协议》</a>
+    <span style="color:red;display:none;" id="jq_tips">请先阅读并勾选注册协议</span> 
+   </div><!--xieyi/-->
+  </form><!--reg/-->
+   <div class="" style="margin-left:215px;">
+    <input type="image" th:src="@{/images/reg.jpg}" width="284" height="34" id="jq_doreg_input"/>
+   </div><!--reg/-->
+  <div class="clears"></div>
+ </div><!--loginBox/-->
+</body>
+</html>

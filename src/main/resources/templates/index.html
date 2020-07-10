@@ -1,0 +1,197 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>eshop</title>
+<link type="text/css" th:href="@{/css/css.css}" rel="stylesheet" />
+<script type="text/javascript" th:src="@{/js/jquery.js}"></script>
+<script type="text/javascript" th:src="@{/js/js.js}"></script>
+<script type="text/javascript" th:src="@{/js/shop/index.js}"></script>
+<script type="text/javascript" th:src="@{/js/wb.js}"charset="utf-8"></script>
+<script type="text/javascript">
+$(function(){
+	$("#kinMaxShow").kinMaxShow();
+});
+</script>
+</head>
+<body>
+ <div class="mianCont">
+  <div class="top">
+   <span th:if="${user==null}">您好！欢迎来到e-shop商城 请&nbsp;<a id="jq_toLogin" style="cursor:pointer;">[登录]</a>&nbsp;<a id="jq_toReg" style="cursor:pointer;">[注册]</a></span>
+   <span th:if="${user!=null}"><span th:text="${user.userName}"></span>您好！欢迎来到e-shop商城 &nbsp;<a id="jq_toOut" style="cursor:pointer;">[退出]</a></span>
+   <span class="topRight">
+    <a href="vip.html">我的</a>&nbsp;| 
+    <a href="order.html">我的订单</a>&nbsp;| 
+    <a href="login.html">会员中心</a>&nbsp;|
+    <a href="contact.html">联系我们</a>
+   </span>
+  </div><!--top/-->
+  <div class="lsg">
+   <h1 class="logo"><a href="index.html"><img th:src="@{images/logo.png}" width="217" height="90" /></a></h1>
+   <form action="#" method="get" class="subBox">
+    <div class="subBoxDiv">
+     <input type="text" class="subLeft" />
+     <input type="image" th:src="@{images/subimg.png}" width="63" height="34" class="sub" />
+     <div class="hotWord">
+      热门搜索：
+      <a href="proinfo.html">冷饮杯</a>&nbsp;
+      <a href="proinfo.html">热饮杯</a> &nbsp;
+      <a href="proinfo.html">纸杯</a>&nbsp;
+      <a href="proinfo.html">纸巾</a>  &nbsp;
+      <a href="proinfo.html">纸巾</a> &nbsp;
+      <a href="proinfo.html">纸杯</a>&nbsp;
+     </div><!--hotWord/-->
+    </div><!--subBoxDiv/-->
+   </form><!--subBox/-->
+   <div class="gouwuche">
+    <div class="gouCar">
+     <img src="images/gouimg.png" width="19" height="20" style="position:relative;top:6px;" />&nbsp;|&nbsp;
+     <strong class="red">0</strong>&nbsp;件&nbsp;|
+     <strong class="red">￥ 0.00</strong> 
+     <a href="order.html">去结算</a> <img th:src="@{images/youjian.jpg}" width="5" height="8" />    
+    </div><!--gouCar/-->
+    <div class="myChunlv">
+     <a href="vip.html"><img th:src="@{images/mychunlv.jpg}" width="112" height="34" /></a>
+    </div><!--myChunlv/-->
+   </div><!--gouwuche/-->
+  </div><!--lsg/-->
+  <div class="pnt">
+   <div class="pntLeft">
+    <h2 class="Title">所有商品分类</h2>
+    <ul class="InPorNav">
+     <li th:each="val:${catalogs}">
+     	<a href="product.html" th:text="${val.name}"></a>
+     	<div class="chilInPorNav">
+     		<a href="#" th:each="node:${val.trees}"><span th:text="${node.name}"></span></a>
+     	</div>
+     </li>
+    </ul><!--InPorNav/-->
+   </div><!--pntLeft/-->
+   <div class="pntRight">
+    <ul class="nav">
+     <li class="navCur"><a href="index.html">商城首页</a></li>
+     <li><a href="product.html">促销中心</a></li>
+     <li><a href="login.html">会员中心</a></li>
+     <li><a href="help.html">帮助中心</a></li>
+     <div class="clears"></div>
+     <div class="phone">TEL：021-12345678</div>
+    </ul><!--nav/-->
+    <div class="banner">
+     <div id="kinMaxShow">
+      <div th:each="obj:${navProducts}">
+       <a href="#"><img th:src="@{${obj.maxPicture}}" height="360"/></a>
+      </div> 		
+     </div><!--kinMaxShow/-->
+    </div><!--banner/-->
+   </div><!--pntRight/-->
+   <div class="clears"></div>
+  </div><!--pnt/-->
+  <div class="rdPro">
+   <div class="rdLeft">
+    <ul class="rdList">
+     <li>推荐产品</li>
+     <li>促销产品</li>
+     <div class="clears"></div>
+    </ul><!--rdList/-->
+    <div class="rdProBox">
+     <dl th:each="obj:${proProducts}">
+      <dt><a href="proinfo.html"><img th:src="@{${obj.picture}}" width="132" height="129" /></a></dt>
+      <dd th:text="${obj.introduce}">妙洁 一次性纸杯 8盎司228ml 100只/袋 20袋/箱</dd>
+      <dd class="cheng" th:text="'￥' + ${obj.price}+'/' + ${obj.unit}">￥19.80/袋</dd>
+     </dl>
+     <div class="clears"></div>
+    </div><!--rdPro/-->
+    <div class="rdProBox">
+     <dl th:each="obj:${recProducts}">
+      <dt><a href="proinfo.html"><img th:src="@{${obj.picture}}" width="132" height="129" /></a></dt>
+      <dd th:text="${obj.introduce}">妙洁 一次性纸杯 8盎司228ml 100只/袋 20袋/箱</dd>
+      <dd class="cheng" th:text="'￥' + ${obj.price}+'/' + ${obj.unit}">￥19.80/袋</dd>
+     </dl>
+     <div class="clears"></div>
+    </div><!--rdPro/-->
+   </div><!--rdLeft/-->
+   <div class="rdRight">
+    <img th:src="@{/images/rdRight.jpg}" width="221" height="254" />
+   </div><!--rdRight/-->
+   <div class="clears"></div>
+  </div><!--rdPro/-->
+  <div class="hengfu">
+   <img th:src="@{/images/hengfu1.jpg}" width="979" height="60" />
+  </div><!--hengfu/-->
+  <div class="floor" th:each="item,itemStat:${catalogs}">
+   <h3 class="floorTitle" th:text="${itemStat.count}+'F-'+${item.name}">
+   1F-name
+   <a href="proinfo.html" class="more">更多 &gt;</a>
+   </h3>
+   <div class="floorBox">
+    <div class="floorLeft">
+     <ul class="flList">
+      <li th:each="item2,item2Stat:${item.trees}" th:value="${item2.code}" class="click_item">
+      	<span th:text="${item2.name}" th:class="'cls-' + ${item2Stat.index}"></span>
+      </li>
+      <li th:unless="${#lists.isEmpty(item2)}"><a href="proinfo.html">更多&gt;&gt;</a></li>
+      <div class="clears"></div>
+     </ul><!--flList/-->
+     <div class="flImg"><img th:src="@{/images/flListimg.jpg}" width="198" height="290" /></div>
+    </div><!--floorLeft/-->
+    <div class="floorRight">
+     <div class="frProList">
+<!--       <dl th:each="item3:${item.trees.products}"> -->
+<!--       <dt><a href="proinfo.html"><img src="@{${item3.picture}}" width="132" height="129" /></a></dt> -->
+<!--       <dd th:text="${item3.introduce}">妙洁 一次性纸杯 8盎司228ml 100只/袋 20袋/箱</dd> -->
+<!--       <dd class="cheng" th:text="'￥' + ${item3.price}+'/' + ${item3.unit}">￥19.80/袋</dd> -->
+<!--      </dl> -->
+      <div class="clears"></div>
+     </div><!--frProList-->
+    </div><!--floorRight/-->
+    <div class="clears"></div>
+   </div><!--floorBox/-->
+  </div><!--floor/-->
+  <div class="inHelp">
+   <div class="inHLeft">
+    <h4>帮助中心</h4>
+    <ul class="inHeList">
+     <li><a href="help.html">购物指南</a></li>
+     <li><a href="help.html">支付方式</a></li>
+     <li><a href="help.html">售后服务</a></li>
+     <li><a href="about.html">企业简介</a></li>
+     <div class="clears"></div>
+    </ul><!--inHeList/-->
+   </div><!--inHLeft/-->
+   <div class="inHLeft">
+    <h4>会员服务</h4>
+    <ul class="inHeList">
+     <li><a href="reg.html">会员注册</a></li>
+     <li><a href="login.html">会员登录</a></li>
+     <li><a href="order.html">购物车</a></li>
+     <li><a href="order.html">我的订单</a></li>
+     <div class="clears"></div>
+    </ul><!--inHeList/-->
+   </div><!--inHLeft/-->
+   <div class="inHRight">
+    <h4>全国统一免费服务热线</h4>
+    <div class="telBox">400-0000-0000</div>
+    <div class="weibo">
+    <wb:follow-button uid="2991975565" type="red_1" width="67" height="24" ></wb:follow-button>
+    </div>
+   </div><!--inHRight/-->
+   <div class="clears"></div>
+  </div><!--inHelp/-->
+  <div class="footer">
+   <p>
+   <a href="#">进入17官网</a>&nbsp;|&nbsp;
+   <a href="index.html">商城首页</a>&nbsp;|&nbsp;
+   <a href="product.html">促销中心</a>&nbsp;|&nbsp;
+   <a href="order.html">我的订单</a>&nbsp;|&nbsp;
+   <a href="new.html">新闻动态</a>&nbsp;|&nbsp;
+   <a href="login.html">会员中心</a>&nbsp;|&nbsp;
+   <a href="help.htmll">帮助中心</a>
+   </p>
+   <p>
+    版权所有：上海17实业有限公司 版权所有  Copyright 2010-2015   沪ICP备00000000号   <a href="http://www.mycodes.net/" target="_blank">源码之家</a>   
+   </p>
+  </div><!--footer/-->
+ </div><!--mianCont/-->
+ <a href="#" class="backTop">&nbsp;</a>
+</body>
+</html>
