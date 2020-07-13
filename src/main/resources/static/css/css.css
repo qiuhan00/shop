@@ -9,6 +9,8 @@ ol, ul {list-style: none; }
 a{color:#333;}
 a:hover{color:#F00;}
 
+.jq_proinfo{cursor:pointer;}
+
 /*mianCont*/
 .mianCont{width:980px;margin:0 auto;}
 .top{height:25px;line-height:25px; position:relative;}
@@ -281,7 +283,7 @@ a:hover{color:#F00;}
 .MagicZoomLoading img {
 	padding-top:	3px !important;
 }
-.proBoxRight{width:445px;float:right;line-height:25px;font-size:14px;}
+.proBoxRight{width:445px;float:left;line-height:25px;font-size:14px;}
 .proTitle{height:40px;line-height:40px;font-size:16px; font-family:"微软雅黑";}
 .rongliang{}
 .rongliang li{height:18px;line-height:18px;width:50px;border:#CCC 1px solid;margin: 5px 5px 0 0; text-align:center; font-family:"微软雅黑";font-size:12px;cursor:pointer;float:left;}

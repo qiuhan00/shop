@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import com.cfang.dto.IndexProductTree;
@@ -26,6 +27,7 @@ public class CataLogServiceImpl implements CataLogService{
 	private ProductMapper productMapper;
 	
 	@Override
+	@Cacheable(value = "catalogs", key = "#root.targetClass")
 	public List<IndexProductTree> selectIndexProduct() {
 		List<CatalogEntity> catalogs = cataLogMapper.selectAll();
 		return assembly(catalogs);

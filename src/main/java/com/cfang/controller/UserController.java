@@ -73,8 +73,8 @@ public class UserController {
 	
 	@PostMapping("logout")
 	public void logout(HttpServletRequest request, HttpServletResponse response) {
-		request.getSession().invalidate();
-//		request.getSession().removeAttribute("user");
+//		request.getSession().invalidate();
+		request.getSession().removeAttribute("user");
 		FlushUtil.flushJsonByObject("success", response);
 	}
 	

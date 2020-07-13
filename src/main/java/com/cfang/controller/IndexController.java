@@ -39,8 +39,11 @@ public class IndexController {
 		//推荐产品
 		List<ProductEntity> proProducts = productService.selectIndexNav(1);
 		model.addAttribute("proProducts", proProducts);
+		//热搜产品
+		List<ProductEntity> hotProducts = productService.selectIndexNav(2);
+		model.addAttribute("hotProducts", hotProducts);
 		//促销产品
-		List<ProductEntity> recProducts = productService.selectIndexNav(2);
+		List<ProductEntity> recProducts = productService.selectIndexNav(3);
 		model.addAttribute("recProducts", recProducts);
 		//获取当前登录用户
 		UserEntity user = (UserEntity) request.getSession().getAttribute("user");

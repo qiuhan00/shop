@@ -3,6 +3,7 @@ package com.cfang.service.impl;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import com.cfang.entity.ProductEntity;
@@ -29,6 +30,9 @@ public class ProductServiceImpl implements ProductService{
 		case 1:
 			entity.setIsTimePromotion("y");
 			break;
+		case 2:
+			entity.setIsHotSearch("y");
+			break;
 		default:
 			entity.setIsRecommend("y");
 			break;
@@ -40,6 +44,11 @@ public class ProductServiceImpl implements ProductService{
 	public List<ProductEntity> selectByCataLogId(Integer cataLogId) {
 		List<ProductEntity> result = productMapper.selectByCataLogId(cataLogId);
 		return result;
+	}
+
+	@Override
+	public ProductEntity selectById(int id) {
+		return productMapper.selectByPrimaryKey(id);
 	}
 
 }

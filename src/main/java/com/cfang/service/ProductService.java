@@ -13,4 +13,6 @@ public interface ProductService {
 	List<ProductEntity> selectIndexNav(int type);
 	
 	List<ProductEntity> selectByCataLogId(Integer cataLogId);
+	
+	ProductEntity selectById(int id);
 }

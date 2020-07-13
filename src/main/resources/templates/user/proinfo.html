@@ -1,0 +1,166 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>e-shop</title>
+<link type="text/css" th:href="@{/css/css.css}" rel="stylesheet" />
+<script type="text/javascript" th:src="@{/js/jquery.js}"></script>
+<script type="text/javascript" th:src="@{/js/wb.js}"></script>
+<script type="text/javascript" th:src="@{/js/MagicZoom.js}" ></script>
+<script type="text/javascript" th:src="@{/js/ShopShow.js}"></script>
+<script type="text/javascript" th:src="@{/js/js.js}"></script>
+<script type="text/javascript" th:src="@{/js/proinfo.js}"></script>
+</head>
+<body>
+ <div class="mianCont">
+  <div class="top" th:include="common::top"></div>
+  <div class="lsg" th:include="common::lsg"></div>
+  <div class="pnt">
+   <div class="pntLeft">
+    <h2 class="Title">所有商品分类
+     <ul class="InPorNav">
+     	<li th:each="val:${catalogs}">
+	     	<a href="product.html" th:text="${val.name}"></a>
+	     	<div class="chilInPorNav">
+	     		<a href="#" th:each="node:${val.trees}"><span th:text="${node.name}"></span></a>
+	     	</div>
+     	</li>
+    </ul><!--InPorNav/-->
+    </h2>
+   </div><!--pntLeft/-->
+   <div class="pntRight">
+    <ul class="nav">
+     <li><a href="index.html">商城首页</a></li>
+     <li class="navCur"><a href="#">促销中心</a></li>
+     <li><a href="login.html">会员中心</a></li>
+     <li><a href="help.html">帮助中心</a></li>
+     <div class="clears"></div>
+     <div class="phone">TEL：021-12345678</div>
+    </ul><!--nav/-->
+   </div><!--pntRight/-->
+   <div class="clears"></div>
+  </div><!--pnt/-->
+  <div class="positions">
+   当前位置：<a href="index.html">首页</a> &gt; <a href="#" class="posCur">商品详情</a>
+  </div><!--positions/-->
+  <div class="cont">
+   <div class="" style="border:0;">
+   <div class="proBox">
+   <div id="tsShopContainer">
+	<div id="tsImgS">
+		<!-- 放大镜大图 -->
+		<a th:href="@{${product.picture}}" class="MagicZoom" id="MagicZoom">
+			<img width="300" height="300" th:src="@{${product.picture}}" />
+		</a>
+	</div>
+	<div id="tsPicContainer">
+		<div id="tsImgSArrL" onclick="tsScrollArrLeft()"></div>
+		<div id="tsImgSCon" style="width:228px;">
+			<ul style="width:900px;">
+				<!-- 放大镜小图 -->
+				<li th:each="image,imageStat:${#strings.arraySplit(product.images, ',')}" th:onclick="|showPic(${imageStat.index})|"  th:class="${imageStat.index == 0?'tsSelectImg':''}" rel="MagicZoom">
+					<img height="42" width="42" th:src="@{'/images/' + ${image}}" th:tsImgS="@{'/images/' + ${image}}" />
+				</li>
+			</ul>
+		</div>
+		<div id="tsImgSArrR" onclick="tsScrollArrRight()"></div>
+	</div>
+	<img class="MagicZoomLoading" width="16" height="16" th:src="@{/images/loading.gif}" alt="Loading..." />
+    </div><!--tsShopContainer/-->
+    <div class="proBoxRight" style="margin-left:20px;">
+     <h3 class="proTitle" th:text="${product.introduce}">17 饮料杯 250ml 41121 50个/袋</h3>
+     <div>商品编号：<strong th:text="${product.productCode}"> 334011 </strong> </div>
+     <div>会员价：¥<strong th:text="${product.price}">7.20</strong> </div>
+     <div>单位：<strong th:text="${product.unit}">袋</strong> </div>
+     <div>库存：<strong class="red" th:text="${product.stock}">[有货] </strong> 从上海发货</div>
+<!--      <ul class="rongliang"> -->
+<!--       <li>100ml</li> -->
+<!--       <li>200ml</li> -->
+<!--       <li>300ml</li> -->
+<!--       <li>400ml</li> -->
+<!--       <li>500ml</li> -->
+<!--       <div class="clears"></div> -->
+<!--      </ul>rongliang/ -->
+     <div class="shuliang2">
+      数量： <input type="text" value="1" />
+     </div><!--shuliang2/-->
+     <div class="gc">
+      <a href="order.html"><img th:src="@{/images/goumai.png}" width="117"  height="36" /></a>&nbsp;&nbsp;
+      <a href="#"><img th:src="@{/images/shoucang.png}" width="117" height="36" /></a>
+     </div><!--gc/-->    
+    </div><!--proRight/-->
+    <div class="clears"></div>
+    </div><!--proBox/-->
+    <ul class="fangyuan">
+      <li>商品描述</li>
+      <li>商品参数</li>
+      <li>商品评论</li>
+      <li>商品晒图</li>
+      <div class="clears"></div>
+    </ul><!--fangyuan/-->
+    <div class="fangList">
+    <div class="fangPar" th:utext="${product.productHtml}">
+         介绍啊，介绍啊。。。。
+    </div><!--fangPar/-->
+<!--     <img th:src="@{/images/ban1.jpg}" width="756" height="310" /> -->
+    </div><!--fangList/-->
+    <div class="fangList">
+     商品参数
+    </div><!--fangList/-->
+    <div class="fangList">
+     商品评论
+    </div><!--fangList/-->
+    <div class="fangList">
+     <img th:src="@{/images/rdPro1.jpg}" width="132" height="129" /><br /><br />
+    </div><!--fangList/-->
+   </div><!--contRight/-->
+   <div class="clears"></div>
+  </div><!--cont/-->
+  <div class="inHelp">
+   <div class="inHLeft">
+    <h4>帮助中心</h4>
+    <ul class="inHeList">
+     <li><a href="help.html">购物指南</a></li>
+     <li><a href="help.html">支付方式</a></li>
+     <li><a href="help.html">售后服务</a></li>
+     <li><a href="about.html">企业简介</a></li>
+     <div class="clears"></div>
+    </ul><!--inHeList/-->
+   </div><!--inHLeft/-->
+   <div class="inHLeft">
+    <h4>会员服务</h4>
+    <ul class="inHeList">
+     <li><a href="reg.html">会员注册</a></li>
+     <li><a href="login.html">会员登录</a></li>
+     <li><a href="order.html">购物车</a></li>
+     <li><a href="order.html">我的订单</a></li>
+     <div class="clears"></div>
+    </ul><!--inHeList/-->
+   </div><!--inHLeft/-->
+   <div class="inHRight">
+    <h4>全国统一免费服务热线</h4>
+    <div class="telBox">400-0000-0000</div>
+    <div class="weibo">
+    <wb:follow-button uid="2991975565" type="red_1" width="67" height="24" ></wb:follow-button>
+    </div>
+   </div><!--inHRight/-->
+   <div class="clears"></div>
+  </div><!--inHelp/-->
+  <div class="footer">
+   <p>
+   <a href="#">进入17官网</a>&nbsp;|&nbsp;
+   <a href="index.html">商城首页</a>&nbsp;|&nbsp;
+   <a href="product.html">促销中心</a>&nbsp;|&nbsp;
+   <a href="order.html">我的订单</a>&nbsp;|&nbsp;
+   <a href="new.html">新闻动态</a>&nbsp;|&nbsp;
+   <a href="login.html">会员中心</a>&nbsp;|&nbsp;
+   <a href="help.htmll">帮助中心</a>
+   </p>
+   <p>
+    版权所有：上海17实业有限公司 版权所有  Copyright 2010-2015   沪ICP备00000000号   <a href="http://www.mycodes.net/" target="_blank">源码之家</a>   
+   </p>
+  </div><!--footer/-->
+ </div><!--mianCont/-->
+ <a href="#" class="backTop">&nbsp;</a>
+</body>
+</html>

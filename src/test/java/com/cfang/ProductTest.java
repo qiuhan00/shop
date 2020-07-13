@@ -37,4 +37,9 @@ public class ProductTest extends CommonTest{
 			productMapper.insert(entity);
 		}
 	}
+	
+	@Test
+	public void selectById() {
+		System.out.println(JSON.toJSONString(productMapper.selectByPrimaryKey(10)));
+	}
 }
