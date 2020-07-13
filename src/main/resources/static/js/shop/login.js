@@ -19,15 +19,11 @@ var LoginCls = {
 		$("#jq_dologin_input").on("click", this.toLogin);
 	},
 	toLogin:function(){
-		var date = new Date();
-		date.setTime(date.getTime() + LOGIN_TIME);
 		$.ajax({
 			type: 'post',
 			url: "/user/userLogin",
 			data: $("#jq_login_form").serialize(),
 			success:function(result){
-				var sid = result.sessionId;
-				alert(sid);
 				window.location.href = "/shop";
 			},
 			error:function(data) {
