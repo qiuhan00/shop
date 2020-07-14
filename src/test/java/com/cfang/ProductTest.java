@@ -8,7 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.alibaba.fastjson.JSON;
 import com.cfang.entity.ProductEntity;
+import com.cfang.mapper.CartMapper;
 import com.cfang.mapper.ProductMapper;
+import com.cfang.service.CartService;
 import com.cfang.service.CataLogService;
 
 /**
@@ -19,6 +21,13 @@ public class ProductTest extends CommonTest{
 	
 	@Autowired
 	ProductMapper productMapper;
+	@Autowired
+	CartService cartService;
+	
+	@Test
+	public void clearCart() {
+		System.out.println(cartService.clearCart(1));
+	}
 
 	@Test
 	public void insert() {

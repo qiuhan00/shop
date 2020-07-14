@@ -16,4 +16,16 @@ public interface ShopConstants {
 	
 	String CATALOG_TYPE_P = "p";//商品
 	String CATALOG_TYPE_A = "a";//文章
+	
+	enum orderStatus{
+		P("初始化"),I("已下单"),S("已发货"),O("已签收"),C("已取消");
+		
+		private String status;
+		private orderStatus(String status) {
+			this.status = status;
+		}
+		public String getStatus() {
+			return status;
+		}
+	}
 }

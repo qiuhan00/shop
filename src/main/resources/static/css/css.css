@@ -10,6 +10,8 @@ a{color:#333;}
 a:hover{color:#F00;}
 
 .jq_proinfo{cursor:pointer;}
+.hide{display:none;}
+.jie_1{cursor:pointer;}
 
 /*mianCont*/
 .mianCont{width:980px;margin:0 auto;}
@@ -186,8 +188,8 @@ a:hover{color:#F00;}
 .orderList td{text-align:center;padding:10px 2px;border-bottom:#ccc 1px dashed;}
 .orderList td dt{width:85px;height:85px;border:#CCC 1px solid;float:left;}
 .orderList td dd{width:300px;float:left;margin-left:10px;line-height:16px; text-align:left;padding-top:30px;}
-.green{color:#0C0;line-height:20px;}
-.shanchu{color:#0C0; cursor:pointer; text-align:left;}
+.green{color:#0C0;line-height:20px;cursor:pointer;}
+.shanchu{color:#0C0; cursor:pointer; text-align:left;width:70px;}
 .shanchu img{ position:relative;top:3px;}
 .shuliang{width:50px;margin:0;padding:0;border:0; background:none;border:#ddd 1px solid;height:23px; position:absolute;left:21px;top:0; text-align:center;}
 .jian{ position:absolute;left:0;top:0;}

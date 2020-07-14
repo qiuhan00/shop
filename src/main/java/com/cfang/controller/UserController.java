@@ -68,7 +68,12 @@ public class UserController {
 		if(null != user) {
 			request.getSession().setAttribute("user", user);
 		}
-		return "index";
+		System.out.println(dto.getToUrl());
+		String page = "index";
+		if(StringUtils.isNotBlank(dto.getToUrl())) {
+			page = dto.getToUrl();
+		}
+		return page;
 	}
 	
 	@PostMapping("logout")

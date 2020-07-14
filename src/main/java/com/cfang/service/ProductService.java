@@ -15,4 +15,6 @@ public interface ProductService {
 	List<ProductEntity> selectByCataLogId(Integer cataLogId);
 	
 	ProductEntity selectById(int id);
+	
+	ProductEntity selectByName(String productName);
 }

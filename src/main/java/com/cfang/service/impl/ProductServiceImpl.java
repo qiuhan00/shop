@@ -10,6 +10,10 @@ import com.cfang.entity.ProductEntity;
 import com.cfang.mapper.ProductMapper;
 import com.cfang.service.ProductService;
 
+import javassist.compiler.ast.NewExpr;
+import tk.mybatis.mapper.entity.Example;
+import tk.mybatis.mapper.entity.Example.Criteria;
+
 /**
  * describe：
  * @author cfang 2020-7-9
@@ -49,6 +53,19 @@ public class ProductServiceImpl implements ProductService{
 	@Override
 	public ProductEntity selectById(int id) {
 		return productMapper.selectByPrimaryKey(id);
+	}
+
+	@Override
+	public ProductEntity selectByName(String productName) {
+		Example example = new Example(ProductEntity.class);
+		Criteria criteria = example.createCriteria();
+		criteria.andLike("productName", "%" + productName + "%");
+		List<ProductEntity> list = productMapper.selectByExample(example);
+		ProductEntity entity = new ProductEntity();
+		if(null != list && !list.isEmpty()) {
+			entity = list.get(0);
+		}
+		return entity;
 	}
 
 }

@@ -12,4 +12,5 @@ public class UserLoginDto {
 	private String userName;
 	@NotNull
 	private String password;
+	private String toUrl;
 }

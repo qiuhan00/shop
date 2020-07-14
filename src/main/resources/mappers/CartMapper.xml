@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cfang.mapper.CartMapper">
+    
+    <delete id="clearCart" parameterType="int">
+    	delete from tbl_cart where user_id=#{id}
+    </delete>
+    
+    <select id="selectUserCart" parameterType="int" resultType="com.cfang.dto.CartListDto">
+    	select a.id,a.product_code as productCode,a.quantity,a.user_id as userId,b.introduce,b.price,b.picture
+    	from tbl_cart a
+    	left join tbl_product b on a.product_code=b.product_code
+    	where a.user_id=#{id}
+    </select>
+</mapper>

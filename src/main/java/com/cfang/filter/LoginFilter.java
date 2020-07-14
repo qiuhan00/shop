@@ -1,6 +1,8 @@
 package com.cfang.filter;
 
 import java.io.IOException;
+import java.net.URLEncoder;
+import java.util.Map;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -12,6 +14,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.cfang.utils.FlushUtil;
+
 /**
  * @description：
  * @author cfang 2020年7月13日
@@ -19,7 +23,7 @@ import javax.servlet.http.HttpSession;
 @WebFilter(filterName = "loginFilter", urlPatterns = {"/*"})
 public class LoginFilter implements Filter{
 	
-	private static final String[] excludeUrls = new String[] {"/user/toRedirect/login", "/user/userLogin", "/reg", "/shop"};
+	private static final String[] excludeUrls = new String[] {"/user/toRedirect/login", "/user/userLogin", "/reg", "/shop", "/getProducts"};
 	private static final String NO_LOGIN = "您还未登录";
 
 	@Override
@@ -46,10 +50,14 @@ public class LoginFilter implements Filter{
 				String requestType = request.getHeader("X-Requested-With");
                 //判断是否是ajax请求
                 if(requestType!=null && "XMLHttpRequest".equals(requestType)){
-                    response.getWriter().write(this.NO_LOGIN);
+                    FlushUtil.flushJsonByObject(NO_LOGIN, response);
                 }else{
+                	//当前页面URL
+                	StringBuffer urlBuff = request.getRequestURL();
+                	getRequestParameters(urlBuff,request);
+                    String url = URLEncoder.encode(urlBuff.toString(), "utf-8"); 
                     //重定向到登录页(需要在static文件夹下建立此html文件)
-                    response.sendRedirect(request.getContextPath()+"/login");
+                    response.sendRedirect("/user/toRedirect/login?toUrl="+url);
                 }
                 return;
 			}
@@ -66,5 +74,20 @@ public class LoginFilter implements Filter{
 		}
 		return result;
 	}
+	
+	private StringBuffer getRequestParameters(StringBuffer sb, HttpServletRequest req){
+        Map<String, String[]> map = req.getParameterMap();
+        String str = "?";
+        if(!map.isEmpty()){
+            for(Object key : map.keySet()){
+                String[] values = (String[])map.get(key);
+                for(String value:values){
+                    str+=key+"="+value+"&";
+                }
+            }
+            str = str.substring(0, str.length()-1);
+        }        
+        return sb.append(str);
+    }
 
 }

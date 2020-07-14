@@ -2,6 +2,8 @@ package com.cfang;
 
 import org.apache.commons.lang3.StringUtils;
 
+import com.cfang.common.ShopConstants;
+
 /**
  * describe：
  * @author cfang 2020年7月10日
@@ -12,6 +14,8 @@ public class TestMain {
 		System.out.println(desensitizedPhoneNumber("15900665997"));
 		System.out.println(desensitizedIdNumber("342425654523128456"));
 		System.out.println(desensitizedIdNumber("123451234512345"));
+		
+		System.out.println(ShopConstants.orderStatus.C.getStatus());
 	}
 	
 	private static String desensitizedPhoneNumber(String phoneNumber){
