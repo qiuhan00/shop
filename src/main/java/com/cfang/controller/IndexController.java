@@ -31,18 +31,14 @@ public class IndexController {
 
 	@GetMapping(value = {"/shop",""})
 	public String index(Model model, HttpServletRequest request) {
-		List<IndexProductTree> trees = cataLogService.selectIndexProduct();
-		model.addAttribute("catalogs", trees);
+//		List<IndexProductTree> trees = cataLogService.selectIndexProduct();
+//		model.addAttribute("catalogs", trees);
 		//滚动商品
 		List<ProductEntity> navProducts = productService.selectIndexNav(0);
 		model.addAttribute("navProducts", navProducts);
 		//推荐产品
 		List<ProductEntity> proProducts = productService.selectIndexNav(1);
 		model.addAttribute("proProducts", proProducts);
-		//热搜产品
-		List<ProductEntity> hotProducts = productService.selectIndexNav(2);
-		model.addAttribute("hotProducts", hotProducts);
-		//促销产品
 		List<ProductEntity> recProducts = productService.selectIndexNav(3);
 		model.addAttribute("recProducts", recProducts);
 		//获取当前登录用户
@@ -59,5 +55,28 @@ public class IndexController {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+	
+	@GetMapping("searchHotProduct")
+	public String searchHotProduct(Model model) {
+		List<ProductEntity> hotProducts = productService.selectIndexNav(2);
+		model.addAttribute("hotProducts", hotProducts);
+		return "common::hot_product";
+	}
+	
+	@GetMapping("initCatalogTree")
+	public String initCatalogTree(Model model) {
+		List<IndexProductTree> trees = cataLogService.selectIndexProduct();
+		model.addAttribute("catalogs", trees);
+		return "common::catalog_tree";
+	}
+	/**
+	 * a 有个css样式未搞定，待后续优化调整
+	 */
+	@GetMapping("initCatalogTree2")
+	public String initCatalogTree2(Model model) {
+		List<IndexProductTree> trees = cataLogService.selectIndexProduct();
+		model.addAttribute("catalogs", trees);
+		return "common::catalog_tree2";
 	}
 }

@@ -1,5 +1,7 @@
 package com.cfang;
 
+import java.nio.charset.Charset;
+
 import org.apache.commons.lang3.StringUtils;
 
 import com.cfang.common.ShopConstants;
@@ -16,6 +18,8 @@ public class TestMain {
 		System.out.println(desensitizedIdNumber("123451234512345"));
 		
 		System.out.println(ShopConstants.orderStatus.C.getStatus());
+		
+		System.out.println(Charset.forName("utf-8"));
 	}
 	
 	private static String desensitizedPhoneNumber(String phoneNumber){

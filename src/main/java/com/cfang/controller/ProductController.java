@@ -3,18 +3,21 @@ package com.cfang.controller;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.cfang.dto.IndexProductTree;
 import com.cfang.entity.ProductEntity;
 import com.cfang.service.CataLogService;
 import com.cfang.service.ProductService;
+import com.google.common.collect.Lists;
 
 /**
  * describe：
@@ -41,18 +44,19 @@ public class ProductController {
 		return "user/proinfo";
 	}
 	
-	/**
-	 * a：搜索出的结果页面应该是符合的产品的list清单页面，目前只是跳转到查询出的第一个产品的详情页，后续优化
-	 */
-	@GetMapping("searchPro/{pname}")
-	public String searchPro(@PathVariable("pname") String pname, Model model, HttpServletRequest request) {
-		ProductEntity entity = productService.selectByName(pname);
-		model.addAttribute("product", entity);
+	@GetMapping("searchPro/{type}/{pname}")
+	public String searchPro(@PathVariable("type") String type, @PathVariable("pname") String pname, Model model, HttpServletRequest request) {
+		List<ProductEntity> list = Lists.newArrayList();
+		if("0".equals(type)) { //首页分类产品更多
+			list = productService.selectByCataLogId(Integer.parseInt(pname));
+		}else { //根据产品名搜索
+			list = productService.selectByName(pname);
+		}
+		model.addAttribute("product", list);
 		List<IndexProductTree> trees = cataLogService.selectIndexProduct();
 		model.addAttribute("catalogs", trees);
-		List<ProductEntity> hotProducts = productService.selectIndexNav(2);
-		model.addAttribute("hotProducts", hotProducts);
 		model.addAttribute("user", request.getSession().getAttribute("user"));
+		model.addAttribute("pname", pname);
 		return "user/proinfo";
 	}
 	

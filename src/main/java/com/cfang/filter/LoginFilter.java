@@ -23,7 +23,7 @@ import com.cfang.utils.FlushUtil;
 @WebFilter(filterName = "loginFilter", urlPatterns = {"/*"})
 public class LoginFilter implements Filter{
 	
-	private static final String[] excludeUrls = new String[] {"/user/toRedirect/login", "/user/userLogin", "/reg", "/shop", "/getProducts"};
+	private static final String[] excludeUrls = new String[] {"/user/toRedirect/login", "/user/userLogin", "/reg", "/shop", "/getProducts","/initCatalogTree"};
 	private static final String NO_LOGIN = "您还未登录";
 
 	@Override

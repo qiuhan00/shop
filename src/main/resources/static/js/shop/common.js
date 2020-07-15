@@ -9,7 +9,9 @@ var CommonCls = {
 		
 	},
 	initData:function(){
-		
+		this.statUserCart();
+		this.initHotWord();
+		this.initCatalogTree();
 	},
 	initNode:function(){
 		this.$toIndex = $(".jq_to_index");
@@ -22,7 +24,7 @@ var CommonCls = {
 		this.$toCart.on("click", this.toCart);
 		this.$toIndex.on("click", this.toIndex);
 		this.$toSearch.on("click", this.toSearch);
-		this.$searchItem.click("click", this.searchItem);
+		$(document).on("click", ".jq_search_item", this.searchItem);
 	},
 	toCart:function(){
 		window.location.href = "/order/toCart";
@@ -38,6 +40,58 @@ var CommonCls = {
 	toSearch:function(){
 		var searchVal = CommonCls.$hotSearch.val();
 		window.location.href = "/product/searchPro/" + searchVal;
+	},
+	statUserCart:function(){
+		$.ajax({
+			url:'/order/statUserCart',
+			data:{},
+			success:function(result){
+				if(result){
+					$("#jq_cartNum").text(result.number);
+					$("#jq_cartTotal").text(result.total);
+				}
+			},
+			error:function(data) {
+				layer.msg(data, {icon:2});
+			}
+		});
+	},
+	initHotWord:function(){
+		$.ajax({
+			url:'/searchHotProduct',
+			data:{},
+			success:function(result){
+				$(".hotWord").empty();
+				$(".hotWord").html(result);
+			},
+			error:function(data) {
+				layer.msg(data, {icon:2});
+			}
+		});
+	},
+	initCatalogTree:function(){
+		$.ajax({
+			url:'/initCatalogTree',
+			data:{},
+			success:function(result){
+				$(".InPorNav").empty();
+				$(".InPorNav").html(result);
+			},
+			error:function(data) {
+				layer.msg(data, {icon:2});
+			}
+		});
+		$.ajax({
+			url:'/initCatalogTree2',
+			data:{},
+			success:function(result){
+				$(".InPorNav2").empty();
+				$(".InPorNav2").html(result);
+			},
+			error:function(data) {
+				layer.msg(data, {icon:2});
+			}
+		});
 	}
 }
 

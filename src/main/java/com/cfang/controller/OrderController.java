@@ -1,5 +1,6 @@
 package com.cfang.controller;
 
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.alibaba.fastjson.JSONObject;
 import com.cfang.dto.CartListDto;
 import com.cfang.entity.CartEntity;
 import com.cfang.entity.ProductEntity;
@@ -36,9 +38,6 @@ public class OrderController {
 	
 	@GetMapping("toCart")
 	public String toCart(HttpServletRequest request, Model model) {
-		//热搜产品
-		List<ProductEntity> hotProducts = productService.selectIndexNav(2);
-		model.addAttribute("hotProducts", hotProducts);
 		return "user/cart";
 	}
 	
@@ -73,5 +72,21 @@ public class OrderController {
 		List<CartListDto> carts = cartService.selectUserCart(userEntity.getId());
 		model.addAttribute("carts", carts);
 		return "user/cart::carts_item";
+	}
+	
+	@GetMapping("statUserCart")
+	public void statUserCart(HttpServletRequest request, HttpServletResponse response) {
+		UserEntity userEntity = (UserEntity) request.getSession().getAttribute("user");
+		List<CartListDto> carts = cartService.selectUserCart(userEntity.getId());
+		int number = 0;
+		BigDecimal total = BigDecimal.ZERO;
+		for(CartListDto dto : carts) {
+			number += dto.getQuantity();
+			total = total.add(dto.getPrice().multiply(new BigDecimal(dto.getQuantity())));
+		}
+		JSONObject object = new JSONObject();
+		object.put("number", number);
+		object.put("total", total);
+		FlushUtil.flushJsonByObject(object, response);
 	}
 }

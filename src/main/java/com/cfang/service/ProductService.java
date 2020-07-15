@@ -16,5 +16,5 @@ public interface ProductService {
 	
 	ProductEntity selectById(int id);
 	
-	ProductEntity selectByName(String productName);
+	List<ProductEntity> selectByName(String productName);
 }

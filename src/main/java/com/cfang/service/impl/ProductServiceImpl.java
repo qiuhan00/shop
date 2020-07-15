@@ -56,16 +56,12 @@ public class ProductServiceImpl implements ProductService{
 	}
 
 	@Override
-	public ProductEntity selectByName(String productName) {
+	public List<ProductEntity> selectByName(String productName) {
 		Example example = new Example(ProductEntity.class);
 		Criteria criteria = example.createCriteria();
 		criteria.andLike("productName", "%" + productName + "%");
 		List<ProductEntity> list = productMapper.selectByExample(example);
-		ProductEntity entity = new ProductEntity();
-		if(null != list && !list.isEmpty()) {
-			entity = list.get(0);
-		}
-		return entity;
+		return list;
 	}
 
 }

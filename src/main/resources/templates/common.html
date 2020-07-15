@@ -60,7 +60,7 @@
    <div class="pntLeft">
     <h2 class="Title">所有商品分类</h2>
     <ul class="InPorNav">
-     <li th:each="val:${catalogs}">
+     <li th:fragment="catalog_tree" th:each="val:${catalogs}">
      	<a href="product.html" th:text="${val.name}"></a>
      	<div class="chilInPorNav">
      		<a href="#" th:each="node:${val.trees}"><span th:text="${node.name}"></span></a>
@@ -89,22 +89,23 @@
 </div>
 <!--lsg/-->
 <div class="lsg" th:fragment="lsg">
-   <h1 class="logo"><a href="index.html"><img th:src="@{/images/logo.png}" width="217" height="90" /></a></h1>
-   <form action="#" method="get" class="subBox">
+   <h1 class="logo"><a class="jie_1 jq_to_index"><img th:src="@{/images/logo.png}" width="217" height="90" /></a></h1>
+   <div action="#" method="get" class="subBox">
     <div class="subBoxDiv">
      <input type="text" class="subLeft" id="jq_hot_search" placeholder="输入搜索关键字"/>
      <input type="image" th:src="@{/images/subimg.png}" width="63" height="34" class="sub" id="jq_tosearch"/>
      <div class="hotWord">
       热门搜索：
-      <a th:each="item:${hotProducts}" th:text="${item.title}" th:pcode="${item.productCode}" style="margin-left:5px;cursor:pointer;" class="jq_search_item"></a>
+      <a  th:fragment="hot_product" th:each="item:${hotProducts}" th:text="${item.title}" th:pcode="${item.productCode}" style="margin-left:5px;cursor:pointer;" class="jq_search_item"></a>
+<!--       <a th:each="item:${hotProducts}" th:text="${item.title}" th:pcode="${item.productCode}" style="margin-left:5px;cursor:pointer;" class="jq_search_item"></a> -->
      </div><!--hotWord/-->
     </div><!--subBoxDiv/-->
-   </form><!--subBox/-->
+   </div><!--subBox/-->
    <div class="gouwuche">
     <div class="gouCar">
      <img th:src="@{/images/gouimg.png}" width="19" height="20" style="position:relative;top:6px;" />&nbsp;|&nbsp;
-     <strong class="red">0</strong>&nbsp;件&nbsp;|
-     <strong class="red">￥ 0.00</strong> 
+     <strong class="red" id="jq_cartNum">0</strong>&nbsp;件&nbsp;|
+     ￥<strong class="red" id="jq_cartTotal"> 0.00</strong> 
      <a id="toCart" style="cursor:pointer;">去结算</a> <img th:src="@{/images/youjian.jpg}" width="5" height="8" />    
     </div><!--gouCar/-->
     <div class="myChunlv">
@@ -115,8 +116,8 @@
   <div th:fragment="pnt2">
    <div class="pntLeft">
     <h2 class="Title">所有商品分类
-     <ul class="InPorNav">
-     	<li th:each="val:${catalogs}">
+     <ul class="InPorNav InPorNav2">
+     	<li th:fragment="catalog_tree2" th:each="val:${catalogs}">
 	     	<a href="product.html" th:text="${val.name}"></a>
 	     	<div class="chilInPorNav">
 	     		<a href="#" th:each="node:${val.trees}"><span th:text="${node.name}"></span></a>
