@@ -1,5 +1,13 @@
 package com.cfang.controller;
 
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+import java.net.URLEncoder;
+import java.nio.charset.Charset;
+
+import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -19,6 +27,7 @@ import com.cfang.dto.UserRegisterDto;
 import com.cfang.entity.UserEntity;
 import com.cfang.service.UserService;
 import com.cfang.utils.FlushUtil;
+import com.cfang.utils.RandomValidateCodeUtil;
 
 /**
  * describe：
@@ -32,10 +41,52 @@ public class UserController {
 	private UserService userService;
 
 	@GetMapping("toRedirect/{toView}")
-	public String toRegister(@PathVariable("toView") String toView) {
+	public String toRegister(@PathVariable("toView") String toView, String toUrl, Model model) throws Exception {
+		if(StringUtils.isNotBlank(toUrl)) {
+			model.addAttribute("toURL", URLEncoder.encode(toUrl, "utf-8"));
+		}
 		return "user/" + toView;
 	}
 	
+	@GetMapping("getVerify")
+	public void getVerify(HttpServletRequest request, HttpServletResponse response) {
+		 try {
+			//设置相应类型,告诉浏览器输出的内容为图片
+            response.setContentType("image/jpeg");
+            //设置响应头信息，告诉浏览器不要缓存此内容
+            response.setHeader("Pragma", "No-cache");
+            response.setHeader("Cache-Control", "no-cache");
+            response.setDateHeader("Expire", 0);
+            //生成验证码图片方法
+            Object[] objects = RandomValidateCodeUtil.getRandcode();
+            if(objects.length == 2) {
+            	String verifyCode = (String) objects[0];
+            	BufferedImage image = (BufferedImage) objects[1];
+            	request.getSession().removeAttribute("verifyCode");
+            	request.getSession().setAttribute("verifyCode", verifyCode);
+            	ImageIO.write(image, "JPEG", response.getOutputStream());
+            }else {
+				throw new Exception("验证码生成异常，请稍候重试.");
+			}
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+	}
+	
+	@PostMapping("checkVerify")
+    public void checkVerify(String code, HttpServletRequest request, HttpServletResponse response) {
+		String result = "success";
+        try {
+            String random = (String) request.getSession().getAttribute("verifyCode");
+            if (random == null || !random.equals(code)) {
+            	result = "fail";
+            }
+            FlushUtil.flushJsonByObject(result, response);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+	}
+
 	@PostMapping("register")
 	public void register(UserRegisterDto dto, HttpServletResponse response) {
 		try {
@@ -43,7 +94,6 @@ public class UserController {
 			FlushUtil.flushJsonByObject("success", response);
 		} catch (Exception e) {
 			e.printStackTrace();
-			FlushUtil.flushJsonByObject("fail", response);
 		}
 	}
 	
@@ -63,17 +113,16 @@ public class UserController {
 	}
 	
 	@PostMapping("userLogin")
-	public String login(UserLoginDto dto, Model model, HttpServletRequest request) {
+	public void login(UserLoginDto dto, Model model, HttpServletRequest request, HttpServletResponse response) throws Exception{
 		UserEntity user = userService.loginUser(dto);
 		if(null != user) {
 			request.getSession().setAttribute("user", user);
 		}
-		System.out.println(dto.getToUrl());
-		String page = "index";
+		String toURL = "";
 		if(StringUtils.isNotBlank(dto.getToUrl())) {
-			page = dto.getToUrl();
+			toURL = URLDecoder.decode(dto.getToUrl(), "utf-8");
 		}
-		return page;
+		FlushUtil.flushJsonByObject(toURL, response);
 	}
 	
 	@PostMapping("logout")

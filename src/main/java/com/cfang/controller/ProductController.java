@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.cfang.dto.IndexProductTree;
 import com.cfang.entity.ProductEntity;
+import com.cfang.entity.UserEntity;
 import com.cfang.service.CataLogService;
 import com.cfang.service.ProductService;
 import com.google.common.collect.Lists;
@@ -33,31 +34,29 @@ public class ProductController {
 	private CataLogService cataLogService;
 	
 	@GetMapping("proinfo/{id}")
-	public String proInfo(@PathVariable("id") Integer id, Model model, HttpServletRequest request) {
+	public String proInfo(@PathVariable("id") Integer id, Model model, UserEntity user) {
 		ProductEntity entity = productService.selectById(id);
 		model.addAttribute("product", entity);
 		List<IndexProductTree> trees = cataLogService.selectIndexProduct();
 		model.addAttribute("catalogs", trees);
 		List<ProductEntity> hotProducts = productService.selectIndexNav(2);
 		model.addAttribute("hotProducts", hotProducts);
-		model.addAttribute("user", request.getSession().getAttribute("user"));
+		model.addAttribute("user", user);
 		return "user/proinfo";
 	}
 	
 	@GetMapping("searchPro/{type}/{pname}")
-	public String searchPro(@PathVariable("type") String type, @PathVariable("pname") String pname, Model model, HttpServletRequest request) {
+	public String searchPro(@PathVariable("type") String type, @PathVariable("pname") String pname, Model model, UserEntity user) {
 		List<ProductEntity> list = Lists.newArrayList();
 		if("0".equals(type)) { //首页分类产品更多
-			list = productService.selectByCataLogId(Integer.parseInt(pname));
+			list = productService.selectByOneCataLogId(Integer.parseInt(pname));
 		}else { //根据产品名搜索
 			list = productService.selectByName(pname);
 		}
 		model.addAttribute("product", list);
-		List<IndexProductTree> trees = cataLogService.selectIndexProduct();
-		model.addAttribute("catalogs", trees);
-		model.addAttribute("user", request.getSession().getAttribute("user"));
+		model.addAttribute("user", user);
 		model.addAttribute("pname", pname);
-		return "user/proinfo";
+		return "user/product";
 	}
 	
 }

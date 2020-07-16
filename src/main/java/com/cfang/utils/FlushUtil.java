@@ -1,8 +1,11 @@
 package com.cfang.utils;
 
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletResponse;
 
 import com.alibaba.fastjson.JSON;
+import com.cfang.common.ShopConstants;
+import com.cfang.exception.BusyException;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -13,7 +16,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class FlushUtil {
 
-	public static void flushJsonByObject(Object object, HttpServletResponse response) {
+	public static void flushJsonByObject(Object object, HttpServletResponse response){
 		response.setContentType("application/json; charset=utf-8");
 		String json = JSON.toJSONString(object);
 		try {
@@ -25,7 +28,7 @@ public class FlushUtil {
 		}
 	}
 	
-	public static void flushHtmlByString(String str,HttpServletResponse response) {
+	public static void flushHtmlByString(String str,HttpServletResponse response){
 		response.setContentType("text/html; charset=utf-8");
 		try {
 			response.getWriter().write(str);

@@ -12,7 +12,10 @@ public interface ProductService {
 	
 	List<ProductEntity> selectIndexNav(int type);
 	
+	//根据具体二级类别查询产品
 	List<ProductEntity> selectByCataLogId(Integer cataLogId);
+	//根据以一级类别查询产品
+	List<ProductEntity> selectByOneCataLogId(Integer cataLogId);
 	
 	ProductEntity selectById(int id);
 	

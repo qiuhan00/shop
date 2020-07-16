@@ -59,7 +59,7 @@
 <div class="pnt" th:fragment="pnt">
    <div class="pntLeft">
     <h2 class="Title">所有商品分类</h2>
-    <ul class="InPorNav">
+    <ul class="InPorNav jq_index_pronav">
      <li th:fragment="catalog_tree" th:each="val:${catalogs}">
      	<a href="product.html" th:text="${val.name}"></a>
      	<div class="chilInPorNav">

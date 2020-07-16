@@ -1,5 +1,7 @@
 package com.cfang.common;
 
+import antlr.actions.python.CodeLexer;
+
 /**
  * describe：
  * @author cfang 2020-7-8
@@ -26,6 +28,26 @@ public interface ShopConstants {
 		}
 		public String getStatus() {
 			return status;
+		}
+	}
+	
+	enum errorCode{
+		INVALID_PARAM(300, "请求参数错误"),INVALID_SIGN(100, "请求签名错误"),NOT_FOUND(404, "404"),SYS_ERR(500, "服务器内部错误"),SYS_BUSY(503, "服务器繁忙，请稍候重试");
+		
+		private int code;
+		private String msg;
+		
+		private errorCode(int code, String msg) {
+			this.code = code;
+			this.msg = msg;
+		}
+
+		public int getCode() {
+			return code;
+		}
+
+		public String getMsg() {
+			return msg;
 		}
 	}
 }

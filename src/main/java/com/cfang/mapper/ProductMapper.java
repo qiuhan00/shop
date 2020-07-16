@@ -12,5 +12,6 @@ import com.cfang.entity.ProductEntity;
 public interface ProductMapper extends CommonMapper<ProductEntity>{
 
 	List<ProductEntity> selectByCataLogId(Integer cataLogId);
+	List<ProductEntity> selectByOneCataLogId(Integer cataLogId);
 	
 }

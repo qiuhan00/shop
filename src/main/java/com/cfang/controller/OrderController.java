@@ -42,9 +42,8 @@ public class OrderController {
 	}
 	
 	@PostMapping("addCart")
-	public void addCart(CartEntity entity, HttpServletResponse response, HttpServletRequest request) {
-		UserEntity userEntity = (UserEntity) request.getSession().getAttribute("user");
-		entity.setUserId(userEntity.getId());
+	public void addCart(CartEntity entity, HttpServletResponse response, UserEntity user) {
+		entity.setUserId(user.getId());
 		entity.setCreateTime(new Date());
 		entity.setUpdateTime(new Date());
 		boolean result = cartService.addCart(entity);
@@ -52,32 +51,28 @@ public class OrderController {
 	}
 	
 	@PostMapping("delCartItem")
-	public void delCartItem(CartEntity entity, HttpServletResponse response, HttpServletRequest request) {
-		UserEntity userEntity = (UserEntity) request.getSession().getAttribute("user");
-		entity.setUserId(userEntity.getId());
+	public void delCartItem(CartEntity entity, HttpServletResponse response, UserEntity user) {
+		entity.setUserId(user.getId());
 		boolean result = cartService.delCartItem(entity);
 		FlushUtil.flushJsonByObject(result, response);
 	}
 	
 	@PostMapping("clearCart")
-	public void clearCart(CartEntity entity, HttpServletResponse response, HttpServletRequest request) {
-		UserEntity userEntity = (UserEntity) request.getSession().getAttribute("user");
-		boolean result = cartService.clearCart(userEntity.getId());
+	public void clearCart(CartEntity entity, HttpServletResponse response, UserEntity user) {
+		boolean result = cartService.clearCart(user.getId());
 		FlushUtil.flushJsonByObject(result, response);
 	}
 	
 	@PostMapping("selectUserCart")
-	public String selectUserCart(HttpServletRequest request, Model model){
-		UserEntity userEntity = (UserEntity) request.getSession().getAttribute("user");
-		List<CartListDto> carts = cartService.selectUserCart(userEntity.getId());
+	public String selectUserCart(UserEntity user, Model model){
+		List<CartListDto> carts = cartService.selectUserCart(user.getId());
 		model.addAttribute("carts", carts);
 		return "user/cart::carts_item";
 	}
 	
 	@GetMapping("statUserCart")
-	public void statUserCart(HttpServletRequest request, HttpServletResponse response) {
-		UserEntity userEntity = (UserEntity) request.getSession().getAttribute("user");
-		List<CartListDto> carts = cartService.selectUserCart(userEntity.getId());
+	public void statUserCart(UserEntity user, HttpServletResponse response) {
+		List<CartListDto> carts = cartService.selectUserCart(user.getId());
 		int number = 0;
 		BigDecimal total = BigDecimal.ZERO;
 		for(CartListDto dto : carts) {

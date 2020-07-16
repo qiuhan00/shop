@@ -1,5 +1,6 @@
 package com.cfang.controller;
 
+import java.io.IOException;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -21,18 +22,18 @@ import com.cfang.service.ProductService;
 import com.cfang.utils.FlushUtil;
 
 @Controller
-@RequestMapping("/")
+@RequestMapping("")
 public class IndexController {
 	
 	@Autowired
 	private CataLogService cataLogService;
 	@Autowired
 	private ProductService productService;
-
-	@GetMapping(value = {"/shop",""})
-	public String index(Model model, HttpServletRequest request) {
-//		List<IndexProductTree> trees = cataLogService.selectIndexProduct();
-//		model.addAttribute("catalogs", trees);
+	
+	@GetMapping(value = {"/shop", ""})
+	public String index(Model model, HttpServletRequest request, UserEntity user) {
+		List<IndexProductTree> trees = cataLogService.selectIndexProduct();
+		model.addAttribute("catalogs", trees);
 		//滚动商品
 		List<ProductEntity> navProducts = productService.selectIndexNav(0);
 		model.addAttribute("navProducts", navProducts);
@@ -41,19 +42,18 @@ public class IndexController {
 		model.addAttribute("proProducts", proProducts);
 		List<ProductEntity> recProducts = productService.selectIndexNav(3);
 		model.addAttribute("recProducts", recProducts);
-		//获取当前登录用户
-		UserEntity user = (UserEntity) request.getSession().getAttribute("user");
 		model.addAttribute("user", user);
 		return "index";
 	}
 	
 	@PostMapping("getProducts")
-	public void getProducts(Integer cataLogId, HttpServletResponse response) {
+	public void getProducts(Integer cataLogId, HttpServletResponse response) throws Exception {
 		try {
 			List<ProductEntity> list = productService.selectByCataLogId(cataLogId);
 			FlushUtil.flushJsonByObject(list, response);
 		} catch (Exception e) {
 			e.printStackTrace();
+			throw e;
 		}
 	}
 	

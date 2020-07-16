@@ -23,8 +23,10 @@ import com.cfang.utils.FlushUtil;
 @WebFilter(filterName = "loginFilter", urlPatterns = {"/*"})
 public class LoginFilter implements Filter{
 	
-	private static final String[] excludeUrls = new String[] {"/user/toRedirect/login", "/user/userLogin", "/reg", "/shop", "/getProducts","/initCatalogTree"};
-	private static final String NO_LOGIN = "您还未登录";
+	private static final String[] excludeUrls = new String[] {"/user/toRedirect/login", "/user/userLogin", "/user/toRedirect/reg", "/shop", 
+			"/getProducts","/initCatalogTree", "/searchHotProduct","/user/validUserName", "/user/register","/user/getVerify",
+			"/user/checkVerify"};
+	private static final String NO_LOGIN = "NO_LOGIN";
 
 	@Override
 	public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain chain)
@@ -40,7 +42,6 @@ public class LoginFilter implements Filter{
             chain.doFilter(servletRequest,servletResponse);
             return;
         }
-
 		if(!isNeedFilter(uri)) {
 			chain.doFilter(servletRequest, servletResponse);
 		}else {
@@ -50,7 +51,7 @@ public class LoginFilter implements Filter{
 				String requestType = request.getHeader("X-Requested-With");
                 //判断是否是ajax请求
                 if(requestType!=null && "XMLHttpRequest".equals(requestType)){
-                    FlushUtil.flushJsonByObject(NO_LOGIN, response);
+                	FlushUtil.flushJsonByObject(NO_LOGIN, response);
                 }else{
                 	//当前页面URL
                 	StringBuffer urlBuff = request.getRequestURL();
@@ -77,8 +78,9 @@ public class LoginFilter implements Filter{
 	
 	private StringBuffer getRequestParameters(StringBuffer sb, HttpServletRequest req){
         Map<String, String[]> map = req.getParameterMap();
-        String str = "?";
+        String str = "";
         if(!map.isEmpty()){
+        	str = "?";
             for(Object key : map.keySet()){
                 String[] values = (String[])map.get(key);
                 for(String value:values){

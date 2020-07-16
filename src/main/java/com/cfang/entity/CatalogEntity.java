@@ -17,6 +17,6 @@ public class CatalogEntity extends BaseEntity{
 	private String type;
 	private int order1;
 	private String showInNav;
-	private Integer parentId;
+	private String parentCode;
 	private Integer nodeLevel;
 }

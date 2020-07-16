@@ -5,5 +5,8 @@
     <select id="selectByCataLogId" parameterType="int" resultType="ProductEntity">
     	select * from tbl_product where catalog_id = #{id}
     </select>
-    
+     <select id="selectByOneCataLogId" parameterType="int" resultType="ProductEntity">
+	    SELECT a.* FROM `tbl_product` a 
+		where exists(select code from tbl_catalog b where b.parent_code=#{id} and a.catalog_id=b.code)
+    </select>
 </mapper>

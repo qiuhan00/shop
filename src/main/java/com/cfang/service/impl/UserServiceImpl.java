@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.cfang.dto.UserLoginDto;
 import com.cfang.dto.UserRegisterDto;
 import com.cfang.entity.UserEntity;
+import com.cfang.exception.BusyException;
 import com.cfang.mapper.UserMapper;
 import com.cfang.service.UserService;
 
@@ -19,7 +20,7 @@ public class UserServiceImpl implements UserService{
 	private UserMapper userMapper;
 
 	@Override
-	public UserEntity loginUser(UserLoginDto dto) {
+	public UserEntity loginUser(UserLoginDto dto){
 		UserEntity record = new UserEntity();
 		BeanUtils.copyProperties(dto, record);
 		UserEntity user = userMapper.selectOne(record);

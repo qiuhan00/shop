@@ -64,4 +64,10 @@ public class ProductServiceImpl implements ProductService{
 		return list;
 	}
 
+	@Override
+	public List<ProductEntity> selectByOneCataLogId(Integer cataLogId) {
+		List<ProductEntity> result = productMapper.selectByOneCataLogId(cataLogId);
+		return result;
+	}
+
 }

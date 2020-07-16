@@ -20,6 +20,10 @@ public class TestMain {
 		System.out.println(ShopConstants.orderStatus.C.getStatus());
 		
 		System.out.println(Charset.forName("utf-8"));
+		
+		System.out.println(ShopConstants.errorCode.INVALID_PARAM);
+		System.out.println(ShopConstants.errorCode.INVALID_PARAM.getCode());
+		System.out.println(ShopConstants.errorCode.INVALID_PARAM.getMsg());
 	}
 	
 	private static String desensitizedPhoneNumber(String phoneNumber){

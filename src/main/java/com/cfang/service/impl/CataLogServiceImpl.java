@@ -40,7 +40,7 @@ public class CataLogServiceImpl implements CataLogService{
 			IndexProductTree tree = new IndexProductTree();
 			tree.setCode(obj.getCode());
 			tree.setName(obj.getName());
-			List<CatalogEntity> second = catalogs.stream().filter(obj2 -> obj2.getParentId() == obj.getId()).collect(Collectors.toList());
+			List<CatalogEntity> second = catalogs.stream().filter(obj2 -> obj.getCode().equals(obj2.getParentCode())).collect(Collectors.toList());
 			List<IndexProductTree> secondTree = Lists.newArrayList();
 			second.forEach(obj2 -> {
 				IndexProductTree node = new IndexProductTree();

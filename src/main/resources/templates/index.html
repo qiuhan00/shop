@@ -54,10 +54,12 @@ $(function(){
    <img th:src="@{/images/hengfu1.jpg}" width="979" height="60" />
   </div><!--hengfu/-->
   <div class="floor" th:each="item,itemStat:${catalogs}">
-   <h3 class="floorTitle" th:text="${itemStat.count}+'F-'+${item.name}">
-   1F-name
-   <a href="proinfo.html" class="more">更多 &gt;</a>
-   </h3>
+   <div>
+	   <h3 class="floorTitle" th:text="${itemStat.count}+'F-'+${item.name}" style="display:inline-block;">
+	   1F-name
+	   </h3>
+	   <a class="more jie_1 jq_catalog_more" th:catalogid="${item.code}" style="display:inline-block;">更多 &gt;</a>
+   </div>
    <div class="floorBox">
     <div class="floorLeft">
      <ul class="flList">

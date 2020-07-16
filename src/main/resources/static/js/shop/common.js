@@ -24,7 +24,9 @@ var CommonCls = {
 		this.$toCart.on("click", this.toCart);
 		this.$toIndex.on("click", this.toIndex);
 		this.$toSearch.on("click", this.toSearch);
+		$("#jq_toOut").on("click", this.logout);
 		$(document).on("click", ".jq_search_item", this.searchItem);
+		$(document).on("click", ".jq_proinfo", this.proinfo);
 	},
 	toCart:function(){
 		window.location.href = "/order/toCart";
@@ -39,7 +41,7 @@ var CommonCls = {
 	},
 	toSearch:function(){
 		var searchVal = CommonCls.$hotSearch.val();
-		window.location.href = "/product/searchPro/" + searchVal;
+		window.location.href = "/product/searchPro/1/" + searchVal;
 	},
 	statUserCart:function(){
 		$.ajax({
@@ -74,8 +76,8 @@ var CommonCls = {
 			url:'/initCatalogTree',
 			data:{},
 			success:function(result){
-				$(".InPorNav").empty();
-				$(".InPorNav").html(result);
+//				$(".jq_index_pronav").empty();
+				$(".jq_index_pronav").html(result);
 			},
 			error:function(data) {
 				layer.msg(data, {icon:2});
@@ -90,6 +92,19 @@ var CommonCls = {
 			},
 			error:function(data) {
 				layer.msg(data, {icon:2});
+			}
+		});
+	},
+	proinfo:function(){
+		var id = $(this).attr("proid");
+		window.location.href = "/product/proinfo/" + id;
+	},
+	logout:function(){
+		$.ajax({
+			type:'post',
+			url:"/user/logout",
+			success:function(data){
+				window.location.href = "/shop";
 			}
 		});
 	}

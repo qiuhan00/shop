@@ -6,6 +6,7 @@
 <link type="text/css" th:href="@{/css/css.css}" rel="stylesheet" />
 <script type="text/javascript" th:src="@{/js/jquery.js}"></script>
 <!-- <script type="text/javascript" th:src="@{/js/js.js}"></script> -->
+<script type="text/javascript" th:src="@{/layer/layer.js}"></script>
 <script type="text/javascript" th:src="@{/js/shop/register.js}"></script>
 </head>
 <body style=" background:#FFF;">
@@ -38,8 +39,8 @@
    </div><!--regList/-->
    <div class="regList">
     <label><span class="red">*</span> 验证码</label>
-    <input type="text" class="yanzheng" name="verifyCode"/>
-    <img th:src="@{/images/yanzheng.jpg}" width="103" height="38" />
+    <input type="text" class="yanzheng" name="verifyCode" id="jq_verifyCode"/>
+    <img th:src="@{/images/yanzheng.jpg}" width="103" height="38" id="imgVerify" style="cursor:pointer;"/>
    </div><!--regList/-->
    <div class="xieyi">
     <input type="checkbox" id="jq_reg_checkbox"/> 我已经阅读并同意<a href="#">《e-shop用户注册协议》</a>
