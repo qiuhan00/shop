@@ -1,12 +1,5 @@
 // JavaScript Document
 $(function(){
-	//.InPorNav li
-	$(".InPorNav li").hover(function(){
-		$(this).addClass("inProNavStyle");
-		$(this).children(".chilInPorNav").stop(true,true).show();
-		},function(){
-		$(this).removeClass("inProNavStyle");
-		$(this).children(".chilInPorNav").stop(true,true).hide();})
 	//rdList
 	$(".rdList li:first").addClass("rdListStyle");
 	$(".rdProBox:first").show();
@@ -25,7 +18,7 @@ $(function(){
 			opacity:"1"
 			})})
 	//.upd,.add
-	$(".upd,.add,.vipUp").click(function(){
+	$(".upd,.add").click(function(){
 		$(".address").stop(true,true).slideDown();
 		})
 	//.floorRight dl

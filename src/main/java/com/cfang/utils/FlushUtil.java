@@ -4,8 +4,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletResponse;
 
 import com.alibaba.fastjson.JSON;
-import com.cfang.common.ShopConstants;
-import com.cfang.exception.BusyException;
+import com.cfang.dto.RespResult;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -15,6 +14,16 @@ import lombok.extern.slf4j.Slf4j;
  */
 @Slf4j
 public class FlushUtil {
+	
+	public static void success(Object object, HttpServletResponse response) {
+		RespResult respResult = RespResult.success(object);
+		flushJsonByObject(respResult, response);
+	}
+	
+	public static void fail(Integer code, String msg, Object object, HttpServletResponse response) {
+		RespResult respResult = RespResult.fail(code, msg, object);
+		flushJsonByObject(respResult, response);
+	}
 
 	public static void flushJsonByObject(Object object, HttpServletResponse response){
 		response.setContentType("application/json; charset=utf-8");

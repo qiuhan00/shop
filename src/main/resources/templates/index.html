@@ -58,7 +58,7 @@ $(function(){
 	   <h3 class="floorTitle" th:text="${itemStat.count}+'F-'+${item.name}" style="display:inline-block;">
 	   1F-name
 	   </h3>
-	   <a class="more jie_1 jq_catalog_more" th:catalogid="${item.code}" style="display:inline-block;">更多 &gt;</a>
+	   <a class="more jie_1 jq_catalog_more" th:catalogid="${item.code}" th:unless="${#lists.isEmpty(item.trees)}" style="display:inline-block;">更多 &gt;</a>
    </div>
    <div class="floorBox">
     <div class="floorLeft">

@@ -80,7 +80,7 @@
     <div class="banner">
      <div id="kinMaxShow">
       <div th:each="obj:${navProducts}">
-       <a href="#"><img th:src="@{${obj.maxPicture}}" height="360"/></a>
+       <a class="jie_1 jq_proinfo" th:proid="${obj.id}"><img th:src="@{${obj.maxPicture}}" height="360"/></a>
       </div> 		
      </div><!--kinMaxShow/-->
     </div><!--banner/-->
@@ -109,7 +109,7 @@
      <a id="toCart" style="cursor:pointer;">去结算</a> <img th:src="@{/images/youjian.jpg}" width="5" height="8" />    
     </div><!--gouCar/-->
     <div class="myChunlv">
-     <a href="vip.html"><img th:src="@{/images/mychunlv.jpg}" width="112" height="34" /></a>
+     <a class="jie_1 jq_toVip"><img th:src="@{/images/mychunlv.jpg}" width="112" height="34" /></a>
     </div><!--myChunlv/-->
    </div><!--gouwuche/-->
   </div>
@@ -138,3 +138,25 @@
    </div><!--pntRight/-->
    <div class="clears"></div>
   </div><!--pnt/-->
+  <div class="contLeft" id="contLeft" th:fragment="contLeft">
+    <h3 class="leftTitle">会员中心</h3>
+    <dl class="helpNav vipNav">
+     <dt>我的主页</dt>
+      <dd>
+       <a href="vip.html" class="vipCur">个人中心</a>
+       <a href="vipOrder.html">我的订单</a>
+      </dd>
+     <dt>账户设置</dt>
+      <dd>
+       <a href="vipMy.html">个人信息</a>
+       <a href="vipPwd.html">密码修改</a>
+       <a href="vipAdress.html">收货地址</a>
+      </dd>
+      <dt>客户服务</dt>
+       <dd>
+        <a href="vipExit.html">网站使用条款</a>
+        <a href="vipTuihuo.html">网站免责声明</a>
+        <a href="message.html">在线留言</a>
+       </dd>
+    </dl><!--helpNav/-->
+   </div><!--contLeft/-->

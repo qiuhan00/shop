@@ -19,6 +19,7 @@ var CommonCls = {
 		this.$toSearch = $("#jq_tosearch");
 		this.$searchItem = $(".jq_search_item");
 		this.$hotSearch = $("#jq_hot_search");
+		this.$toVip = $(".jq_toVip");
 	},
 	bindEvent:function(){
 		this.$toCart.on("click", this.toCart);
@@ -27,6 +28,20 @@ var CommonCls = {
 		$("#jq_toOut").on("click", this.logout);
 		$(document).on("click", ".jq_search_item", this.searchItem);
 		$(document).on("click", ".jq_proinfo", this.proinfo);
+		this.$toVip.on("click", this.toVip);
+		$(document).on("mouseenter", ".InPorNav li", this.MenuMouseEnter);
+		$(document).on("mouseleave", ".InPorNav li", this.MenuMouseOut);
+	},
+	MenuMouseEnter:function(){
+		$(this).addClass("inProNavStyle");
+		$(this).children(".chilInPorNav").stop(true,true).show();
+	},
+	MenuMouseOut:function(){
+		$(this).removeClass("inProNavStyle");
+		$(this).children(".chilInPorNav").stop(true,true).hide();
+	},
+	toVip:function(){
+		window.location.href = "/vip/toVip";
 	},
 	toCart:function(){
 		window.location.href = "/order/toCart";

@@ -56,9 +56,11 @@ var RegCls = {
 			url: "/user/validUserName",
 			data: {userName:userName},
 			success:function(result){
-				 if(result){
+				 if(200 == result.code && result.data){
 					$("#name_err_tips").prev().hide();
 					$("#name_err_tips").show();
+				}else{
+					layer.msg(result);
 				}
 			},
 			error:function(data) {

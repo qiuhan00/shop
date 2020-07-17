@@ -25,11 +25,14 @@ var LoginCls = {
 			url: "/user/userLogin",
 			data: $("#jq_login_form").serialize(),
 			success:function(result){
-				alert(result)
-				layer.msg("登录成功...",{icon:1,time:2000,shade:0.3}, function(){
-					result = result || '/shop';  //如果有回调Url则跳转，没有则默认跳转首页
-					window.location.href = result;
-				})
+				if(200 == result.code){
+					layer.msg("登录成功...",{icon:1,time:2000,shade:0.3}, function(){
+						result = result.data || '/shop';  //如果有回调Url则跳转，没有则默认跳转首页
+						window.location.href = result;
+					})
+				}else{
+					layer.msg("系统异常，请稍候重试..",{icon:2,time:2000,shade:0.3});
+				}
 			},
 			error:function(data) {
 				alert(data);

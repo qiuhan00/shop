@@ -109,7 +109,9 @@ public class UserController {
 		if(null != entity) {
 			result = true;
 		}
-		FlushUtil.flushJsonByObject(result, response);
+		int i = 1/0;
+//		FlushUtil.flushJsonByObject(result, response);
+		FlushUtil.success(result, response);
 	}
 	
 	@PostMapping("userLogin")
@@ -122,7 +124,8 @@ public class UserController {
 		if(StringUtils.isNotBlank(dto.getToUrl())) {
 			toURL = URLDecoder.decode(dto.getToUrl(), "utf-8");
 		}
-		FlushUtil.flushJsonByObject(toURL, response);
+//		FlushUtil.flushJsonByObject(toURL, response);
+		FlushUtil.success(toURL, response);
 	}
 	
 	@PostMapping("logout")

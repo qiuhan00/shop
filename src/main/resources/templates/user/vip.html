@@ -1,0 +1,92 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>e-shop</title>
+<link type="text/css" rel="stylesheet" th:href="@{/css/css.css}"/>
+<script type="text/javascript" th:src="@{/js/jquery.js}"></script>
+<script type="text/javascript" th:src="@{/js/js.js}"></script>
+<script type="text/javascript" th:src="@{/js/wb.js}" charset="utf-8"></script>
+<script type="text/javascript" th:src="@{/js/shop/common.js}"></script>
+<script type="text/javascript" th:src="@{/js/shop/vip.js}"></script>
+</head>
+
+<body>
+ <div class="mianCont">
+  <div class="top" th:include="common::top"></div>
+  <div class="lsg" th:include="common::lsg"></div>
+  <div class="pnt" th:include="common::pnt2"></div>
+  <div class="positions">
+   当前位置：<a href="index.html">首页</a> &gt; <a href="vip.html">会员中心</a>
+    &gt; <a href="#" class="posCur">个人中心</a>
+  </div><!--positions/-->
+  <div class="cont" style="height:420px;">
+   <div class="contLeft" id="contLeft" th:include="common::contLeft"></div>
+   <div class="vipContRight">
+    <h1 class="vipName"><strong class="vipUp">[点击修改/补充个人信息]</strong></h1>
+    <table class="vipMy">
+     <tr>
+      <th>用户名</th>
+      <th>邮编</th>
+      <th>真实姓名</th>
+      <th>联系方式</th>
+      <th>证件号码</th>
+      <th>地址</th>
+     </tr>
+     <tr>
+      <td th:text="${user.userName}">纯小绿先森</td>
+      <td th:text="${user.postCode}">200000</td>
+      <td th:text="${user.trueName}">张益达</td>
+      <td th:text="${user.phone}">13322256586</td>
+      <td th:text="${user.cardNo}">3124199901235468</td>
+      <td th:text="${user.address}">上海市</td>
+     </tr>
+    </table><!--vipMy/-->
+    <div class="address">
+    <div class="addList">
+     <label><span class="red">* </span>用户名:</label>
+     <input type="text" th:value="${user.userName}" id="userName"/>
+    </div><!--addList-->
+    <div class="addList">
+     <label><span class="red">* </span>详细地址:</label>
+     <input type="text" th:value="${user.address}" id="address"/>
+    </div><!--addList-->
+    <div class="addList">
+     <label><span class="red">* </span>邮政编码:</label>
+     <input type="text" th:value="${user.postCode}" id="postCode"/>
+    </div><!--addList-->
+    <div class="addList">
+     <label><span class="red">* </span>证件号码:</label>
+     <input type="text" th:value="${user.cardNo}" id="cardNo"/>
+    </div><!--addList-->
+    <div class="addList">
+     <label><span class="red">* </span>手机号码:</label>
+     <input type="text" th:value="${user.phone}" id="phone"/> 
+<!--      或者固定电话 <input type="text" /> -->
+    </div><!--addList--> 
+    <div class="addList">
+     <label><span class="red">* </span>选择地区:</label>
+     <select>
+      <option>请选择省</option>
+     </select>
+     <select>
+      <option>请选择市</option>
+     </select>
+     <select>
+      <option>请选择地区</option>
+     </select>
+    </div><!--addList-->
+    <div class="addList2">
+     <input type="image" th:src="@{/images/baocun.png}" width="79" height="30" />
+     <input type="image" th:src="@{/images/quxiao.jpg}" width="79" height="30" class="jq_vip_modcancle"/>
+    </div><!--addList2/-->
+   </div><!--address/-->
+   </div><!--contRight/-->
+   <div class="clears"></div>
+  </div><!--cont/-->
+  <div class="inHelp" th:include="common::inHelp"></div>
+  <div class="footer" th:include="common::footer"></div><!--footer/-->
+ </div><!--mianCont/-->
+ <a href="#" class="backTop">&nbsp;</a>
+</body>
+</html>
