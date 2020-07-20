@@ -66,14 +66,18 @@
     </div><!--addList--> 
     <div class="addList">
      <label><span class="red">* </span>选择地区:</label>
-     <select>
-      <option>请选择省</option>
+     <select id="jq_province" class="jq_area" type="province" next-type="city" style="width:120px;">
+      <option value="">请选择省</option>
+      <option th:each="item:${provinces}" th:value="${item.adCode}" th:text="${item.name}"></option>
      </select>
-     <select>
-      <option>请选择市</option>
+     <select id="jq_city" class="jq_area" type="city" next-type="county">
+<!--       <option>请选择城市</option> -->
      </select>
-     <select>
-      <option>请选择地区</option>
+     <select id="jq_county" class="jq_area" type="county" next-type="town">
+<!--       <option>请选择区/县</option> -->
+     </select>
+     <select id="jq_town" type="town">
+<!--       <option>请选择地区</option> -->
      </select>
     </div><!--addList-->
     <div class="addList2">

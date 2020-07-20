@@ -9,7 +9,7 @@ import lombok.Data;
  * @author cfang 2020年7月17日
  */
 @Data
-@Table(name = "tb_county")
+@Table(name = "tbl_county")
 public class County extends BaseEntity{
 
 	private String name;

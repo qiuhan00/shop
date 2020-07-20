@@ -1,5 +1,12 @@
 package com.cfang.service.impl;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.util.List;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
@@ -20,7 +27,10 @@ import com.cfang.mapper.ProvinceMapper;
 import com.cfang.mapper.TownMapper;
 import com.cfang.service.MapAreaService;
 
+import lombok.val;
 import lombok.extern.slf4j.Slf4j;
+import tk.mybatis.mapper.entity.Example;
+import tk.mybatis.mapper.entity.Example.Criteria;
 
 /**
  * @description：
@@ -36,6 +46,8 @@ public class MapAreaServiceImpl implements MapAreaService{
 	
 	@Value("${amap.area.url}")
 	private String url;
+	@Value("${amap.area.filePath}")
+	private String filePath;
 	@Autowired
 	private ProvinceMapper provinceMapper;
 	@Autowired
@@ -49,47 +61,57 @@ public class MapAreaServiceImpl implements MapAreaService{
 	
 	@Override
 	public void updateMapArea() {
-		// province
-		String json = restTemplate.getForObject(url, String.class);
-		JSONObject object =JSONObject.parseObject(json);
-		if("OK".equals(object.get("info")) && "1".equals(object.get("status"))) {
-			JSONObject country = object.getJSONArray("districts").getJSONObject(0);
-			JSONArray arrays = country.getJSONArray("districts");
-			for(int i = 0; i < arrays.size(); i++) {
-				JSONObject province = arrays.getJSONObject(i);
-				insertProvince(province);
-				//city
-				JSONArray arrays2 = remote(province);
-				for(int j = 0; j < arrays2.size(); j++) {
-					JSONObject city = arrays2.getJSONObject(j);
-					insertCity(city, province.getString(ADCODE_STR));
-					//county
-					JSONArray arrays3 = remote(city);
-					for(int m = 0; m < arrays3.size(); m++) {
-						JSONObject county = arrays3.getJSONObject(m);
-						insertCounty(county, city.getString(ADCODE_STR));
-						//town
-						JSONArray arrays4 = remote(county);
-						for(int n = 0; n < arrays4.size(); n++) {
-							JSONObject town = arrays4.getJSONObject(n);
-							insertTown(town, county.getString(ADCODE_STR));
+		try {
+			String json = restTemplate.getForObject(url, String.class);
+			JSONObject object =JSONObject.parseObject(json);
+			if("OK".equals(object.get("info")) && "1".equals(object.get("status"))) {
+//				writeFile(object);
+				// province
+				JSONObject one = object.getJSONArray("districts").getJSONObject(0);
+				JSONArray provinces = one.getJSONArray("districts");
+				for(int i = 0; i < provinces.size(); i++) {
+					JSONObject province = provinces.getJSONObject(i);
+					insertProvince(province);
+					//city
+					JSONArray citys = province.getJSONArray("districts");
+					for(int j = 0; j < citys.size(); j++) {
+						JSONObject city = citys.getJSONObject(j);
+						insertCity(city, province.getString(ADCODE_STR));
+						//county
+						JSONArray countys = city.getJSONArray("districts");
+						for(int m = 0; m < countys.size(); m++) {
+							JSONObject county = countys.getJSONObject(m);
+							insertCounty(county, city.getString(ADCODE_STR));
+							//town
+							JSONArray towns = county.getJSONArray("districts");
+							for(int n = 0; n < towns.size(); n++) {
+								JSONObject town = towns.getJSONObject(n);
+								insertTown(town, county.getString(ADCODE_STR));
+							}
 						}
 					}
 				}
+			}else {
+				log.error("获取高德行政区域数据异常，稍候重试...");
 			}
-		}else {
-			log.error("获取高德行政区域数据异常，稍候重试...");
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 	}
 	
-	private JSONArray remote(JSONObject obj) {
-		String json = restTemplate.getForObject(url + obj.getString(NAME_STR), String.class);
-		JSONObject object =JSONObject.parseObject(json);
-		JSONObject one = object.getJSONArray("districts").getJSONObject(0);
-		JSONArray arrays = one.getJSONArray("districts");
-		return arrays;
+	//序列化写文件
+	private void writeFile(Object json) throws Exception {
+		FileOutputStream outputStream = new FileOutputStream(new File(filePath));
+		ObjectOutputStream objectOutputStream = new ObjectOutputStream(outputStream);
+		objectOutputStream.writeObject(json);
+		objectOutputStream.close();
 	}
-
+	
+	private Object readFile() throws Exception {
+		FileInputStream inputStream = new FileInputStream(new File(filePath));
+		ObjectInputStream objectInputStream = new ObjectInputStream(inputStream);
+		return objectInputStream.readObject();
+	}
 
 	public void insertProvince(JSONObject object) {
 		Province province = new Province();
@@ -122,5 +144,34 @@ public class MapAreaServiceImpl implements MapAreaService{
 		town.setName(object.getString(NAME_STR));
 		town.setCountyCode(countyCode);
 		townMapper.insert(town);
+	}
+
+	@Override
+	public List<Province> getProvinces() {
+		return provinceMapper.selectAll();
+	}
+
+	@Override
+	public List<City> getCities(String provinceCode) {
+		Example example = new Example(City.class);
+		Criteria criteria = example.createCriteria();
+		criteria.andEqualTo("provinceCode", provinceCode);
+		return cityMapper.selectByExample(example);
+	}
+
+	@Override
+	public List<County> getCounties(String cityCode) {
+		Example example = new Example(County.class);
+		Criteria criteria = example.createCriteria();
+		criteria.andEqualTo("cityCode", cityCode);
+		return countyMapper.selectByExample(example);
+	}
+
+	@Override
+	public List<Town> getTowns(String countyCode) {
+		Example example = new Example(Town.class);
+		Criteria criteria = example.createCriteria();
+		criteria.andEqualTo("countyCode", countyCode);
+		return townMapper.selectByExample(example);
 	}
 }
