@@ -1,0 +1,83 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>e-shop</title>
+<link type="text/css" rel="stylesheet" th:href="@{/css/css.css}"/>
+<script type="text/javascript" th:src="@{/js/jquery.js}"></script>
+<script type="text/javascript" th:src="@{/js/js.js}"></script>
+<script type="text/javascript" th:src="@{/js/wb.js}" charset="utf-8"></script>
+<script type="text/javascript" th:src="@{/layer/layer.js}"></script>
+<script type="text/javascript" th:src="@{/js/shop/common.js}"></script>
+<script type="text/javascript" th:src="@{/js/shop/vip.js}"></script>
+<script type="text/javascript">
+ $(function(){
+	 $(".vipNav dd:eq(1)").show();
+	 $("#vipSub").click(function(){
+		 var obj = new Object();
+		 obj.oldPassword = $("oldPassword").val();
+		 obj.password = $("password").val();
+		 obj.rePassword = $("rePassword").val();
+		 $.ajax({
+				type: 'post',
+				url: "/vip/updateUserPwd",
+				data: obj,
+				success:function(data){
+					if(200 == data.code){
+						layer.msg("修改成功..",{icon:1,time:2000,shade:0.3},function(){
+							window.location.reload();
+						});
+					}else{
+						layer.msg(data,{icon:2,time:2000,shade:0.3})
+					}
+				},
+				error:function(data) {
+					alert(data);
+				}
+			});
+	 })
+ })
+</script>
+</head>
+
+<body>
+ <div class="mianCont">
+   <div class="top" th:include="common::top"></div>
+  <div class="lsg" th:include="common::lsg"></div>
+  <div class="pnt" th:include="common::pnt2"></div>
+  <div class="positions">
+   当前位置：<a class="jie_1 jq_to_index">首页</a> &gt; <a href="#">会员中心</a>
+    &gt; <a href="#" class="posCur">修改密码</a>
+  </div><!--positions/-->
+  <div class="cont" >
+   <div class="contLeft" id="contLeft" th:include="common::contLeft"></div>
+   <div class="vipContRight">
+   <h2 class="oredrName">
+    修改密码
+    </h2>
+    <div class="address" style="display:block">
+    <div class="addList">
+     <label>原密码:</label>
+     <input type="password" id="oldPassword"/>
+    </div><!--addList-->
+    <div class="addList">
+     <label>新密码:</label>
+     <input type="password" class="vipPwd1" id="password"/>
+    </div><!--addList-->
+    <div class="addList">
+     <label>确认密码:</label>
+     <input type="password" class="vipPwd2" id="rePassword"/>
+    </div><!--addList-->
+    <div class="addList2">
+     <input type="image" src="/images/baocun.png" width="79" height="30" class="vipSub" id="vipSub"/>
+    </div><!--addList2/-->
+   </div><!--address/-->
+   </div><!--contRight/-->
+   <div class="clears"></div>
+  </div><!--cont/-->
+  <div class="inHelp" th:include="common::inHelp"></div>
+  <div class="footer" th:include="common::footer"></div><!--footer/-->
+ </div><!--mianCont/-->
+ <a href="#" class="backTop">&nbsp;</a>
+</body>
+</html>

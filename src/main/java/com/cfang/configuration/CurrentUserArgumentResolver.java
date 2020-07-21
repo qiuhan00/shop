@@ -9,6 +9,7 @@ import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.method.support.ModelAndViewContainer;
 
+import com.cfang.dto.UserInfoDto;
 import com.cfang.entity.UserEntity;
 
 /**
@@ -20,14 +21,14 @@ public class CurrentUserArgumentResolver implements HandlerMethodArgumentResolve
 
 	@Override
 	public boolean supportsParameter(MethodParameter parameter) {
-		return parameter.getParameterType().equals(UserEntity.class);
+		return parameter.getParameterType().equals(UserInfoDto.class);
 	}
 
 	@Override
 	public Object resolveArgument(MethodParameter parameter, ModelAndViewContainer mavContainer,
 			NativeWebRequest webRequest, WebDataBinderFactory binderFactory) throws Exception {
 		HttpServletRequest request = webRequest.getNativeRequest(HttpServletRequest.class);
-		UserEntity currentUser = (UserEntity) request.getSession().getAttribute("user");
+		UserInfoDto currentUser = (UserInfoDto) request.getSession().getAttribute("user");
 		return currentUser;
 	}
 

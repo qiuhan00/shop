@@ -31,6 +31,9 @@ var CommonCls = {
 		this.$toVip.on("click", this.toVip);
 		$(document).on("mouseenter", ".InPorNav li", this.MenuMouseEnter);
 		$(document).on("mouseleave", ".InPorNav li", this.MenuMouseOut);
+		$(".jq_vipopt").on("click", function(){
+			window.location.href = "/vip/toView?viewName=" + $(this).attr("type");
+		})
 	},
 	MenuMouseEnter:function(){
 		$(this).addClass("inProNavStyle");

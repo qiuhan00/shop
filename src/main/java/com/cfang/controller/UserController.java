@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.cfang.dto.UserInfoDto;
 import com.cfang.dto.UserLoginDto;
 import com.cfang.dto.UserRegisterDto;
 import com.cfang.entity.UserEntity;
@@ -105,18 +106,17 @@ public class UserController {
 		}
 		UserLoginDto dto = new UserLoginDto();
 		dto.setUserName(userName);
-		UserEntity entity = userService.loginUser(dto);
+		UserInfoDto entity = userService.loginUser(dto);
 		if(null != entity) {
 			result = true;
 		}
-		int i = 1/0;
 //		FlushUtil.flushJsonByObject(result, response);
 		FlushUtil.success(result, response);
 	}
 	
 	@PostMapping("userLogin")
 	public void login(UserLoginDto dto, Model model, HttpServletRequest request, HttpServletResponse response) throws Exception{
-		UserEntity user = userService.loginUser(dto);
+		UserInfoDto user = userService.loginUser(dto);
 		if(null != user) {
 			request.getSession().setAttribute("user", user);
 		}

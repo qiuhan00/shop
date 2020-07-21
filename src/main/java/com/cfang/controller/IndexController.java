@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.alibaba.fastjson.JSON;
 import com.cfang.dto.IndexProductTree;
+import com.cfang.dto.UserInfoDto;
 import com.cfang.entity.ProductEntity;
 import com.cfang.entity.UserEntity;
 import com.cfang.service.CataLogService;
@@ -31,7 +32,7 @@ public class IndexController {
 	private ProductService productService;
 	
 	@GetMapping(value = {"/shop", ""})
-	public String index(Model model, HttpServletRequest request, UserEntity user) {
+	public String index(Model model, HttpServletRequest request, UserInfoDto user) {
 		List<IndexProductTree> trees = cataLogService.selectIndexProduct();
 		model.addAttribute("catalogs", trees);
 		//滚动商品

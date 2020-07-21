@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.cfang.dto.IndexProductTree;
+import com.cfang.dto.UserInfoDto;
 import com.cfang.entity.ProductEntity;
 import com.cfang.entity.UserEntity;
 import com.cfang.service.CataLogService;
@@ -34,7 +35,7 @@ public class ProductController {
 	private CataLogService cataLogService;
 	
 	@GetMapping("proinfo/{id}")
-	public String proInfo(@PathVariable("id") Integer id, Model model, UserEntity user) {
+	public String proInfo(@PathVariable("id") Integer id, Model model, UserInfoDto user) {
 		ProductEntity entity = productService.selectById(id);
 		model.addAttribute("product", entity);
 		List<IndexProductTree> trees = cataLogService.selectIndexProduct();
@@ -46,7 +47,7 @@ public class ProductController {
 	}
 	
 	@GetMapping("searchPro/{type}/{pname}")
-	public String searchPro(@PathVariable("type") String type, @PathVariable("pname") String pname, Model model, UserEntity user) {
+	public String searchPro(@PathVariable("type") String type, @PathVariable("pname") String pname, Model model, UserInfoDto user) {
 		List<ProductEntity> list = Lists.newArrayList();
 		if("0".equals(type)) { //首页分类产品更多
 			list = productService.selectByOneCataLogId(Integer.parseInt(pname));

@@ -13,5 +13,7 @@ public class UserRegisterDto {
 	private String password;
 	private String rePassword;
 	private String verifyCode;
+	private String oldPassword;
+	private String userCode;
 	
 }

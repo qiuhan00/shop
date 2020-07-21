@@ -1,23 +1,23 @@
-package com.cfang.entity;
+package com.cfang.dto;
 
-import javax.persistence.Table;
+import com.cfang.entity.UserAddressEntity;
 
 import lombok.Data;
 
+/**
+ * @description：
+ * @author cfang 2020年7月21日
+ */
 @Data
-@Table(name = "tbl_user")
-public class UserEntity extends BaseEntity{
+public class UserInfoDto extends UserAddressEntity{
 
-	private String userCode;
 	private String userName;
 	private String password;
 	private String nickName;
 	private String trueName;
-	private String address;
 	private String phone;
 	private String cardNo;
 	private String email;
 	private String postCode;
 	private String grade;
-	
 }

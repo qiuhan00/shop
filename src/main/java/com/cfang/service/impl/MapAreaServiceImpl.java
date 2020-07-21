@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -17,14 +18,19 @@ import org.springframework.web.client.RestTemplate;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.cfang.dto.VipUserDto;
 import com.cfang.entity.City;
 import com.cfang.entity.County;
 import com.cfang.entity.Province;
 import com.cfang.entity.Town;
+import com.cfang.entity.UserAddressEntity;
+import com.cfang.entity.UserEntity;
 import com.cfang.mapper.CityMapper;
 import com.cfang.mapper.CountyMapper;
 import com.cfang.mapper.ProvinceMapper;
 import com.cfang.mapper.TownMapper;
+import com.cfang.mapper.UserAddressMapper;
+import com.cfang.mapper.UserMapper;
 import com.cfang.service.MapAreaService;
 
 import lombok.val;
@@ -56,6 +62,10 @@ public class MapAreaServiceImpl implements MapAreaService{
 	private CountyMapper countyMapper;
 	@Autowired
 	private TownMapper townMapper;
+	@Autowired
+	private UserMapper userMapper;
+	@Autowired
+	private UserAddressMapper userAddressMapper;
 	@Autowired
 	RestTemplate restTemplate;
 	
@@ -173,5 +183,18 @@ public class MapAreaServiceImpl implements MapAreaService{
 		Criteria criteria = example.createCriteria();
 		criteria.andEqualTo("countyCode", countyCode);
 		return townMapper.selectByExample(example);
+	}
+
+	@Override
+	public void updateViper(VipUserDto dto) {
+		UserEntity userEntity = new UserEntity();
+		userEntity.setId(dto.getUserId());
+		userEntity.setCardNo(dto.getCardNo());
+		userEntity.setPhone(dto.getPhone());
+		userEntity.setPostCode(dto.getPostCode());
+		userMapper.updateByPrimaryKeySelective(userEntity);
+		UserAddressEntity userAddressEntity = new UserAddressEntity();
+		BeanUtils.copyProperties(dto, userAddressEntity);
+		userAddressMapper.insertAddress(userAddressEntity);
 	}
 }

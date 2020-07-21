@@ -6,10 +6,13 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.cfang.dto.UserInfoDto;
 import com.cfang.dto.UserLoginDto;
 import com.cfang.dto.UserRegisterDto;
+import com.cfang.entity.UserAddressEntity;
 import com.cfang.entity.UserEntity;
 import com.cfang.exception.BusyException;
+import com.cfang.mapper.UserAddressMapper;
 import com.cfang.mapper.UserMapper;
 import com.cfang.service.UserService;
 
@@ -18,12 +21,12 @@ public class UserServiceImpl implements UserService{
 
 	@Autowired
 	private UserMapper userMapper;
+	@Autowired
+	private UserAddressMapper userAddressMapper;
 
 	@Override
-	public UserEntity loginUser(UserLoginDto dto){
-		UserEntity record = new UserEntity();
-		BeanUtils.copyProperties(dto, record);
-		UserEntity user = userMapper.selectOne(record);
+	public UserInfoDto loginUser(UserLoginDto dto){
+		UserInfoDto user = userMapper.loginUser(dto);
 		return user;
 	}
 
@@ -38,6 +41,16 @@ public class UserServiceImpl implements UserService{
 		record.setCreateTime(new Date());
 		record.setUpdateTime(new Date());
 		return userMapper.insert(record);
+	}
+
+	@Override
+	public UserInfoDto selectUserByUserCode(String userCode) {
+		return userMapper.selectUserByUserCode(userCode);
+	}
+
+	@Override
+	public int updateUserPwd(UserRegisterDto dto) {
+		return userMapper.updateUserPwd(dto);
 	}
 	
 	

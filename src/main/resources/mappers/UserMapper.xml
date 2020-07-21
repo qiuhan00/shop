@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cfang.mapper.UserMapper">
+    
+    <select id="loginUser" parameterType="com.cfang.dto.UserLoginDto"  resultType="com.cfang.dto.UserInfoDto">
+    	select a.id as id,a.user_code as userCode,a.user_name as userName,a.phone as phone,a.card_no as cardNo,a.true_name as trueName,
+    	a.email as email,a.post_code as postCode, b.province_code as provinceCode,b.province_name as provinceName,
+    	b.city_code as cityCode,b.city_name as cityName,b.county_code as countyCode,b.county_name as countyName,
+    	b.town_code as townCode,b.town_name as townName,b.address_detail as addressDetail,b.type as type
+    	from tbl_user a left join tbl_user_address b on a.user_code=b.user_code
+    	where a.user_name=#{userName} and a.password = #{password}
+    </select>
+    
+    <select id="selectUserByUserCode" parameterType="string"  resultType="com.cfang.dto.UserInfoDto">
+    	select a.id as id,a.user_code as userCode,a.user_name as userName,a.phone as phone,a.card_no as cardNo,a.true_name as trueName,
+    	a.email as email,a.post_code as postCode, b.province_code as provinceCode,b.province_name as provinceName,
+    	b.city_code as cityCode,b.city_name as cityName,b.county_code as countyCode,b.county_name as countyName,
+    	b.town_code as townCode,b.town_name as townName,b.address_detail as addressDetail,b.type as type
+    	from tbl_user a left join tbl_user_address b on a.user_code=b.user_code
+    	where a.user_code=#{userCode}
+    </select>
+    
+    <update id="updateUserPwd" parameterType="com.cfang.dto.UserRegisterDto">
+    	update tbl_user set password = #{password} where user_code=#{userCode}
+    </update>
+    
+</mapper>
