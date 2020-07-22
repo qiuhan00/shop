@@ -1,29 +1,4 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>e-shop</title>
-<link type="text/css" rel="stylesheet" th:href="@{/css/css.css}"/>
-<script type="text/javascript" th:src="@{/js/jquery.js}"></script>
-<script type="text/javascript" th:src="@{/js/js.js}"></script>
-<script type="text/javascript" th:src="@{/js/wb.js}" charset="utf-8"></script>
-<script type="text/javascript" th:src="@{/layer/layer.js}"></script>
-<script type="text/javascript" th:src="@{/js/shop/common.js}"></script>
-<script type="text/javascript" th:src="@{/js/shop/vip.js}"></script>
-</head>
-
-<body>
- <div class="mianCont">
-  <div class="top" th:include="common::top"></div>
-  <div class="lsg" th:include="common::lsg"></div>
-  <div class="pnt" th:include="common::pnt2"></div>
-  <div class="positions">
-   当前位置：<a class="jie_1 jq_to_index">首页</a> &gt; <a href="vip.html">会员中心</a>
-    &gt; <a href="#" class="posCur">个人中心</a>
-  </div><!--positions/-->
-  <div class="cont" style="height:420px;">
-   <div class="contLeft" id="contLeft" th:include="common::contLeft"></div>
-   <div class="vipContRight" th:fragment="vipContRight">
+<div class="vipContRight" th:fragment="vipContRight">
     <h1 class="vipName"><strong class="vipUp">[点击修改/补充个人信息]</strong></h1>
     <table class="vipMy">
      <tr>
@@ -86,12 +61,134 @@
      <input type="image" th:src="@{/images/quxiao.jpg}" width="79" height="30" class="jq_vip_modcancle"/>
     </div><!--addList2/-->
    </div><!--address/-->
-   </div><!--contRight/-->
-   <div class="clears"></div>
-  </div><!--cont/-->
-  <div class="inHelp" th:include="common::inHelp"></div>
-  <div class="footer" th:include="common::footer"></div><!--footer/-->
- </div><!--mianCont/-->
- <a href="#" class="backTop">&nbsp;</a>
-</body>
-</html>
+</div><!--contRight/-->
+   
+<div class="vipContRight" th:fragment="vipPwdRight">
+   <h2 class="oredrName">
+    修改密码
+    </h2>
+    <div class="address" style="display:block">
+    <div class="addList">
+     <label>原密码:</label>
+     <input type="password" id="oldPassword"/>
+    </div><!--addList-->
+    <div class="addList">
+     <label>新密码:</label>
+     <input type="password" class="vipPwd1" id="password"/>
+    </div><!--addList-->
+    <div class="addList">
+     <label>确认密码:</label>
+     <input type="password" class="vipPwd2" id="rePassword"/>
+    </div><!--addList-->
+    <div class="addList2">
+     <input type="image" src="/images/baocun.png" width="79" height="30" class="vipSub" id="vipSub"/>
+    </div><!--addList2/-->
+   </div><!--address/-->
+</div><!--contRight/-->
+
+<div th:fragment="vipExitRight">
+   <h2 class="oredrName">
+    网站使用条款
+   </h2>
+   <div class="helpPar">
+&nbsp;&nbsp;&nbsp;&nbsp;首先，你要注册一个淘宝帐号，然后下载一个在线聊天工具：淘宝旺旺（淘宝网也提供网页版阿里旺旺）。登录后，可以在我的淘宝中先选择你要购买的商品进行查询，在查询出的页面，你可以选择以商家信誉排列商品或以价格高低排列商品，这样比较一目了然的可以看到你所要选的商品。<br /><br />
+&nbsp;&nbsp;&nbsp;&nbsp;然后，选定一家信誉尚可，价格较佳的商家，就你所要的商品和他详谈商品的品质，价格及售后和所走的物流，一切谈妥后，选择支付方式，在这里推荐使用第三方支付平台：支付宝，这一支付平台是你先把货款打入一第三方帐户，只有当你收到货时确认货品与商家承诺一致，支付宝才会把你的款项转入商家户头，这样对你购物比较有保障。你可以用网上银行给支付宝充值，如果无网上银行，可以让有网上银行的朋友给你充值，还有部分商家支持信用卡在线支付的。<br /><br />
+&nbsp;&nbsp;&nbsp;&nbsp;第三，当你收到货物后及时查验是否与卖家说描述的相符合，如果没有问题的话可以就货物是否与卖家说描述的相符、卖家的服务态度、卖家的发货速度对卖家的进行评价，这有助于提高双方的信誉，也为其他人购物提供了参考。等到卖家对买家进行了评价后可以说这次交易就完全结束。
+    </div><!--helpPar-->
+</div><!--contRight/-->
+
+<div th:fragment="vipMianRight">
+   <h2 class="oredrName">
+    网站免责声明
+   </h2>
+   <div class="helpPar">
+&nbsp;&nbsp;&nbsp;&nbsp;首先，你要注册一个淘宝帐号，然后下载一个在线聊天工具：淘宝旺旺（淘宝网也提供网页版阿里旺旺）。登录后，可以在我的淘宝中先选择你要购买的商品进行查询，在查询出的页面，你可以选择以商家信誉排列商品或以价格高低排列商品，这样比较一目了然的可以看到你所要选的商品。<br /><br />
+&nbsp;&nbsp;&nbsp;&nbsp;然后，选定一家信誉尚可，价格较佳的商家，就你所要的商品和他详谈商品的品质，价格及售后和所走的物流，一切谈妥后，选择支付方式，在这里推荐使用第三方支付平台：支付宝，这一支付平台是你先把货款打入一第三方帐户，只有当你收到货时确认货品与商家承诺一致，支付宝才会把你的款项转入商家户头，这样对你购物比较有保障。你可以用网上银行给支付宝充值，如果无网上银行，可以让有网上银行的朋友给你充值，还有部分商家支持信用卡在线支付的。<br /><br />
+&nbsp;&nbsp;&nbsp;&nbsp;第三，当你收到货物后及时查验是否与卖家说描述的相符合，如果没有问题的话可以就货物是否与卖家说描述的相符、卖家的服务态度、卖家的发货速度对卖家的进行评价，这有助于提高双方的信誉，也为其他人购物提供了参考。等到卖家对买家进行了评价后可以说这次交易就完全结束。
+    </div><!--helpPar-->
+</div><!--contRight/-->
+
+<div th:fragment="vipMessageRight">
+   <h2 class="oredrName">
+    在线留言
+   </h2>
+   <form action="#" method="get" class="message">
+    <div class="addList">
+     <label>用户名:</label>
+     <input type="text" />
+    </div><!--addList-->
+    <div class="addList">
+     <label>联系方式:</label>
+     <input type="text" />
+    </div><!--addList-->
+    <div class="addList" style="height:105px;">
+     <label>留言内容:</label>
+     <textarea style="width:220px;height:102px;">
+     
+     </textarea>
+    </div><!--addList-->
+    <div class="addList2">
+     <input type="submit" value="提交" />
+    </div><!--addList2/-->
+   </form><!--message/-->
+</div><!--contRight/-->
+
+<div class="contRight" th:fragment="vipAddressRight">
+   <h2 class="oredrName">
+    收货地址
+   </h2>
+   <div class="address jq_rec_address">
+    <div class="addList">
+     <label><span class="red">* </span>选择地区:</label>
+     <select id="jq_rec_province" class="jq_area jq_clear" type="province" next-type="city" style="width:120px;" >
+     </select>
+     <select id="jq_rec_city" class="jq_area jq_clear" type="city" next-type="county">
+     </select>
+     <select id="jq_rec_county" class="jq_area jq_clear" type="county" next-type="town">
+     </select>
+     <select id="jq_rec_town" class="jq_clear" type="town">
+     </select>
+    </div><!--addList-->
+    <div class="addList">
+     <label><span class="red">* </span>详细地址:</label>
+     <input type="text" id="jq_rec_adderssedtail" class="jq_clear"/>
+    </div><!--addList-->
+    <div class="addList">
+     <label><span class="red">* </span>邮政编码:</label>
+     <input type="text" id="jq_rec_postcode" class="jq_clear"/>
+    </div><!--addList-->
+    <div class="addList">
+     <label><span class="red">* </span>收件人:</label>
+     <input type="text" id="jq_rec_consignee" class="jq_clear"/>
+    </div><!--addList-->
+    <div class="addList">
+     <label><span class="red">* </span>手机号码:</label>
+     <input type="text" id="jq_rec_phone" class="jq_clear"/> 
+<!--      或者固定电话 <input type="text" /> -->
+    </div><!--addList--> 
+    <div class="addList2">
+     <input type="image" th:src="@{/images/queren.jpg}" width="100" height="32" class="jq_vipaddress_save"/>
+     <input type="image" th:src="@{/images/quxiao.jpg}" width="79" height="30" class="jq_vip_modcancle"/>
+    </div><!--addList2/-->
+   </div><!--address/-->
+   <table class="vipAdress">
+    <tr>
+     <th>收货人</th>
+     <th>所在地区</th>
+     <th>街道地址</th>
+     <th>邮编</th>
+     <th>电话/手机</th>
+     <th>操作</th>
+    </tr>
+    <tr th:each="item:${address}">
+     <td th:text="${item.consignee}" class="jq_consignee">张益达</td>
+     <td th:text="${item.provinceName + item.cityName + item.countyName + item.townName}">上海 上海市 普陀区</td>
+     <td th:text="${item.addressDetail}" class="jq_addressdetail">曹杨路1040弄中友大厦一号楼19楼</td>
+     <td th:text="${user.postCode}" class="jq_postcode">200000</td>
+     <td th:text="${item.phone}" class="jq_hone">13569888523</td>
+     <td th:provincecode="${item.provinceCode}" th:citycode="${item.cityCode}" th:countycode="${item.countyCode}" th:towncode="${item.townCode}">
+     	<span class="green upd jq_mdify">[修改]</span> | <span class="green add jq_mdify">[添加]</span> 
+     </td>
+    </tr>
+   </table><!--vipAdress/-->
+</div>

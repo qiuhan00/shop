@@ -76,10 +76,10 @@ $(window).scroll(function(){
 		$(".fangList").eq(fangyuan).show().siblings(".fangList").hide();
 		})	
 	//vipNav
-	$(".vipNav dt").click(function(){
-		$(this).addClass("vipNavStyle").siblings("dt").removeClass("vipNavStyle");
-		$(this).next("dd").show().siblings("dd").hide();
-		})
+//	$(".vipNav dt").click(function(){
+//		$(this).addClass("vipNavStyle").siblings("dt").removeClass("vipNavStyle");
+//		$(this).next("dd").show().siblings("dd").hide();
+//		})
 	//登录验证
 	$('.submit').click(function(event){
                 var name = $('.name').val();

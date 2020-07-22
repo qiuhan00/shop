@@ -16,9 +16,12 @@ import com.cfang.dto.UserInfoDto;
 import com.cfang.dto.UserRegisterDto;
 import com.cfang.dto.VipUserDto;
 import com.cfang.entity.City;
+import com.cfang.entity.MessageEntity;
 import com.cfang.entity.Province;
+import com.cfang.entity.UserAddressEntity;
 import com.cfang.entity.UserEntity;
 import com.cfang.service.MapAreaService;
+import com.cfang.service.MessageService;
 import com.cfang.service.UserService;
 import com.cfang.utils.FlushUtil;
 import com.google.common.collect.Lists;
@@ -35,13 +38,13 @@ public class VipController {
 	private MapAreaService mapAreaService;
 	@Autowired
 	private UserService userService;
+	@Autowired
+	private MessageService messageService;
 	
 	@GetMapping("toVip")
 	public String toVip(UserInfoDto userEntity, Model model) {
 		model.addAttribute("user", userEntity);
-		List<Province> provinces = mapAreaService.getProvinces();
-		model.addAttribute("provinces", provinces);
-		return "user/vip";
+		return "user/vipCommon";
 	}
 	
 	@GetMapping("getArea")
@@ -82,9 +85,25 @@ public class VipController {
 	}
 	
 	@GetMapping("toView")
-	public String toView(Model model, String viewName) {
-		
-		return "user/" + viewName;
-//		return "vip::" + viewName;
+	public String toView(Model model, String viewName, UserInfoDto userEntity) {
+		model.addAttribute("user", userEntity);
+		if("vipContRight".equals(viewName) || "vipAddressRight".equals(viewName)) {
+			List<Province> provinces = mapAreaService.getProvinces();
+			model.addAttribute("provinces", provinces);
+			if("vipAddressRight".equals(viewName)) {
+				List<UserAddressEntity> address = mapAreaService.selectByUserCode(userEntity.getUserCode());
+				model.addAttribute("address", address);
+			}
+		}
+		return "user/vip::" + viewName;
 	}
+	
+	@PostMapping("liveMessage")
+	public void liveMessage(UserInfoDto user, MessageEntity messageEntity, HttpServletResponse response) {
+		messageEntity.setUserCode(user.getUserCode());
+		messageEntity.setUserName(user.getUserName());
+		int result = messageService.insert(messageEntity);
+		FlushUtil.success(result, response);
+	}
+	
 }

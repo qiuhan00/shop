@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.data.jpa.JpaRepositoriesAutoConfiguration;
 import org.springframework.boot.web.servlet.ServletComponentScan;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;
@@ -14,7 +15,7 @@ import org.springframework.web.client.RestTemplate;
 
 import tk.mybatis.spring.annotation.MapperScan;
 
-@SpringBootApplication
+@SpringBootApplication(exclude = {JpaRepositoriesAutoConfiguration.class})
 @MapperScan(basePackages = "com.cfang.mapper")
 @EnableCaching
 @ServletComponentScan(basePackages = "com.cfang.filter")

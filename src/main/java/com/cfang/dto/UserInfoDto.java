@@ -15,7 +15,6 @@ public class UserInfoDto extends UserAddressEntity{
 	private String password;
 	private String nickName;
 	private String trueName;
-	private String phone;
 	private String cardNo;
 	private String email;
 	private String postCode;

@@ -1,0 +1,36 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>e-shop</title>
+<link type="text/css" rel="stylesheet" th:href="@{/css/css.css}"/>
+<script type="text/javascript" th:src="@{/js/jquery.js}"></script>
+<!-- <script type="text/javascript" th:src="@{/js/js.js}"></script> -->
+<!-- <script type="text/javascript" th:src="@{/js/wb.js}" charset="utf-8"></script> -->
+<script type="text/javascript" th:src="@{/layer/layer.js}"></script>
+<script type="text/javascript" th:src="@{/js/shop/common.js}"></script>
+<script type="text/javascript" th:src="@{/js/shop/vip.js}"></script>
+</head>
+
+<body>
+ <div class="mianCont">
+  <div class="top" th:include="common::top"></div>
+  <div class="lsg" th:include="common::lsg"></div>
+  <div class="pnt" th:include="common::pnt2"></div>
+  <div class="positions">
+   当前位置：<a class="jie_1 jq_to_index">首页</a> &gt; <a href="vip.html">会员中心</a>
+    &gt; <a href="#" class="posCur">个人中心</a>
+  </div><!--positions/-->
+  <div class="cont" style="height:420px;">
+   <div class="contLeft" id="contLeft" th:include="common::contLeft"></div>
+   <div class="vipContRight" id="jq_vipcontright">
+    
+   </div><!--contRight/-->
+   <div class="clears"></div>
+  </div><!--cont/-->
+  <div class="inHelp" th:include="common::inHelp"></div>
+  <div class="footer" th:include="common::footer"></div><!--footer/-->
+ </div><!--mianCont/-->
+ <a href="#" class="backTop">&nbsp;</a>
+</body>
+</html>

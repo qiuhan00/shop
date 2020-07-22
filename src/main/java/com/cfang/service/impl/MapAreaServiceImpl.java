@@ -182,7 +182,14 @@ public class MapAreaServiceImpl implements MapAreaService{
 		Example example = new Example(Town.class);
 		Criteria criteria = example.createCriteria();
 		criteria.andEqualTo("countyCode", countyCode);
-		return townMapper.selectByExample(example);
+		List<Town> list = townMapper.selectByExample(example);
+		/**街道没有独立的adCode，所以选择使用自增的主键id作为替换
+		 * 	也可以直接修改数据库中的adcode字段
+		 */
+		list.forEach(obj -> {
+			obj.setAdCode(obj.getId()+"");
+		});
+		return list;
 	}
 
 	@Override
@@ -191,10 +198,16 @@ public class MapAreaServiceImpl implements MapAreaService{
 		userEntity.setId(dto.getUserId());
 		userEntity.setCardNo(dto.getCardNo());
 		userEntity.setPhone(dto.getPhone());
-		userEntity.setPostCode(dto.getPostCode());
+//		userEntity.setPostCode(dto.getPostCode());
 		userMapper.updateByPrimaryKeySelective(userEntity);
 		UserAddressEntity userAddressEntity = new UserAddressEntity();
 		BeanUtils.copyProperties(dto, userAddressEntity);
 		userAddressMapper.insertAddress(userAddressEntity);
+	}
+
+	@Override
+	public List<UserAddressEntity> selectByUserCode(String userCode) {
+		List<UserAddressEntity> list = userAddressMapper.selectByUserCode(userCode);
+		return list;
 	}
 }

@@ -7,6 +7,7 @@ import com.cfang.entity.City;
 import com.cfang.entity.County;
 import com.cfang.entity.Province;
 import com.cfang.entity.Town;
+import com.cfang.entity.UserAddressEntity;
 
 /**
  * @description：
@@ -25,4 +26,6 @@ public interface MapAreaService {
 	List<Town> getTowns(String countyCode);
 	
 	void updateViper(VipUserDto dto);
+	
+	List<UserAddressEntity> selectByUserCode(String userCode);
 }

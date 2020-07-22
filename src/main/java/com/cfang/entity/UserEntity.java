@@ -13,11 +13,9 @@ public class UserEntity extends BaseEntity{
 	private String password;
 	private String nickName;
 	private String trueName;
-	private String address;
 	private String phone;
 	private String cardNo;
 	private String email;
-	private String postCode;
 	private String grade;
 	
 }

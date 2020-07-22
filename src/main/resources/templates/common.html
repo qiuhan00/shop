@@ -141,22 +141,22 @@
   <div class="contLeft" id="contLeft" th:fragment="contLeft">
     <h3 class="leftTitle">会员中心</h3>
     <dl class="helpNav vipNav">
-     <dt>我的主页</dt>
+     <dt class="vipNavStyle">我的主页</dt>
       <dd>
-       <a href="vip.html" class="vipCur">个人中心</a>
-       <a href="vipOrder.html">我的订单</a>
+       <a class="vipCur jq_vip_cur" viewName="vipContRight">个人中心</a>
+       <a class="jq_vip_cur" viewName="vipOrderRight">我的订单</a>
       </dd>
-     <dt>账户设置</dt>
+     <dt class="vipNavStyle">账户设置</dt>
       <dd>
-       <a href="vipMy.html" style="display:none">个人信息</a>
-       <a class="jie_1 jq_vipopt" type="vipPwd">密码修改</a>
-       <a href="vipAdress.html">收货地址</a>
+       <a style="display:none">个人信息</a>
+       <a class="jie_1 jq_vip_cur" viewName="vipPwdRight">密码修改</a>
+       <a class="jq_vip_cur" viewName="vipAddressRight">收货地址</a>
       </dd>
-      <dt>客户服务</dt>
+      <dt class="vipNavStyle">客户服务</dt>
        <dd>
-        <a href="vipExit.html">网站使用条款</a>
-        <a href="vipTuihuo.html">网站免责声明</a>
-        <a href="message.html">在线留言</a>
+        <a class="jq_vip_cur" viewName="vipExitRight">网站使用条款</a>
+        <a class="jq_vip_cur" viewName="vipMianRight">网站免责声明</a>
+        <a class="jq_vip_cur" viewName="vipMessageRight">在线留言</a>
        </dd>
     </dl><!--helpNav/-->
    </div><!--contLeft/-->

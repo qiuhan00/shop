@@ -3,14 +3,20 @@
 <mapper namespace="com.cfang.mapper.UserAddressMapper">
     
     <insert id="insertAddress" parameterType="UserAddressEntity">
-    	insert into tbl_user_address(user_code,province_code,province_name,city_code,city_name,county_code,county_name,town_code,town_name,address_detail,type)
-    	values(#{userCode},#{provinceCode},#{provinceName},#{cityCode},#{cityName},#{countyCode},#{countyName},#{townCode},#{townName},#{addressDetail},#{type})
+    	insert into tbl_user_address(user_code,province_code,province_name,city_code,city_name,county_code,county_name,town_code,town_name,address_detail,type,
+    		phone,post_code,consignee)
+    	values(#{userCode},#{provinceCode},#{provinceName},#{cityCode},#{cityName},#{countyCode},#{countyName},#{townCode},#{townName},#{addressDetail},#{type},
+    	#{phone},#{postCode})
     	on duplicate key update create_time=now(),update_time=now(),province_code=#{provinceCode},province_name=#{provinceName},city_code=#{cityCode},
     	city_name=#{cityName},county_code=#{countyCode},county_name=#{countyName},town_code=#{townCode},town_name=#{townName},address_detail=#{addressDetail}
+    	phone=#{phone},post_code=#{postCode}
     </insert>
     
     <select id="selectOneByUserCode" parameterType="string">
     	select * from tbl_user_address where type='0' and user_code=#{code}
     </select>
     
+    <select id="selectByUserCode" parameterType="string" resultType="UserAddressEntity">
+    	select * from tbl_user_address where type='1' and user_code=#{code}
+    </select>
 </mapper>

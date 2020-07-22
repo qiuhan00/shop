@@ -1,9 +1,13 @@
 package com.cfang;
 
+import java.util.List;
+
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.alibaba.fastjson.JSON;
 import com.cfang.dto.VipUserDto;
+import com.cfang.entity.UserAddressEntity;
 import com.cfang.service.MapAreaService;
 
 /**
@@ -19,6 +23,16 @@ public class MapAreaServiceTest extends CommonTest{
 	public void updateMap() {
 		try {
 			mapAreaService.updateMapArea();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	@Test
+	public void selectByUserCode() {
+		try {
+			List<UserAddressEntity> list = mapAreaService.selectByUserCode("10002");
+			System.out.println(JSON.toJSONString(list));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

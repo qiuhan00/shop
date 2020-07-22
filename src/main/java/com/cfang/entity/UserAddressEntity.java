@@ -23,4 +23,7 @@ public class UserAddressEntity extends BaseEntity{
 	private String townName;
 	private String addressDetail;
 	private String type;
+	private String phone;
+	private String postCode;
+	private String consignee;
 }

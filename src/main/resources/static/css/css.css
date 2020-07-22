@@ -144,7 +144,7 @@ a:hover{color:#F00;}
 .contRight .frProList .cheng span{right:0;top:0; font-size:12px;color:#999; font-weight:400; text-decoration:line-through}
 .jilu{width:100px;height:28px;border:#efefef 1px solid; font-size:14px; text-align:center;line-height:28px; position:absolute;right:10px;top:-30px;}
 .jilu span{color:#F00;font-weight:bold;}
-
+.jq_vip_cur{cursor:pointer;}
 /*login*/
 .loginLogo{width:100%;border-bottom:#efefef 1px solid;}
 .logoMid{width:1040px;margin:0 auto;}
@@ -305,7 +305,8 @@ a:hover{color:#F00;}
 .vipNav{}
 .vipNav dt{ background:url(../images/open.png) 32px center no-repeat; cursor:pointer;}
 .vipNav dt.vipNavStyle{ background:url(../images/close.png) 32px center no-repeat;}
-.vipNav dd{ display:none;line-height:22px;height:auto;}
+/* .vipNav dd{ display:none;line-height:22px;height:auto;} */
+.vipNav dd{line-height:22px;height:auto;}
 .vipNav dd a{ display:block;}
 .vipName,.oredrName{font-family:"微软雅黑";}
 .vipName{height:40px;font-size:20px; color:#7bc144;}
