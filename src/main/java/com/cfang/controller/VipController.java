@@ -15,11 +15,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.cfang.dto.UserInfoDto;
 import com.cfang.dto.UserRegisterDto;
 import com.cfang.dto.VipUserDto;
-import com.cfang.entity.City;
 import com.cfang.entity.MessageEntity;
 import com.cfang.entity.Province;
 import com.cfang.entity.UserAddressEntity;
-import com.cfang.entity.UserEntity;
 import com.cfang.service.MapAreaService;
 import com.cfang.service.MessageService;
 import com.cfang.service.UserService;
@@ -68,7 +66,7 @@ public class VipController {
 			dto.setUserId(userEntity.getId());
 			dto.setUserCode(userEntity.getUserCode());
 			dto.setType("0");
-			mapAreaService.updateViper(dto);
+			userService.updateViper(dto);
 			UserInfoDto user = userService.selectUserByUserCode(userEntity.getUserCode());
 			if(null != user) {
 				request.getSession().removeAttribute("user");
@@ -91,11 +89,18 @@ public class VipController {
 			List<Province> provinces = mapAreaService.getProvinces();
 			model.addAttribute("provinces", provinces);
 			if("vipAddressRight".equals(viewName)) {
-				List<UserAddressEntity> address = mapAreaService.selectByUserCode(userEntity.getUserCode());
+				List<UserAddressEntity> address = userService.selectByUserCode(userEntity.getUserCode());
 				model.addAttribute("address", address);
 			}
 		}
 		return "user/vip::" + viewName;
+	}
+	
+	@PostMapping("saveOrUpdateAddress")
+	public void saveOrUpdateAddress(HttpServletResponse response, UserInfoDto userinfo, UserAddressEntity userAddress) {
+		userAddress.setUserCode(userinfo.getUserCode());
+		userService.saveOrUpdateAddress(userAddress);
+		FlushUtil.success(true, response);
 	}
 	
 	@PostMapping("liveMessage")

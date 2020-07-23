@@ -12,7 +12,7 @@ import lombok.Data;
 @Table(name = "tbl_user_address")
 public class UserAddressEntity extends BaseEntity{
 
-	private String userCode;
+	private String userCode;	//归属哪个user
 	private String provinceCode;
 	private String provinceName;
 	private String cityCode;
@@ -25,5 +25,6 @@ public class UserAddressEntity extends BaseEntity{
 	private String type;
 	private String phone;
 	private String postCode;
-	private String consignee;
+	private String consignee;	//收件人姓名
+	private String consigneeCode;
 }

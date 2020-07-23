@@ -7,6 +7,7 @@ var IndexCls = {
 	},
 	initContent:function(){
 		$(".cls-0").parent().trigger("click").addClass("flListStyle");
+		$("#kinMaxShow").kinMaxShow();
 	},
 	initData:function(){
 		

@@ -167,6 +167,7 @@
 <!--      或者固定电话 <input type="text" /> -->
     </div><!--addList--> 
     <div class="addList2">
+     <input type="hidden" id="jq_rec_consigneecode" class="jq_clear"/> 
      <input type="image" th:src="@{/images/queren.jpg}" width="100" height="32" class="jq_vipaddress_save"/>
      <input type="image" th:src="@{/images/quxiao.jpg}" width="79" height="30" class="jq_vip_modcancle"/>
     </div><!--addList2/-->
@@ -186,7 +187,7 @@
      <td th:text="${item.addressDetail}" class="jq_addressdetail">曹杨路1040弄中友大厦一号楼19楼</td>
      <td th:text="${user.postCode}" class="jq_postcode">200000</td>
      <td th:text="${item.phone}" class="jq_hone">13569888523</td>
-     <td th:provincecode="${item.provinceCode}" th:citycode="${item.cityCode}" th:countycode="${item.countyCode}" th:towncode="${item.townCode}">
+     <td th:provincecode="${item.provinceCode}" th:citycode="${item.cityCode}" th:countycode="${item.countyCode}" th:towncode="${item.townCode}" th:consigneecode="${item.consigneeCode}">
      	<span class="green upd jq_mdify">[修改]</span> | <span class="green add jq_mdify">[添加]</span> 
      </td>
     </tr>

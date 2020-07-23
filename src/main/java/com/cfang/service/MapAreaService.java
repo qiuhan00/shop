@@ -24,8 +24,5 @@ public interface MapAreaService {
 	List<County> getCounties(String cityCode);
 	
 	List<Town> getTowns(String countyCode);
-	
-	void updateViper(VipUserDto dto);
-	
-	List<UserAddressEntity> selectByUserCode(String userCode);
+
 }

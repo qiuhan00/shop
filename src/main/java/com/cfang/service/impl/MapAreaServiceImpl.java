@@ -192,22 +192,4 @@ public class MapAreaServiceImpl implements MapAreaService{
 		return list;
 	}
 
-	@Override
-	public void updateViper(VipUserDto dto) {
-		UserEntity userEntity = new UserEntity();
-		userEntity.setId(dto.getUserId());
-		userEntity.setCardNo(dto.getCardNo());
-		userEntity.setPhone(dto.getPhone());
-//		userEntity.setPostCode(dto.getPostCode());
-		userMapper.updateByPrimaryKeySelective(userEntity);
-		UserAddressEntity userAddressEntity = new UserAddressEntity();
-		BeanUtils.copyProperties(dto, userAddressEntity);
-		userAddressMapper.insertAddress(userAddressEntity);
-	}
-
-	@Override
-	public List<UserAddressEntity> selectByUserCode(String userCode) {
-		List<UserAddressEntity> list = userAddressMapper.selectByUserCode(userCode);
-		return list;
-	}
 }

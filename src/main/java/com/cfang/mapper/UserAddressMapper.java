@@ -11,9 +11,11 @@ import com.cfang.entity.UserAddressEntity;
  */
 public interface UserAddressMapper extends CommonMapper<UserAddressEntity>{
 
-	void insertAddress(UserAddressEntity entity);
+	int insertAddress(UserAddressEntity entity);
 	
 	UserAddressEntity selectOneByUserCode(String userCode);
 	
 	List<UserAddressEntity> selectByUserCode(String userCode);
+	
+	int updateAddress(UserAddressEntity entity);
 }

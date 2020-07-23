@@ -1,7 +1,9 @@
 package com.cfang.service.impl;
 
 import java.util.Date;
+import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -9,12 +11,13 @@ import org.springframework.stereotype.Service;
 import com.cfang.dto.UserInfoDto;
 import com.cfang.dto.UserLoginDto;
 import com.cfang.dto.UserRegisterDto;
+import com.cfang.dto.VipUserDto;
 import com.cfang.entity.UserAddressEntity;
 import com.cfang.entity.UserEntity;
-import com.cfang.exception.BusyException;
 import com.cfang.mapper.UserAddressMapper;
 import com.cfang.mapper.UserMapper;
 import com.cfang.service.UserService;
+import com.cfang.utils.IdWorker;
 
 @Service
 public class UserServiceImpl implements UserService{
@@ -53,5 +56,35 @@ public class UserServiceImpl implements UserService{
 		return userMapper.updateUserPwd(dto);
 	}
 	
+	@Override
+	public void updateViper(VipUserDto dto) {
+		UserEntity userEntity = new UserEntity();
+		userEntity.setId(dto.getUserId());
+		userEntity.setCardNo(dto.getCardNo());
+		userEntity.setPhone(dto.getPhone());
+//		userEntity.setPostCode(dto.getPostCode());
+		userMapper.updateByPrimaryKeySelective(userEntity);
+		UserAddressEntity userAddressEntity = new UserAddressEntity();
+		BeanUtils.copyProperties(dto, userAddressEntity);
+		userAddressMapper.insertAddress(userAddressEntity);
+	}
+
+	@Override
+	public List<UserAddressEntity> selectByUserCode(String userCode) {
+		List<UserAddressEntity> list = userAddressMapper.selectByUserCode(userCode);
+		return list;
+	}
+
+	@Override
+	public int saveOrUpdateAddress(UserAddressEntity entity) {
+		int result = 0;
+		if(StringUtils.isNotBlank(entity.getConsigneeCode())) {
+			result = userAddressMapper.updateAddress(entity);
+		}else {
+			entity.setConsigneeCode(IdWorker.get().nextId()+"");
+			result = userAddressMapper.insert(entity);
+		}
+		return result;
+	}
 	
 }

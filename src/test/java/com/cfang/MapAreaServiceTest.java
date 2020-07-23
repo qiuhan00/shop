@@ -9,6 +9,7 @@ import com.alibaba.fastjson.JSON;
 import com.cfang.dto.VipUserDto;
 import com.cfang.entity.UserAddressEntity;
 import com.cfang.service.MapAreaService;
+import com.cfang.service.UserService;
 
 /**
  * @description：
@@ -18,6 +19,8 @@ public class MapAreaServiceTest extends CommonTest{
 	
 	@Autowired
 	private MapAreaService mapAreaService;
+	@Autowired
+	private UserService userService;
 
 	@Test
 	public void updateMap() {
@@ -31,7 +34,7 @@ public class MapAreaServiceTest extends CommonTest{
 	@Test
 	public void selectByUserCode() {
 		try {
-			List<UserAddressEntity> list = mapAreaService.selectByUserCode("10002");
+			List<UserAddressEntity> list = userService.selectByUserCode("10002");
 			System.out.println(JSON.toJSONString(list));
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -57,7 +60,7 @@ public class MapAreaServiceTest extends CommonTest{
 			dto.setTownName("川沙新镇");
 			dto.setAddressDetail("xx小区xx号xxL");
 			dto.setType("1");
-			mapAreaService.updateViper(dto);
+			userService.updateViper(dto);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

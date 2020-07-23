@@ -25,7 +25,35 @@ var VipCls = {
 		$(document).on("change", ".jq_area", this.selArea);
 		$(document).on("click", "#jq_btn_save", this.saveInfo);
 		$(document).on("click", ".jq_mdify", this.showModifyAddress);
+		$(document).on("click", ".jq_vipaddress_save", this.saveAddress);
 		this.$changeMenu.on("click", this.changeMenu);
+	},
+	saveAddress:function(){
+		var obj = new Object();
+		obj.consignee = $("#jq_rec_consignee").val();
+		obj.phone = $("#jq_rec_phone").val();
+		obj.postCode = $("#jq_rec_postcode").val();
+		obj.provinceName = $("#jq_rec_province").find("option:selected").text();
+		obj.provinceCode = $("#jq_rec_province").val();
+		obj.cityName = $("#jq_rec_city").find("option:selected").text();
+		obj.cityCode = $("#jq_rec_city").val();
+		obj.countyName = $("#jq_rec_county").find("option:selected").text();
+		obj.countyCode = $("#jq_rec_county").val();
+		obj.townName = $("#jq_rec_town").find("option:selected").text();
+		obj.townCode = $("#jq_rec_town").val();
+		obj.addressDetail = $("#jq_rec_adderssedtail").val();
+		obj.consigneeCode = $("#jq_rec_consigneecode").val();
+		obj.type = 1;
+		$.post("/vip/saveOrUpdateAddress", obj, function(data){
+			if(200 == data.code){
+				layer.msg("操作成功..",{icon:1,time:2000,shade:0.3},function(){
+//					window.location.reload();
+					$(".jq_vip_cur[viewName='vipAddressRight']").trigger("click");
+				});
+			}else{
+				layer.msg("系统异常，请稍候重试..",{icon:2,time:2000,shade:0.3})
+			}
+		});
 	},
 	showModifyAddress:function(){
 		var isModify = $(this).hasClass("upd");
@@ -40,6 +68,7 @@ var VipCls = {
 			$("#jq_rec_city").attr("defaultCode", $vals.attr("citycode"));
 			$("#jq_rec_county").attr("defaultCode", $vals.attr("countycode"));
 			$("#jq_rec_town").attr("defaultCode", $vals.attr("towncode"));
+			$("#jq_rec_consigneecode").val($vals.attr("consigneecode"));
 		}else{
 			$(".jq_clear").empty().val("");
 		}
