@@ -14,6 +14,7 @@ public class BaseEntity implements Serializable{
 	
 	@Id
 	private Integer id;
-	private Date createTime;
-	private Date updateTime;
+	// mybatis拦截器中，获取父类public属性，设置时间值
+	public Date createTime;
+	public Date updateTime;
 }

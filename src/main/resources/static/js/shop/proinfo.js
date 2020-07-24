@@ -26,8 +26,8 @@ var ProInfoCls = {
 			data:{productCode:productCode,quantity:quantity},
 			success:function(result){
 				 if(result){
-					layer.msg("已添加购物车！", {time:2000},function(){
-						
+					CommonCls.statUserCart();
+					layer.msg("已添加购物车！", {time:2000,icon:1},function(){
 					});
 				}else{
 					layer.msg("添加购物车异常，请稍候重试...");

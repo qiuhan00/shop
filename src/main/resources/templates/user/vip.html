@@ -81,7 +81,7 @@
      <input type="password" class="vipPwd2" id="rePassword"/>
     </div><!--addList-->
     <div class="addList2">
-     <input type="image" src="/images/baocun.png" width="79" height="30" class="vipSub" id="vipSub"/>
+     <input type="image" src="/images/baocun.png" width="79" height="30" class="vipSub" id="jq_vipsub"/>
     </div><!--addList2/-->
    </div><!--address/-->
 </div><!--contRight/-->
@@ -112,23 +112,21 @@
    <h2 class="oredrName">
     在线留言
    </h2>
-   <form action="#" method="get" class="message">
-    <div class="addList">
+   <form class="message" id="jq_message">
+    <div class="addList hide">
      <label>用户名:</label>
      <input type="text" />
     </div><!--addList-->
     <div class="addList">
      <label>联系方式:</label>
-     <input type="text" />
+     <input type="text" name="phone" class="jq_clear"/>
     </div><!--addList-->
     <div class="addList" style="height:105px;">
      <label>留言内容:</label>
-     <textarea style="width:220px;height:102px;">
-     
-     </textarea>
+     <textarea name="message" class="messageBody jq_clear"/>
     </div><!--addList-->
     <div class="addList2">
-     <input type="submit" value="提交" />
+     <input type="button" value="提交" id="jq_savemessage"/>
     </div><!--addList2/-->
    </form><!--message/-->
 </div><!--contRight/-->
@@ -172,6 +170,7 @@
      <input type="image" th:src="@{/images/quxiao.jpg}" width="79" height="30" class="jq_vip_modcancle"/>
     </div><!--addList2/-->
    </div><!--address/-->
+   <h1 class="vipName"><strong class="vipUp jq_mdify">[点击新增个人信息]</strong></h1>
    <table class="vipAdress">
     <tr>
      <th>收货人</th>
@@ -188,7 +187,7 @@
      <td th:text="${user.postCode}" class="jq_postcode">200000</td>
      <td th:text="${item.phone}" class="jq_hone">13569888523</td>
      <td th:provincecode="${item.provinceCode}" th:citycode="${item.cityCode}" th:countycode="${item.countyCode}" th:towncode="${item.townCode}" th:consigneecode="${item.consigneeCode}">
-     	<span class="green upd jq_mdify">[修改]</span> | <span class="green add jq_mdify">[添加]</span> 
+     	<span class="green upd jq_mdify">[修改]</span> | <span class="green add jq_del">[删除]</span> 
      </td>
     </tr>
    </table><!--vipAdress/-->

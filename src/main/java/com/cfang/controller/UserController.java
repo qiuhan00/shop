@@ -30,6 +30,8 @@ import com.cfang.service.UserService;
 import com.cfang.utils.FlushUtil;
 import com.cfang.utils.RandomValidateCodeUtil;
 
+import cn.hutool.system.UserInfo;
+
 /**
  * describe：
  * @author cfang 2020-7-10
@@ -110,7 +112,6 @@ public class UserController {
 		if(null != entity) {
 			result = true;
 		}
-//		FlushUtil.flushJsonByObject(result, response);
 		FlushUtil.success(result, response);
 	}
 	
@@ -124,7 +125,6 @@ public class UserController {
 		if(StringUtils.isNotBlank(dto.getToUrl())) {
 			toURL = URLDecoder.decode(dto.getToUrl(), "utf-8");
 		}
-//		FlushUtil.flushJsonByObject(toURL, response);
 		FlushUtil.success(toURL, response);
 	}
 	

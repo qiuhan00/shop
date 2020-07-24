@@ -24,4 +24,7 @@
     	update tbl_user set password = #{password} where user_code=#{userCode}
     </update>
     
+    <select id="selectUserEntityByUserCode" parameterType="string" resultType="UserEntity">
+    	select * from tbl_user where user_code=#{userCode}
+    </select>
 </mapper>

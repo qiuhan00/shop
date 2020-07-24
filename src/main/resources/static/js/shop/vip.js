@@ -26,7 +26,65 @@ var VipCls = {
 		$(document).on("click", "#jq_btn_save", this.saveInfo);
 		$(document).on("click", ".jq_mdify", this.showModifyAddress);
 		$(document).on("click", ".jq_vipaddress_save", this.saveAddress);
+		$(document).on("click", ".jq_del", this.delAddress);
+		$(document).on("click", "#jq_vipsub", this.updatePwd);
+		$(document).on("click", "#jq_savemessage", this.saveMessage);
 		this.$changeMenu.on("click", this.changeMenu);
+	},
+	saveMessage:function(){
+		$.post("/vip/liveMessage", $("#jq_message").serialize(), function(data){
+			if(200 == data.code){
+				layer.msg("操作成功..",{icon:1,time:2000,shade:0.3},function(){
+					$(".jq_clear").val("");
+				});
+			}else{
+				layer.msg("系统异常，请稍候重试..",{icon:2,time:2000,shade:0.3});
+			}
+		})
+	},
+	updatePwd:function(){
+		var pwd1=$("#password").val();
+	    var pwd2=$("#rePassword").val();
+	    var oldPassword = $("#oldPassword").val();
+		if( pwd1 !== pwd2 || pwd1 < 1 ){
+			layer.msg("两次输入的密码不一样,请重新输入",{icon:2,time:2000,shade:0.3},function(){
+				$(".vipPwd1").focus();
+			});
+		}else{
+			$.post("/vip/updateUserPwd",{password:pwd1,oldPassword:oldPassword},function(data){
+				if(200 == data.code){
+					if(data.msg){
+						layer.msg(data.data, {icon:2,time:2000,shade:0.3},function(){
+							$("#oldPassword").focus();
+						});
+					}else{
+						layer.msg("操作成功..",{icon:1,time:2000,shade:0.3},function(){
+							$("#password,#rePassword").val("");
+						});
+					}
+				}else{
+					layer.msg("系统异常，请稍候重试..",{icon:2,time:2000,shade:0.3});
+				}
+			})
+		}
+	},
+	delAddress:function(){
+		var _this = $(this);
+		layer.confirm('确认删除?', {icon: 3, title:'提示'}, function(index){
+			var obj = new Object();
+			obj.type = 1;
+			obj.consigneeCode = _this.parent().attr("consigneecode");
+			$.post("/vip/delAddress", obj, function(data){
+				if(200 == data.code){
+					layer.msg("操作成功..",{icon:1,time:2000,shade:0.3},function(){
+						$(".jq_vip_cur[viewName='vipAddressRight']").trigger("click");
+					});
+				}else{
+					layer.msg("系统异常，请稍候重试..",{icon:2,time:2000,shade:0.3});
+				}
+			});
+			layer.close(index);
+		});
 	},
 	saveAddress:function(){
 		var obj = new Object();

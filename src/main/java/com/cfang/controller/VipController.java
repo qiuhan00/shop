@@ -78,8 +78,13 @@ public class VipController {
 	
 	@PostMapping("updateUserPwd")
 	public void updateUserPwd(UserInfoDto userEntity, HttpServletResponse response, UserRegisterDto dto) {
-		userService.updateUserPwd(dto);
-		FlushUtil.success(true, response);
+		dto.setUserCode(userEntity.getUserCode());
+		int result = userService.updateUserPwd(dto);
+		if(2 == result) {
+			FlushUtil.success("原密码错误", response);
+		}else {
+			FlushUtil.success(true, response);
+		}
 	}
 	
 	@GetMapping("toView")
@@ -100,6 +105,13 @@ public class VipController {
 	public void saveOrUpdateAddress(HttpServletResponse response, UserInfoDto userinfo, UserAddressEntity userAddress) {
 		userAddress.setUserCode(userinfo.getUserCode());
 		userService.saveOrUpdateAddress(userAddress);
+		FlushUtil.success(true, response);
+	}
+	
+	@PostMapping("delAddress")
+	public void delAddress(HttpServletResponse response, UserInfoDto userinfo, UserAddressEntity userAddress) {
+		userAddress.setUserCode(userinfo.getUserCode());
+		userService.delAddress(userAddress);
 		FlushUtil.success(true, response);
 	}
 	

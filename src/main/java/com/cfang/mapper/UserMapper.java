@@ -17,4 +17,6 @@ public interface UserMapper extends CommonMapper<UserEntity> {
 	UserInfoDto selectUserByUserCode(String userCode);
 	
 	int updateUserPwd(UserRegisterDto dto);
+	
+	UserEntity selectUserEntityByUserCode(String userCode);
 }

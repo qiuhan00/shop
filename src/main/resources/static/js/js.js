@@ -98,18 +98,5 @@ $(window).scroll(function(){
                         }
 				
                 });
-	//会员中心修改密码验证
-	$(".vipSub").click(function(){
-		var pwd1=$(".vipPwd1").val();
-	    var pwd2=$(".vipPwd2").val();
-		if(pwd1!==pwd2||pwd1<1){
-			alert("两次输入的密码不一样,请重新输入");
-			$(".vipPwd1,.vipPwd2").val("");
-			}
-			else{
-				alert("恭喜您，修改成功！");
-				$(".vipPwd1,.vipPwd2").val("");
-				}
-		})
 	})
 	

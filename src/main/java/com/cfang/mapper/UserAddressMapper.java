@@ -18,4 +18,6 @@ public interface UserAddressMapper extends CommonMapper<UserAddressEntity>{
 	List<UserAddressEntity> selectByUserCode(String userCode);
 	
 	int updateAddress(UserAddressEntity entity);
+	
+	int delAddress(UserAddressEntity entity);
 }

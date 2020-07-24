@@ -127,7 +127,7 @@ a:hover{color:#F00;}
 .positions a:hover,.positions .posCur{color:#F00;}
 
 /*cont*/
-.cont{ background:#fff;padding:0 10px; position:relative;padding-top:10px;}
+.cont{ background:#fff;padding:0 10px; position:relative;padding-top:10px;min-height:420px;}
 .contLeft{width:176px;border:#7BC144 2px solid;float:left;padding-bottom:1px;}
 .leftPorNav{font-size:14px;}
 .leftPorNav li{height:36px;line-height:36px; position:relative;}
@@ -343,6 +343,8 @@ h1 .vipUp{font-size:14px;margin-left:40px;color:#F00; cursor:pointer;float:right
 .contactLeft li strong{font-size:16px;color:#666;}
 .contactRight{width:508px;float:right;}
 .contactRight h3{font-size:24px;color:#5e9f22;height:46px;line-height:46px; background:#f9f9f9;padding-left:10px;}
+
+.messageBody{width:220px;height:102px;}
 
 
 

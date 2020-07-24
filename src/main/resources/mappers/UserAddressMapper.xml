@@ -24,6 +24,10 @@
     	update tbl_user_address set <include refid="updateCol"/> where type='1' and consignee_code=#{consigneeCode}
     </update>
     
+    <delete id="delAddress" parameterType="UserAddressEntity">
+    	delete from tbl_user_address where type=#{type} and consignee_code=#{consigneeCode} and user_code=#{userCode}
+    </delete>
+    
     <sql id="updateCol">
     	create_time=now(),update_time=now(),province_code=#{provinceCode},province_name=#{provinceName},city_code=#{cityCode},
     	city_name=#{cityName},county_code=#{countyCode},county_name=#{countyName},town_code=#{townCode},town_name=#{townName},address_detail=#{addressDetail},

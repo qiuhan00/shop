@@ -23,4 +23,6 @@ public interface UserService {
 	List<UserAddressEntity> selectByUserCode(String userCode);
 	
 	int saveOrUpdateAddress(UserAddressEntity entity);
+	
+	int delAddress(UserAddressEntity entity);
 }

@@ -19,6 +19,8 @@ import com.cfang.mapper.UserMapper;
 import com.cfang.service.UserService;
 import com.cfang.utils.IdWorker;
 
+import cn.hutool.system.UserInfo;
+
 @Service
 public class UserServiceImpl implements UserService{
 
@@ -53,6 +55,10 @@ public class UserServiceImpl implements UserService{
 
 	@Override
 	public int updateUserPwd(UserRegisterDto dto) {
+		UserEntity user = userMapper.selectUserEntityByUserCode(dto.getUserCode());
+		if(!dto.getOldPassword().equals(user.getPassword())) {
+			return 2;
+		}
 		return userMapper.updateUserPwd(dto);
 	}
 	
@@ -85,6 +91,11 @@ public class UserServiceImpl implements UserService{
 			result = userAddressMapper.insert(entity);
 		}
 		return result;
+	}
+
+	@Override
+	public int delAddress(UserAddressEntity entity) {
+		return userAddressMapper.delAddress(entity);
 	}
 	
 }
