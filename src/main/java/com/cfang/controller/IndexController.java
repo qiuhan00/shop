@@ -44,6 +44,7 @@ public class IndexController {
 		List<ProductEntity> recProducts = productService.selectIndexNav(3);
 		model.addAttribute("recProducts", recProducts);
 		model.addAttribute("user", user);
+		model.addAttribute("optflag", 0);
 		return "index";
 	}
 	

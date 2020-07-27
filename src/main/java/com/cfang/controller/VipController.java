@@ -42,6 +42,7 @@ public class VipController {
 	@GetMapping("toVip")
 	public String toVip(UserInfoDto userEntity, Model model) {
 		model.addAttribute("user", userEntity);
+		model.addAttribute("optflag", 2);
 		return "user/vipCommon";
 	}
 	

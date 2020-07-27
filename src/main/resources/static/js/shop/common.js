@@ -6,7 +6,8 @@ var CommonCls = {
 		this.initContent();
 	},
 	initContent:function(){
-		
+		$(".jq_navCur").removeClass("navCur");
+		$(".jq_navCur").eq($(".jq_optflag").val()).addClass("navCur");
 	},
 	initData:function(){
 		this.statUserCart();
@@ -15,16 +16,18 @@ var CommonCls = {
 	},
 	initNode:function(){
 		this.$toIndex = $(".jq_to_index");
-		this.$toCart = $("#toCart");
-		this.$toSearch = $("#jq_tosearch");
+		this.$toCart = $(".toCart");
+		this.$toSearch = $(".jq_tosearch");
 		this.$searchItem = $(".jq_search_item");
 		this.$hotSearch = $("#jq_hot_search");
 		this.$toVip = $(".jq_toVip");
+		this.$toReg = $(".jq_toReg");
 	},
 	bindEvent:function(){
 		this.$toCart.on("click", this.toCart);
 		this.$toIndex.on("click", this.toIndex);
 		this.$toSearch.on("click", this.toSearch);
+		this.$toReg.on("click", this.toReg);
 		$("#jq_toOut").on("click", this.logout);
 		$(document).on("click", ".jq_search_item", this.searchItem);
 		$(document).on("click", ".jq_proinfo", this.proinfo);
@@ -34,6 +37,11 @@ var CommonCls = {
 		$(".jq_vipopt").on("click", function(){
 			window.location.href = "/vip/toView?viewName=" + $(this).attr("type");
 		})
+		$(".jq_toLogin").on("click", function(){window.location.href = "/user/toRedirect/login";});
+		$(".jq_to_help").on("click", function(){window.location.href = "/help/toHelp";});
+	},
+	toReg:function(){
+		window.location.href = "/user/toRedirect/reg";
 	},
 	MenuMouseEnter:function(){
 		$(this).addClass("inProNavStyle");
@@ -58,8 +66,11 @@ var CommonCls = {
 		CommonCls.toSearch();
 	},
 	toSearch:function(){
-		var searchVal = CommonCls.$hotSearch.val();
-		window.location.href = "/product/searchPro/1/" + searchVal;
+		var searchVal = "";
+		if($(this).attr("type") != 'all'){
+			var searchVal = CommonCls.$hotSearch.val();
+		}
+		window.location.href = "/product/searchPro/1?searchVal=" + searchVal;
 	},
 	statUserCart:function(){
 		$.ajax({

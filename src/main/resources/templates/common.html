@@ -1,6 +1,6 @@
 <!-- top -->
 <div th:fragment="top">
-   <span th:if="${user==null}">您好！欢迎来到e-shop商城 请&nbsp;<a id="jq_toLogin" style="cursor:pointer;">[登录]</a>&nbsp;<a id="jq_toReg" style="cursor:pointer;">[注册]</a></span>
+   <span th:if="${user==null}">您好！欢迎来到e-shop商城 请&nbsp;<a class="jie_1 jq_toLogin">[登录]</a>&nbsp;<a class="jie_1 jq_toReg">[注册]</a></span>
    <span th:if="${user!=null}"><span th:text="${user.userName}"></span>您好！欢迎来到e-shop商城 &nbsp;<a id="jq_toOut" style="cursor:pointer;">[退出]</a></span>
    <span class="topRight">
     <a href="vip.html">我的</a>&nbsp;| 
@@ -24,9 +24,9 @@
    <div class="inHLeft">
     <h4>会员服务</h4>
     <ul class="inHeList">
-     <li><a href="reg.html">会员注册</a></li>
-     <li><a href="login.html">会员登录</a></li>
-     <li><a href="order.html">购物车</a></li>
+     <li><a class="jie_1 jq_toReg">会员注册</a></li>
+     <li><a class="jie_1 jq_toLogin">会员登录</a></li>
+     <li><a class="jie_1 toCart">购物车</a></li>
      <li><a href="order.html">我的订单</a></li>
      <div class="clears"></div>
     </ul><!--inHeList/-->
@@ -49,7 +49,7 @@
    <a href="order.html">我的订单</a>&nbsp;|&nbsp;
    <a href="new.html">新闻动态</a>&nbsp;|&nbsp;
    <a href="login.html">会员中心</a>&nbsp;|&nbsp;
-   <a href="help.htmll">帮助中心</a>
+   <a class="jie_1 jq_to_help">帮助中心</a>
    </p>
    <p>
     版权所有：上海17实业有限公司 版权所有  Copyright 2010-2015   沪ICP备00000000号   <a href="http://www.mycodes.net/" target="_blank">源码之家</a>   
@@ -70,10 +70,11 @@
    </div><!--pntLeft/-->
    <div class="pntRight">
     <ul class="nav">
-     <li class="navCur"><a href="index.html">商城首页</a></li>
-     <li><a href="product.html">促销中心</a></li>
-     <li><a href="login.html">会员中心</a></li>
-     <li><a href="help.html">帮助中心</a></li>
+     <input type="hidden" class="jq_optflag" th:value="${optflag}"/>
+     <li class="jq_navCur"><a class="jie_1 jq_to_index">商城首页</a></li>
+     <li class="jq_navCur"><a class="jie_1 jq_tosearch" type="all">产品中心</a></li>
+     <li class="jq_navCur"><a class="jie_1 jq_toVip">会员中心</a></li>
+     <li class="jq_navCur"><a class="jie_1 jq_to_help">帮助中心</a></li>
      <div class="clears"></div>
      <div class="phone">TEL：021-12345678</div>
     </ul><!--nav/-->
@@ -92,8 +93,8 @@
    <h1 class="logo"><a class="jie_1 jq_to_index"><img th:src="@{/images/logo.png}" width="217" height="90" /></a></h1>
    <div action="#" method="get" class="subBox">
     <div class="subBoxDiv">
-     <input type="text" class="subLeft" id="jq_hot_search" placeholder="输入搜索关键字"/>
-     <input type="image" th:src="@{/images/subimg.png}" width="63" height="34" class="sub" id="jq_tosearch"/>
+     <input type="text" class="subLeft" id="jq_hot_search" placeholder="输入搜索关键字" th:value="${pname}"/>
+     <input type="image" th:src="@{/images/subimg.png}" width="63" height="34" class="sub jq_tosearch"/>
      <div class="hotWord">
       热门搜索：
       <a  th:fragment="hot_product" th:each="item:${hotProducts}" th:text="${item.title}" th:pcode="${item.productCode}" style="margin-left:5px;cursor:pointer;" class="jq_search_item"></a>
@@ -106,7 +107,7 @@
      <img th:src="@{/images/gouimg.png}" width="19" height="20" style="position:relative;top:6px;" />&nbsp;|&nbsp;
      <strong class="red" id="jq_cartNum">0</strong>&nbsp;件&nbsp;|
      ￥<strong class="red" id="jq_cartTotal"> 0.00</strong> 
-     <a id="toCart" style="cursor:pointer;">去结算</a> <img th:src="@{/images/youjian.jpg}" width="5" height="8" />    
+     <a class="jie_1 toCart">去结算</a> <img th:src="@{/images/youjian.jpg}" width="5" height="8" />    
     </div><!--gouCar/-->
     <div class="myChunlv">
      <a class="jie_1 jq_toVip"><img th:src="@{/images/mychunlv.jpg}" width="112" height="34" /></a>
@@ -128,10 +129,11 @@
    </div><!--pntLeft/-->
    <div class="pntRight">
     <ul class="nav">
-     <li><a href="index.html">商城首页</a></li>
-     <li class="navCur"><a href="#">促销中心</a></li>
-     <li><a href="login.html">会员中心</a></li>
-     <li><a href="help.html">帮助中心</a></li>
+     <input type="hidden" class="jq_optflag" th:value="${optflag}"/>
+     <li class="jq_navCur"><a class="jie_1 jq_to_index">商城首页</a></li>
+     <li class="jq_navCur"><a class="jie_1 jq_tosearch" type="all">产品中心</a></li>
+     <li class="jq_navCur"><a class="jie_1 jq_toVip">会员中心</a></li>
+     <li class="jq_navCur"><a class="jie_1 jq_to_help">帮助中心</a></li>
      <div class="clears"></div>
      <div class="phone">TEL：021-12345678</div>
     </ul><!--nav/-->

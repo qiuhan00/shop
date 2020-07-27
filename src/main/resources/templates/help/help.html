@@ -1,0 +1,57 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>e-shop</title>
+<link type="text/css" th:href="@{/css/css.css}" rel="stylesheet" />
+<script type="text/javascript" th:src="@{/js/jquery.js}"></script>
+<script type="text/javascript" th:src="@{/js/js.js}"></script>
+<script type="text/javascript" th:src="@{http://api.map.baidu.com/api?key=&v=1.1&services=true}"></script>
+<script type="text/javascript" th:src="@{/js/shop/common.js}"></script>
+<script type="text/javascript" th:src="@{/js/shop/help.js}"></script>
+</head>
+
+<body>
+ <div class="mianCont">
+  <div class="top" th:include="common::top"></div>
+  <div class="lsg" th:include="common::lsg"></div>
+  <div class="pnt" th:include="common::pnt2"></div>
+  <div class="positions">
+   当前位置：<a class="jie_1 jq_to_index">首页</a> &gt; <a href="#" class="posCur">帮助中心</a>
+  </div><!--positions/-->
+  <div class="cont">
+   <div class="contLeft" id="contLeft">
+    <h3 class="leftTitle">帮助中心</h3>
+    <dl class="helpNav">
+     <dt class="help1">常见问题</dt>
+      <dd><a class="jie_1 jq_to_helpdetail" viewName="base">顾客须知</a></dd>
+      <dd><a class="jie_1 jq_to_helpdetail" viewName="base">购物流程</a></dd>
+      <dd><a class="jie_1 jq_to_helpdetail" viewName="base">订单的几种状态</a></dd>
+      <dd><a class="jie_1 jq_to_helpdetail" viewName="base">非会员购物通道</a></dd>
+      <dd><a class="jie_1 jq_to_helpdetail" viewName="base">网站使用条款</a></dd>
+      <dd><a class="jie_1 jq_to_helpdetail" viewName="base">网站免责声明</a></dd>
+     <dt class="help2">支付配送</dt>
+      <dd><a class="jie_1 jq_to_helpdetail" viewName="base">支付方式</a></dd>
+      <dd><a class="jie_1 jq_to_helpdetail" viewName="base">配送方式</a></dd>
+      <dd><a class="jie_1 jq_to_helpdetail" viewName="base">网付说明</a></dd>
+     <dt class="help3">订单售后</dt>
+      <dd><a class="jie_1 jq_to_helpdetail" viewName="base">订单出库</a></dd>
+      <dd><a class="jie_1 jq_to_helpdetail" viewName="base">送货签收</a></dd>
+      <dd><a class="jie_1 jq_to_helpdetail" viewName="base">退货说明</a></dd>
+      <dd><a class="jie_1 jq_to_helpdetail" viewName="base">联系客服</a></dd>
+     <dt class="help4">关于我们</dt>
+      <dd><a class="jie_1 jq_to_helpdetail" viewName="base">e-shop官网</a></dd>
+      <dd><a class="jie_1 jq_to_helpdetail" viewName="contactUs">联系方式</a></dd>
+      <dd><a class="jie_1 jq_to_helpdetail" viewName="about">企业简介</a></dd>
+    </dl><!--helpNav/-->
+   </div><!--contLeft/-->
+   <div class="vipContRight" id="jq_helpcontright">
+   </div><!--contRight/-->
+   <div class="clears"></div>
+  </div><!--cont/-->
+   <div class="inHelp" th:include="common::inHelp"></div>
+  <div class="footer" th:include="common::footer"></div><!--footer/-->
+ </div><!--mianCont/-->
+ <a href="#" class="backTop">&nbsp;</a>
+</body>
+</html>

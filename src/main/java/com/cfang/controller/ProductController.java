@@ -46,17 +46,19 @@ public class ProductController {
 		return "user/proinfo";
 	}
 	
-	@GetMapping("searchPro/{type}/{pname}")
-	public String searchPro(@PathVariable("type") String type, @PathVariable("pname") String pname, Model model, UserInfoDto user) {
+	@GetMapping("searchPro/{type}")
+	public String searchPro(@PathVariable("type") String type, String searchVal, Model model, UserInfoDto user) {
 		List<ProductEntity> list = Lists.newArrayList();
 		if("0".equals(type)) { //首页分类产品更多
-			list = productService.selectByOneCataLogId(Integer.parseInt(pname));
+			list = productService.selectByOneCataLogId(Integer.parseInt(searchVal));
+			searchVal = "";
 		}else { //根据产品名搜索
-			list = productService.selectByName(pname);
+			list = productService.selectByName(searchVal);
 		}
 		model.addAttribute("product", list);
 		model.addAttribute("user", user);
-		model.addAttribute("pname", pname);
+		model.addAttribute("pname", searchVal);
+		model.addAttribute("optflag", 1);
 		return "user/product";
 	}
 	

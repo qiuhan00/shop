@@ -14,13 +14,10 @@ var IndexCls = {
 	},
 	initNode:function(){
 		this.$productLi = $(".click_item");
-		this.$toReg = $("#jq_toReg");
 		this.$catalogMore = $(".jq_catalog_more");
 	},
 	bindEvent:function(){
 		this.$productLi.on("click", this.clickItem);
-		this.$toReg.on("click", this.toReg);
-		$("#jq_toLogin").on("click", function(){window.location.href = "/user/toRedirect/login";});
 		this.$catalogMore.on("click", this.catalogMore);
 	},
 	clickItem:function(){
@@ -45,12 +42,9 @@ var IndexCls = {
 			}
 		});
 	},
-	toReg:function(){
-		window.location.href = "/user/toRedirect/reg";
-	},
 	catalogMore:function(){
 		var catalogid = $(this).attr("catalogid");
-		window.location.href = "/product/searchPro/0/" +　catalogid;
+		window.location.href = "/product/searchPro/0?searchVal=" +　catalogid;
 	}
 }
 

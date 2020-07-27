@@ -16,7 +16,7 @@ var VipCls = {
 		this.$vipUp = $(".vipUp");
 		this.$cancle = $(".jq_vip_modcancle");
 		this.$area = $(".jq_area");
-		this.$save = $("#jq_btn_save");
+		this.$save = $("#jq_btn_save");	
 		this.$changeMenu = $(".jq_vip_cur");
 	},
 	bindEvent:function(){

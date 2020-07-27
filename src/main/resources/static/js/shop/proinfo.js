@@ -6,7 +6,7 @@ var ProInfoCls = {
 		this.initContent();
 	},
 	initContent:function(){
-		
+
 	},
 	initData:function(){
 		
