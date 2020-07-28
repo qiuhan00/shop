@@ -3,6 +3,7 @@ package com.cfang.service;
 import java.util.Map;
 import java.util.Random;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -35,8 +36,11 @@ public class SendMessageService {
 	RestTemplate restTemplate;
 	
 	public boolean sendMessage(String phone) {
-		String code = getCode(6);
-		String content = "您的验证码为： " + code + ",2分钟内有效。如非本人操作，请忽略【ET】";
+		String code = (String) redisService.get(phone);
+		if(StringUtils.isBlank(code)) {
+			code = getCode(6);
+		}
+		String content = "您的验证码为： " + code + ",2分钟内有效。如非本人操作，请忽略";
 		MultiValueMap<String, String> param = new LinkedMultiValueMap<String, String>();
 		param.add("content", content);
 		param.add("Account", appId);
@@ -47,6 +51,9 @@ public class SendMessageService {
 		JSONObject object = JSONObject.parseObject(json);
 		int retCode = (int) object.get("Code");
 		if(0 == retCode) {
+			/*
+			 * 验证码存redis并设置有效期，验证时直接redis中取值，能取到则进行比较，取不到则表明验证码已过期，需重新发送
+			 */
 			redisService.set(phone, code, 60 * 2);
 			return true;
 		}

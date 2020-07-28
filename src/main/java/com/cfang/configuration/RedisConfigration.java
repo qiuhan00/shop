@@ -5,7 +5,11 @@ import java.time.Duration;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.CacheManager;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.cache.annotation.CachingConfigurerSupport;
+import org.springframework.cache.interceptor.KeyGenerator;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.cache.RedisCacheConfiguration;
@@ -42,7 +46,7 @@ public class RedisConfigration extends CachingConfigurerSupport{
 	@Bean
 	public CacheManager cacheManager() {
 		RedisCacheConfiguration redisCacheConfiguration = RedisCacheConfiguration.defaultCacheConfig()
-				.entryTtl(Duration.ofHours(1)) //缓存一个小时
+				.entryTtl(Duration.ofHours(1)) //默认缓存一个小时，未配置有效期的key使用
 				.serializeKeysWith(RedisSerializationContext.SerializationPair.fromSerializer(new StringRedisSerializer()))//StringRedisSerializer序列化和反序列化key
 				.serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(serializer()))//Jackson2JsonRedisSerializer序列化和反序列化value
 				.disableCachingNullValues();//禁用空值
@@ -63,6 +67,31 @@ public class RedisConfigration extends CachingConfigurerSupport{
         redisTemplate.setHashValueSerializer(serializer());
         redisTemplate.afterPropertiesSet();
         return redisTemplate;
+	}
+	
+	@Bean
+    public KeyGenerator keyGenerator() {
+        return (target, method, params) -> {
+            StringBuilder sb = new StringBuilder();
+            String[] value = new String[1];
+            Cacheable cacheable = method.getAnnotation(Cacheable.class);
+            if (cacheable != null) {
+                value = cacheable.value();
+            }
+            CachePut cachePut = method.getAnnotation(CachePut.class);
+            if (cachePut != null) {
+                value = cachePut.value();
+            }
+            CacheEvict cacheEvict = method.getAnnotation(CacheEvict.class);
+            if (cacheEvict != null) {
+                value = cacheEvict.value();
+            }
+            sb.append(value[0]);
+            for (Object obj : params) {
+                sb.append(":").append(obj.toString());
+            }
+            return sb.toString();
+        };
 	}
 	
 	private Jackson2JsonRedisSerializer<Object> serializer() {
