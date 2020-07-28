@@ -15,7 +15,7 @@ import com.cfang.service.UserService;
  * @description：
  * @author cfang 2020年7月17日
  */
-public class MapAreaServiceTest extends CommonTest{
+public class MapAreaServiceTest extends BaseTest{
 	
 	@Autowired
 	private MapAreaService mapAreaService;

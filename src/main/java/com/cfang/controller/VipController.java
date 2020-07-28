@@ -124,4 +124,8 @@ public class VipController {
 		FlushUtil.success(result, response);
 	}
 	
+	@GetMapping("sendMessage")
+	public void sendMessage(UserInfoDto user, String phone, HttpServletResponse response) {
+		
+	}
 }

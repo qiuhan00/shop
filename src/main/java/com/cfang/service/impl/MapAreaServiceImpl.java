@@ -13,6 +13,8 @@ import java.util.concurrent.Executors;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -69,7 +71,12 @@ public class MapAreaServiceImpl implements MapAreaService{
 	@Autowired
 	RestTemplate restTemplate;
 	
+	/**
+	 * @CacheEvict 删除缓存
+	 * allEntries - 删除 value 缓存名标识下的所有缓存，默认false
+	 */
 	@Override
+	@CacheEvict(value = "areas", allEntries = true)
 	public void updateMapArea() {
 		try {
 			String json = restTemplate.getForObject(url, String.class);
@@ -157,11 +164,13 @@ public class MapAreaServiceImpl implements MapAreaService{
 	}
 
 	@Override
+	@Cacheable(cacheNames = "areas", key = "'provinces'")
 	public List<Province> getProvinces() {
 		return provinceMapper.selectAll();
 	}
 
 	@Override
+	@Cacheable(cacheNames = "areas", key = "'citys'")
 	public List<City> getCities(String provinceCode) {
 		Example example = new Example(City.class);
 		Criteria criteria = example.createCriteria();
@@ -170,6 +179,7 @@ public class MapAreaServiceImpl implements MapAreaService{
 	}
 
 	@Override
+	@Cacheable(cacheNames = "areas", key = "'countys'")
 	public List<County> getCounties(String cityCode) {
 		Example example = new Example(County.class);
 		Criteria criteria = example.createCriteria();
@@ -178,6 +188,7 @@ public class MapAreaServiceImpl implements MapAreaService{
 	}
 
 	@Override
+	@Cacheable(cacheNames = "areas", key = "'towns'")
 	public List<Town> getTowns(String countyCode) {
 		Example example = new Example(Town.class);
 		Criteria criteria = example.createCriteria();

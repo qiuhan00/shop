@@ -7,6 +7,7 @@ import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.nio.charset.Charset;
 
+import javax.annotation.Resource;
 import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -26,6 +27,7 @@ import com.cfang.dto.UserInfoDto;
 import com.cfang.dto.UserLoginDto;
 import com.cfang.dto.UserRegisterDto;
 import com.cfang.entity.UserEntity;
+import com.cfang.service.RedisService;
 import com.cfang.service.UserService;
 import com.cfang.utils.FlushUtil;
 import com.cfang.utils.RandomValidateCodeUtil;
@@ -42,6 +44,8 @@ public class UserController {
 	
 	@Autowired
 	private UserService userService;
+	@Autowired
+	private RedisService redisService;
 
 	@GetMapping("toRedirect/{toView}")
 	public String toRegister(@PathVariable("toView") String toView, String toUrl, Model model) throws Exception {

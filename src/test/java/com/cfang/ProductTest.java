@@ -17,7 +17,7 @@ import com.cfang.service.CataLogService;
  * describe：
  * @author cfang 2020-7-8
  */
-public class ProductTest extends CommonTest{
+public class ProductTest extends BaseTest{
 	
 	@Autowired
 	ProductMapper productMapper;

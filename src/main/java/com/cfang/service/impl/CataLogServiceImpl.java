@@ -27,7 +27,7 @@ public class CataLogServiceImpl implements CataLogService{
 	private ProductMapper productMapper;
 	
 	@Override
-//	@Cacheable(value = "catalogs", key = "#root.targetClass")
+	@Cacheable(value = "catalogs", key = "'catalogs'")
 	public List<IndexProductTree> selectIndexProduct() {
 		List<CatalogEntity> catalogs = cataLogMapper.selectAll();
 		return assembly(catalogs);
