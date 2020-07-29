@@ -3,6 +3,9 @@ package com.cfang;
 import java.nio.charset.Charset;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.ApplicationArguments;
+import org.springframework.boot.ApplicationRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.data.jpa.JpaRepositoriesAutoConfiguration;
@@ -11,15 +14,20 @@ import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.StringHttpMessageConverter;
+import org.springframework.scheduling.annotation.Async;
+import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.web.client.RestTemplate;
+
+import com.cfang.service.MapAreaService;
 
 import tk.mybatis.spring.annotation.MapperScan;
 
 @SpringBootApplication(exclude = {JpaRepositoriesAutoConfiguration.class})
 @MapperScan(basePackages = "com.cfang.mapper")
 @EnableCaching
+@EnableAsync
 @ServletComponentScan(basePackages = "com.cfang.filter")
-public class ShopApplication {
+public class ShopApplication implements ApplicationRunner{
 
 	public static void main(String[] args) {
 		SpringApplication.run(ShopApplication.class, args);
@@ -34,6 +42,16 @@ public class ShopApplication {
 		restTemplate.setMessageConverters(converterList);
     	return restTemplate;
     }
+
+    @Autowired
+    MapAreaService mapAreaService;
+    
+	@Override
+	@Async
+	public void run(ApplicationArguments args) throws Exception {
+		//预热加载地区信息
+		mapAreaService.initArea();
+	}
 	
 //	@Override
 //	public void addResourceHandlers(ResourceHandlerRegistry registry) {

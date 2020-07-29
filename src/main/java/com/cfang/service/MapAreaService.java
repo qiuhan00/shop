@@ -25,4 +25,5 @@ public interface MapAreaService {
 	
 	List<Town> getTowns(String countyCode);
 
+	void initArea();
 }

@@ -34,6 +34,7 @@ import com.cfang.mapper.TownMapper;
 import com.cfang.mapper.UserAddressMapper;
 import com.cfang.mapper.UserMapper;
 import com.cfang.service.MapAreaService;
+import com.cfang.service.RedisService;
 
 import lombok.val;
 import lombok.extern.slf4j.Slf4j;
@@ -70,6 +71,8 @@ public class MapAreaServiceImpl implements MapAreaService{
 	private UserAddressMapper userAddressMapper;
 	@Autowired
 	RestTemplate restTemplate;
+	@Autowired
+	RedisService redisService;
 	
 	/**
 	 * @CacheEvict 删除缓存
@@ -201,6 +204,13 @@ public class MapAreaServiceImpl implements MapAreaService{
 			obj.setAdCode(obj.getId()+"");
 		});
 		return list;
+	}
+
+	@Override
+	public void initArea() {
+		 List<Province> provinces = provinceMapper.selectAll();
+		 redisService.set("areas::provinces", provinces, 60);
+		 log.info("=======预热加载地区信息完成===========");
 	}
 
 }
