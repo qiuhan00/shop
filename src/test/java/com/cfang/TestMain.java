@@ -3,6 +3,7 @@ package com.cfang;
 import java.nio.charset.Charset;
 
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.web.client.RestTemplate;
 
 import com.cfang.common.ShopConstants;
 
@@ -24,6 +25,7 @@ public class TestMain {
 		System.out.println(ShopConstants.errorCode.INVALID_PARAM);
 		System.out.println(ShopConstants.errorCode.INVALID_PARAM.getCode());
 		System.out.println(ShopConstants.errorCode.INVALID_PARAM.getMsg());
+		
 	}
 	
 	private static String desensitizedPhoneNumber(String phoneNumber){

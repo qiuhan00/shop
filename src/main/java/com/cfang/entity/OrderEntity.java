@@ -12,7 +12,7 @@ import lombok.Data;
 @Table(name = "tbl_order")
 public class OrderEntity extends BaseEntity{
 
-	private Integer userId;
+	private Integer userCode;
 	private String status;// 订单状态
 	private String refundStatus;
 	private String paystatus;// 订单支付状态：n-未支付、y-已支付

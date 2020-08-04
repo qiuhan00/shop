@@ -1,5 +1,6 @@
 package com.cfang.service;
 
+import java.util.Arrays;
 import java.util.Map;
 import java.util.Random;
 
@@ -11,9 +12,17 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.cfang.dto.SendMessageDto;
 import com.cfang.utils.RandomValidateCodeUtil;
 import com.google.common.collect.Maps;
+import com.tencentcloudapi.common.Credential;
+import com.tencentcloudapi.common.profile.ClientProfile;
+import com.tencentcloudapi.common.profile.HttpProfile;
+import com.tencentcloudapi.sms.v20190711.SmsClient;
+import com.tencentcloudapi.sms.v20190711.models.SendSmsRequest;
+import com.tencentcloudapi.sms.v20190711.models.SendSmsResponse;
 
 /**
  * @description：
@@ -30,10 +39,45 @@ public class SendMessageService {
 	private String url;
 	@Value("${dx.signid}")
 	private String signId;
+	@Value("${dx.secretId}")
+	private String secretId;
+	@Value("${dx.secretKey}")
+	private String secretKey;
+	@Value("${dx.region}")
+	private String region;
 	@Autowired
 	private RedisService redisService;
 	@Autowired
 	RestTemplate restTemplate;
+	
+	public boolean sendMessageByTx(String phone) {
+		try {
+			Credential credential = new Credential(secretId, secretKey);
+			HttpProfile httpProfile = new HttpProfile();
+			httpProfile.setEndpoint(url);
+			ClientProfile clientProfile = new ClientProfile();
+			clientProfile.setHttpProfile(httpProfile);
+			SmsClient smsClient = new SmsClient(credential, region, clientProfile);
+			SendMessageDto dto = new SendMessageDto();
+			dto.setPhoneNumberSet(phone);
+			dto.setSign("一方之见");
+			dto.setSmsSdkAppid("1400407375");
+			dto.setTemplateID("677713");
+			String code = (String) redisService.get(phone);
+			if(StringUtils.isBlank(code)) {
+				code = getCode(6);
+			}
+			dto.setTemplateParamSet(code);
+			SendSmsRequest sendSmsRequest = SendSmsRequest.fromJsonString(JSON.toJSONString(dto), SendSmsRequest.class);
+			SendSmsResponse response = smsClient.SendSms(sendSmsRequest);
+			System.out.println(SendSmsResponse.toJsonString(response));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		
+		return false;
+	}
 	
 	public boolean sendMessage(String phone) {
 		String code = (String) redisService.get(phone);

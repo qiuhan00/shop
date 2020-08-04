@@ -2,6 +2,7 @@ package com.cfang.configuration;
 
 import java.text.SimpleDateFormat;
 import java.time.Duration;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.CacheManager;
@@ -29,6 +30,7 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.jsontype.impl.LaissezFaireSubTypeValidator;
+import com.google.common.collect.Maps;
 
 /**
  * describe：
@@ -51,7 +53,9 @@ public class RedisConfigration extends CachingConfigurerSupport{
 				.serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(serializer()))//Jackson2JsonRedisSerializer序列化和反序列化value
 				.disableCachingNullValues();//禁用空值
         return RedisCacheManager.builder(RedisCacheWriter.nonLockingRedisCacheWriter(factory))
-        		.cacheDefaults(redisCacheConfiguration).build();
+        		.withInitialCacheConfigurations(this.getRedisCacheConfigurationMap()) //不同的有效期的缓存name，使用@Cacheable(cacheNames = "cacheTime30", key = "'towns'")
+        		.cacheDefaults(redisCacheConfiguration) //默认的缓存策略设置
+        		.build();
 	}
 	
 	@Bean
@@ -103,9 +107,9 @@ public class RedisConfigration extends CachingConfigurerSupport{
         //只序列化非空、非null属性字段
         mapper.setSerializationInclusion(Include.NON_EMPTY);
         /**
-         *  指定序列化输入的类型，类必须是非final修饰的，final修饰的类，比如String,Integer等会跑出异常
-         *  以下设置必须，作用是序列化时将对象全类名一起保存下来
-         *  设置之后序列化结果如下：[
+         *  	指定序列化输入的类型，类必须是非final修饰的，final修饰的类，比如String,Integer等会跑出异常
+         *  	以下设置必须，作用是序列化时将对象全类名一起保存下来
+         *  	设置之后序列化结果如下：[
 		 *						    "com.cfang.entity.UserEntity",
 		 *						    {
 		 *						        "name": "1",
@@ -131,5 +135,22 @@ public class RedisConfigration extends CachingConfigurerSupport{
         mapper.setDateFormat(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"));
         jacksonSeial.setObjectMapper(mapper);
         return jacksonSeial;
+	}
+	
+	private RedisCacheConfiguration getRedisCacheConfigurationWithTtl(Integer seconds) {
+		RedisCacheConfiguration redisCacheConfiguration = RedisCacheConfiguration.defaultCacheConfig()
+				.entryTtl(Duration.ofSeconds(seconds)) //配置有效期
+				.serializeKeysWith(RedisSerializationContext.SerializationPair.fromSerializer(new StringRedisSerializer()))//StringRedisSerializer序列化和反序列化key
+				.serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(serializer()))//Jackson2JsonRedisSerializer序列化和反序列化value
+				.disableCachingNullValues();//禁用空值
+		return redisCacheConfiguration;
+	}
+	
+	private Map<String, RedisCacheConfiguration> getRedisCacheConfigurationMap(){
+		Map<String, RedisCacheConfiguration> map = Maps.newHashMap();
+		map.put("cacheTime30", this.getRedisCacheConfigurationWithTtl(30 * 60));
+		map.put("cacheTime60", this.getRedisCacheConfigurationWithTtl(60 * 60));
+		map.put("cacheTime90", this.getRedisCacheConfigurationWithTtl(90 * 60));
+		return map;
 	}
 }

@@ -66,10 +66,6 @@ public class MapAreaServiceImpl implements MapAreaService{
 	@Autowired
 	private TownMapper townMapper;
 	@Autowired
-	private UserMapper userMapper;
-	@Autowired
-	private UserAddressMapper userAddressMapper;
-	@Autowired
 	RestTemplate restTemplate;
 	@Autowired
 	RedisService redisService;
@@ -197,7 +193,7 @@ public class MapAreaServiceImpl implements MapAreaService{
 		Criteria criteria = example.createCriteria();
 		criteria.andEqualTo("countyCode", countyCode);
 		List<Town> list = townMapper.selectByExample(example);
-		/**街道没有独立的adCode，所以选择使用自增的主键id作为替换
+		/** 街道没有独立的adCode，所以选择使用自增的主键id作为替换
 		 * 	也可以直接修改数据库中的adcode字段
 		 */
 		list.forEach(obj -> {
@@ -209,8 +205,8 @@ public class MapAreaServiceImpl implements MapAreaService{
 	@Override
 	public void initArea() {
 		 List<Province> provinces = provinceMapper.selectAll();
-		 redisService.set("areas::provinces", provinces, 60);
-		 log.info("=======预热加载地区信息完成===========");
+		 redisService.set("areas::provinces", provinces, 60 * 60);
+		 log.info("==========预热加载地区信息完成===========");
 	}
 
 }

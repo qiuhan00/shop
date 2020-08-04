@@ -45,6 +45,7 @@ public class CacheTest extends BaseTest{
 	
 	@Test
 	public void sendMessage() {
-		sendMessageService.sendMessage("15900665997");
+//		sendMessageService.sendMessage("15900665997");
+		sendMessageService.sendMessageByTx("15900665997");
 	}
 }
