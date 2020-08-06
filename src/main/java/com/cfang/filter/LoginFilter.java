@@ -25,7 +25,7 @@ public class LoginFilter implements Filter{
 	
 	private static final String[] excludeUrls = new String[] {"/user/toRedirect/login", "/user/userLogin", "/user/toRedirect/reg", "/shop", 
 			"/getProducts","/initCatalogTree", "/searchHotProduct","/user/validUserName", "/user/register","/user/getVerify",
-			"/user/checkVerify"};
+			"/user/checkVerify","/api"};
 	private static final String NO_LOGIN = "NO_LOGIN";
 
 	@Override

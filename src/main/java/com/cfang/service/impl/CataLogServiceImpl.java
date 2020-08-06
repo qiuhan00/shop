@@ -26,8 +26,13 @@ public class CataLogServiceImpl implements CataLogService{
 	@Autowired
 	private ProductMapper productMapper;
 	
+	/**
+	 * 	缓存过期之后，如果多个线程同时请求对某个数据的访问，会同时去到数据库，导致数据库瞬间负荷增高。
+	 *  Spring4.3为@Cacheable注解提供了一个新的参数“sync”（boolean类型，缺省为false），
+	 * 	当设置它为true时，只有一个线程的请求会去到数据库，其他线程都会等待直到缓存可用。这个设置可以减少对数据库的瞬间并发访问。
+	 */
 	@Override
-	@Cacheable(value = "catalogs", key = "'catalogs'")
+	@Cacheable(value = "catalogs", key = "'catalogs'", sync = true)
 	public List<IndexProductTree> selectIndexProduct() {
 		List<CatalogEntity> catalogs = cataLogMapper.selectAll();
 		return assembly(catalogs);
