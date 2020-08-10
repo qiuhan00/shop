@@ -12,16 +12,21 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.alibaba.fastjson.JSONObject;
 import com.cfang.dto.CartListDto;
 import com.cfang.dto.UserInfoDto;
 import com.cfang.entity.CartEntity;
+import com.cfang.entity.PayChannelEntity;
 import com.cfang.entity.ProductEntity;
+import com.cfang.entity.UserAddressEntity;
 import com.cfang.entity.UserEntity;
 import com.cfang.service.CartService;
+import com.cfang.service.OrderService;
 import com.cfang.service.ProductService;
+import com.cfang.service.UserService;
 import com.cfang.utils.FlushUtil;
 
 /**
@@ -36,6 +41,10 @@ public class OrderController {
 	private CartService cartService;
 	@Autowired
 	private ProductService productService;
+	@Autowired
+	private UserService userService;
+	@Autowired
+	OrderService orderService;
 	
 	@GetMapping("toCart")
 	public String toCart(HttpServletRequest request, Model model) {
@@ -84,5 +93,24 @@ public class OrderController {
 		object.put("number", number);
 		object.put("total", total);
 		FlushUtil.flushJsonByObject(object, response);
+	}
+	
+	@GetMapping("toOrder")
+	public String toOrder(UserInfoDto user, String cartIds, Model model) {
+		List<CartListDto> carts = cartService.selectCartsToOrder(cartIds);
+		int number = 0;
+		BigDecimal total = BigDecimal.ZERO;
+		for(CartListDto dto : carts) {
+			number += dto.getQuantity();
+			total = total.add(dto.getPrice().multiply(new BigDecimal(dto.getQuantity())));
+		}
+		model.addAttribute("number", number);
+		model.addAttribute("total", total);
+		model.addAttribute("carts", carts);
+		List<UserAddressEntity> address = userService.selectByUserCode(user.getUserCode());
+		model.addAttribute("address", address);
+		List<PayChannelEntity> paychannels = orderService.selectAllPays();
+		model.addAttribute("paychannels", paychannels);
+		return "user/order";
 	}
 }

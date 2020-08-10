@@ -206,7 +206,7 @@ public class MapAreaServiceImpl implements MapAreaService{
 	public void initArea() {
 		 List<Province> provinces = provinceMapper.selectAll();
 		 redisService.set("areas::provinces", provinces, 60 * 60);
-		 log.info("==========预热加载地区信息完成===========");
+		 log.info("==>初始化加载地区信息完成");
 	}
 
 }

@@ -1,5 +1,6 @@
 package com.cfang.service.impl;
 
+import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Service;
 import com.cfang.entity.ProductEntity;
 import com.cfang.mapper.ProductMapper;
 import com.cfang.service.ProductService;
+import com.google.common.collect.Lists;
 
 import javassist.compiler.ast.NewExpr;
 import tk.mybatis.mapper.entity.Example;
@@ -68,6 +70,12 @@ public class ProductServiceImpl implements ProductService{
 	public List<ProductEntity> selectByOneCataLogId(Integer cataLogId) {
 		List<ProductEntity> result = productMapper.selectByOneCataLogId(cataLogId);
 		return result;
+	}
+
+	@Override
+	public ProductEntity selectByProductCode(Long code) {
+		ProductEntity entity = productMapper.selectByProductCode(code);
+		return entity;
 	}
 
 }

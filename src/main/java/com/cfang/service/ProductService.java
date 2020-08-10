@@ -20,4 +20,6 @@ public interface ProductService {
 	ProductEntity selectById(int id);
 	
 	List<ProductEntity> selectByName(String productName);
+	
+	ProductEntity selectByProductCode(Long code);
 }

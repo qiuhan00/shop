@@ -13,5 +13,5 @@ public interface ProductMapper extends CommonMapper<ProductEntity>{
 
 	List<ProductEntity> selectByCataLogId(Integer cataLogId);
 	List<ProductEntity> selectByOneCataLogId(Integer cataLogId);
-	
+	ProductEntity selectByProductCode(Long code);
 }

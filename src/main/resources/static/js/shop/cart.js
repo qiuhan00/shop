@@ -13,10 +13,15 @@ var CartCls = {
 	},
 	initNode:function(){
 		this.$clearCart = $("#jq_clearCart");
+		this.$toOrder = $("#jq_to_order");
 	},
 	bindEvent:function(){
 		$(document).on("click", ".jq_del_item", this.delItem);
 		this.$clearCart.on("click", this.clearCart);
+		this.$toOrder.on("click", this.toOrder);
+	},
+	toOrder:function(){
+		window.location.href = "/order/toOrder?cartIds=27,28";
 	},
 	clearCart:function(){
 		$.ajax({

@@ -27,7 +27,7 @@ import tk.mybatis.spring.annotation.MapperScan;
 @EnableCaching
 @EnableAsync
 @ServletComponentScan(basePackages = "com.cfang.filter")
-public class ShopApplication implements ApplicationRunner{
+public class ShopApplication{
 
 	public static void main(String[] args) {
 		SpringApplication.run(ShopApplication.class, args);
@@ -43,16 +43,6 @@ public class ShopApplication implements ApplicationRunner{
     	return restTemplate;
     }
 
-    @Autowired
-    MapAreaService mapAreaService;
-    
-	@Override
-	@Async
-	public void run(ApplicationArguments args) throws Exception {
-		//预热加载地区信息
-		mapAreaService.initArea();
-	}
-	
 //	@Override
 //	public void addResourceHandlers(ResourceHandlerRegistry registry) {
 //		registry.addResourceHandler("/static/**").addResourceLocations(ResourceUtils.CLASSPATH_URL_PREFIX + "/static/");

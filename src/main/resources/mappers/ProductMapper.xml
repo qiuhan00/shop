@@ -9,4 +9,8 @@
 	    SELECT a.* FROM `tbl_product` a 
 		where exists(select code from tbl_catalog b where b.parent_code=#{id} and a.catalog_id=b.code)
     </select>
+     <select id="selectByProductCode" parameterType="long" resultType="ProductEntity">
+    	select * from tbl_product where product_code = #{code}
+    </select>
+    
 </mapper>

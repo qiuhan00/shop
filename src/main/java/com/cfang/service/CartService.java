@@ -18,4 +18,6 @@ public interface CartService {
 	boolean clearCart(Integer userId);
 	
 	List<CartListDto> selectUserCart(Integer userId);
+	
+	List<CartListDto> selectCartsToOrder(String cartIds);
 }
