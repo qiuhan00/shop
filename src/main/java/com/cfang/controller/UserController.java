@@ -23,11 +23,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.cfang.common.ApiIdempotent;
 import com.cfang.dto.UserInfoDto;
 import com.cfang.dto.UserLoginDto;
 import com.cfang.dto.UserRegisterDto;
 import com.cfang.entity.UserEntity;
 import com.cfang.service.RedisService;
+import com.cfang.service.TokenService;
 import com.cfang.service.UserService;
 import com.cfang.utils.FlushUtil;
 import com.cfang.utils.RandomValidateCodeUtil;
@@ -45,12 +47,13 @@ public class UserController {
 	@Autowired
 	private UserService userService;
 	@Autowired
-	private RedisService redisService;
+	TokenService tokenService;
 
 	@GetMapping("toRedirect/{toView}")
 	public String toRegister(@PathVariable("toView") String toView, String toUrl, Model model) throws Exception {
 		if(StringUtils.isNotBlank(toUrl)) {
 			model.addAttribute("toURL", URLEncoder.encode(toUrl, "utf-8"));
+			model.addAttribute("token", tokenService.createToken());
 		}
 		return "user/" + toView;
 	}
@@ -118,7 +121,8 @@ public class UserController {
 		}
 		FlushUtil.success(result, response);
 	}
-	
+		
+	@ApiIdempotent
 	@PostMapping("userLogin")
 	public void login(UserLoginDto dto, Model model, HttpServletRequest request, HttpServletResponse response) throws Exception{
 		UserInfoDto user = userService.loginUser(dto);

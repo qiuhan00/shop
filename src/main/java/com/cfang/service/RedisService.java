@@ -72,14 +72,19 @@ public class RedisService {
 	 * 删除缓存
 	 * @param key
 	 */
-	public void del(String ... key){
+	public boolean del(String ... key){
+		boolean result = false;
         if(null != key && key.length > 0){
             if(key.length==1){
-                redisTemplate.delete(key[0]);
+                result = redisTemplate.delete(key[0]);
             }else{
-                redisTemplate.delete(Arrays.asList(key));
+            	Long ret = redisTemplate.delete(Arrays.asList(key));
+            	if(ret == Arrays.asList(key).size()) {
+            		result = true;
+            	}
             }
         }
+        return result;
     }
 	//============================String=============================
 	/**

@@ -3,6 +3,7 @@ package com.cfang.controller;
 import java.lang.reflect.Method;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -15,6 +16,7 @@ import org.springframework.web.servlet.NoHandlerFoundException;
 import com.cfang.exception.AjaxException;
 import com.cfang.exception.BusyException;
 import com.cfang.exception.InvalidParamException;
+import com.cfang.utils.FlushUtil;
 
 import javassist.compiler.ast.NewExpr;
 
@@ -23,18 +25,19 @@ import javassist.compiler.ast.NewExpr;
 public class GlobalExceptionHandler {
 
 	@ExceptionHandler(value = Exception.class)
-	public Object defaultErrorHandler(HttpServletRequest request, Exception exception, HandlerMethod handlerMethod) {
+	public Object defaultErrorHandler(HttpServletRequest request, HttpServletResponse response, Exception exception, HandlerMethod handlerMethod) {
 		ModelAndView mv = new ModelAndView();
 		mv.addObject("reqUrl", String.join(":", "reqUrl", request.getRequestURL()));
-//		boolean isAjax = isAjax(request);
-//		Method m = handlerMethod.getMethod();
-//		Class<?> clazz = handlerMethod.getBeanType();
-//		boolean isRestReq = (m.getAnnotation(ResponseBody.class)!=null
-//                ||clazz.getAnnotation(ResponseBody.class)!=null
-//                ||clazz.getAnnotation(RestController.class)!=null);
-//		if(isAjax || isRestReq) {
-//			return AjaxException.errorException(exception.getMessage());
-//		}
+		boolean isAjax = isAjax(request);
+		Method m = handlerMethod.getMethod();
+		Class<?> clazz = handlerMethod.getBeanType();
+		boolean isRestReq = (m.getAnnotation(ResponseBody.class)!=null
+                ||clazz.getAnnotation(ResponseBody.class)!=null
+                ||clazz.getAnnotation(RestController.class)!=null);
+		if(isAjax || isRestReq) {
+			FlushUtil.fail(500, exception.getMessage(), null, response);
+			return null;
+		}
 		if(exception instanceof NoHandlerFoundException) {
 			mv.addObject("msg", String.join(":", "errMsg", "404 unknown url"));
 		}else if (exception instanceof InvalidParamException) {

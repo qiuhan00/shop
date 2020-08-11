@@ -23,6 +23,9 @@ var LoginCls = {
 		$.ajax({
 			type: 'post',
 			url: "/user/userLogin",
+			beforeSend:function(xhr){
+				xhr.setRequestHeader("token", $("#token").val());
+			},
 			data: $("#jq_login_form").serialize(),
 			success:function(result){
 				if(200 == result.code){
@@ -31,11 +34,11 @@ var LoginCls = {
 						window.location.href = result;
 					})
 				}else{
-					layer.msg("系统异常，请稍候重试..",{icon:2,time:2000,shade:0.3});
+					layer.msg(result.msg, {icon:2,time:2000,shade:0.3});
 				}
 			},
 			error:function(data) {
-				alert(data);
+				layer.msg(data.msg, {icon:2,time:2000,shade:0.3});
 			}
 		});	
 	},

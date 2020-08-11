@@ -36,6 +36,7 @@
     <input type="checkbox" checked="checked"/> 下次自动登录
    </div><!--zhuangtai/-->
    <input type="hidden" name="toUrl" th:value="${toURL}"></input>
+   <input type="hidden" id="token" name="token" th:value="${token}"></input>
   </form><!--loginRight/-->
    <div class="subs">
     <input type="image" th:src="@{/images/sub.jpg}" class="submit" id="jq_dologin_input" style="margin-left:29px;"/>

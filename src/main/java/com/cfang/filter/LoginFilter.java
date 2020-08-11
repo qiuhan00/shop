@@ -38,7 +38,7 @@ public class LoginFilter implements Filter{
 		
 		//静态资源
 		if(uri.endsWith(".css") || uri.endsWith(".js") || uri.endsWith(".jpg")
-                || uri.endsWith(".gif") || uri.endsWith(".png")){
+                || uri.endsWith(".gif") || uri.endsWith(".png")|| uri.endsWith(".ico")){
             chain.doFilter(servletRequest,servletResponse);
             return;
         }
