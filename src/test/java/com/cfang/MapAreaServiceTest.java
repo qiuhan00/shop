@@ -4,10 +4,12 @@ import java.util.List;
 
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 
 import com.alibaba.fastjson.JSON;
 import com.cfang.dto.VipUserDto;
 import com.cfang.entity.UserAddressEntity;
+import com.cfang.httpInterface.MapAreaClient;
 import com.cfang.service.MapAreaService;
 import com.cfang.service.UserService;
 
@@ -21,11 +23,18 @@ public class MapAreaServiceTest extends BaseTest{
 	private MapAreaService mapAreaService;
 	@Autowired
 	private UserService userService;
+	@Autowired
+	MapAreaClient mapAreaClient;
+	@Value("${amap.key}")
+	private String key;
+	private String url = "https://restapi.amap.com/v3/config/district?extensions=base&subdistrict=4";
 
 	@Test
 	public void updateMap() {
 		try {
-			mapAreaService.updateMapArea();
+//			mapAreaService.updateMapArea();
+			String msg = mapAreaClient.getVal(url, key, "上海");
+			System.out.println(msg);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
