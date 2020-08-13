@@ -21,7 +21,11 @@ var CartCls = {
 		this.$toOrder.on("click", this.toOrder);
 	},
 	toOrder:function(){
-		window.location.href = "/order/toOrder?cartIds=27,28";
+		var _cardids = new Array();
+		$(".jq_product_cbox:checked").each(function(){
+			_cardids.push($(this).val());
+		})
+		window.location.href = "/order/toOrder?cartIds=" + _cardids.join(",");
 	},
 	clearCart:function(){
 		$.ajax({

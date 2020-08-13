@@ -1,6 +1,7 @@
 package com.cfang.controller;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -96,7 +97,7 @@ public class VipController {
 			model.addAttribute("provinces", provinces);
 			if("vipAddressRight".equals(viewName)) {
 				List<UserAddressEntity> address = userService.selectByUserCode(userEntity.getUserCode());
-				model.addAttribute("address", address);
+				model.addAttribute("address", address.stream().filter(item -> item.getType().equals("1")).collect(Collectors.toList()));
 			}
 		}
 		return "user/vip::" + viewName;

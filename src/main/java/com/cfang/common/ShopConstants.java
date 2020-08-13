@@ -13,6 +13,10 @@ public interface ShopConstants {
 	int PRODUCT_STATUS_Y = 2;//已上架
 	int PRODUCT_STATUS_N = 3;//已下架
 	
+	String CAT_STATUS_ADD = "I";
+	String CAT_STATUS_P = "P";
+	String CAT_STATUS_O = "O";
+	
 	String PRODUCT_N = "n";
 	String PRODUCT_Y = "y";
 	

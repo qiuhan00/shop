@@ -9,6 +9,7 @@
 <script type="text/javascript" th:src="@{/js/wb.js}"></script>
 <script type="text/javascript" th:src="@{/layer/layer.js}"></script>
 <script type="text/javascript" th:src="@{/js/shop/common.js}"></script>
+<script type="text/javascript" th:src="@{/js/shop/order.js}"></script>
 </head>
 
 <body>
@@ -20,19 +21,21 @@
    当前位置：<a href="index.html">首页</a> &gt; <a href="#" class="posCur">填写核对订单</a>
   </div><!--positions/-->
   <div class="cont">
-   <div class="carImg hide"><img src="images/car2.jpg" width="961" height="27" /></div>
+   <div class="carImg"><img th:src="@{/images/car2.jpg}" width="961" height="27" /></div>
    <h4 class="orderTitle">收货地址</h4>
    <table class="ord">
     <tr th:each="item:${address}">
-     <td width="30%">
-      <input type="radio" th:text="${item.consignee}"/>
+     <td width="30%" >
+      <input type="radio" name="addrRadio" style="float:left;" th:value="${item.id}" th:attr="checked=${item.type=='0'}"/> 
+      <span th:text="${item.consignee}" style="float:left;">
+      </span><span th:if="${item.type == '0'}" style="float:left;">[默认]</span>
      </td>
-     <td width="50%" th:text="${item.provinceName + item.cityName + item.countyName + item.townName + item.addressDetail}">
+     <td width="50%" th:text="${item.provinceName + item.cityName + item.countyName + item.townName + item.addressDetail}" style="float:left;">
       上海,上海市,普陀区,曹杨路1040弄中友大厦一号楼19楼	,200000,13020129519
      </td>
-     <td>
+     <td class="hide">
       <span class="green upd">[修改]</span> | 
-      <span class="green add hide">[添加]</span> 
+      <span class="green add">[添加]</span> 
      </td>
     </tr>
    </table><!--ord/-->
@@ -66,7 +69,7 @@
      <input type="text" /> 或者固定电话 <input type="text" />
     </div><!--addList--> 
     <div class="addList2">
-     <input type="image" src="images/queren.jpg" width="100" height="32" />
+     <input type="image" src="/images/queren.jpg" width="100" height="32" />
     </div><!--addList2/-->
    </div><!--address/-->
    <h4 class="orderTitle">支付方式</h4>
@@ -80,7 +83,7 @@
   <div class="zhifufangshi">
    <ul class="yinhang">
     <li th:each="item:${paychannels}" th:if="${item.payType == '1'}">
-    	<input type="radio" name="paymethod"/><img th:src="@{${item.imageUrl}}"/>
+    	<input type="radio" name="paymethod" class="paychannel" th:value="${item.id}"/><img th:src="@{${item.imageUrl}}"/>
     </li>
     <div class="clears"></div>
    </ul>
@@ -88,7 +91,7 @@
   <div class="zhifufangshi">
    <ul class="yinhang">
     <li th:each="item:${paychannels}" th:if="${item.payType == '2'}">
-    	<input type="radio" name="paymethod"/><img th:src="@{${item.imageUrl}}" />
+    	<input type="radio" name="paymethod" class="paychannel" th:value="${item.id}"/><img th:src="@{${item.imageUrl}}" />
     </li>
     <div class="clears"></div>
    </ul>
@@ -96,7 +99,7 @@
   <div class="zhifufangshi">
    <ul class="yinhang">
     <li th:each="item:${paychannels}" th:if="${item.payType == '3'}">
-    	<input type="radio" name="paymethod"/><img th:src="@{${item.imageUrl}}" />
+    	<input type="radio" name="paymethod" class="paychannel" th:value="${item.id}"/><img th:src="@{${item.imageUrl}}" />
     </li>
     <div class="clear"></div>
    </ul>
@@ -104,7 +107,7 @@
   <div class="zhifufangshi">
    <ul class="yinhang">
     <li th:each="item:${paychannels}" th:if="${item.payType == '4'}">
-    	<input type="radio" name="paymethod"/><img th:src="@{${item.imageUrl}}" />
+    	<input type="radio" name="paymethod" class="paychannel" th:value="${item.id}"/><img th:src="@{${item.imageUrl}}" />
     </li>
     <div class="clear"></div>
    </ul>
@@ -119,8 +122,8 @@
      <th width="135">总金额</th>
      <th class="hide">操作</th>
     </tr>
-    <tr th:each="item:${carts}">
-     <td><input type="checkbox" /></td>
+    <tr th:each="item:${carts}" class="orderdetail" th:productcode="${item.productCode}" th:productname="${item.productName}" th:cartid="${item.id}">
+     <td><input type="checkbox" class="hide"/></td>
      <td>
       <dl>
        <dt><a href="proinfo.html"><img th:src="@{${item.picture}}" width="85" height="85" /></a></dt>
@@ -128,9 +131,12 @@
        <div class="clears"></div>
       </dl>
      </td>
-     <td><strong class="red" th:text="${'￥' + item.price}">￥70.20</strong></td>
-     <td>
-     <div class="jia_jian">
+     <td class="price" th:price="${item.price}">
+     	<strong class="red" th:text="${'￥' + item.price}">￥70.20</strong>
+     </td>
+     <td class="quantity" th:quantity="${item.quantity}">
+      <strong class="red" th:text="${item.quantity}">99</strong>
+     <div class="jia_jian hide">
       <input type="text" class="shuliang" th:value="${item.quantity}" readonly/>
      </div>
      </td>
@@ -138,19 +144,20 @@
      <td class="hide"><a href="#" class="green">收藏</a><br /><a href="#" class="green">删除</a></td>
     </tr>
     <tr class="hide">
-     <td colspan="6"><div class="shanchu"><img src="images/lajio.jpg" /> 全部删除</div></td>
+     <td colspan="6"><div class="shanchu"><img src="/images/lajio.jpg" /> 全部删除</div></td>
     </tr>
    </table><!--orderList/-->
    <table class="zongjia" align="right">
     <tr>
      <td width="120" align="left">商品总价：</td>
-     <td width="60"><strong class="red" th:text="${'￥' + total}">+7.88</strong></td>
+     <td width="60"><strong class="red" th:text="${'￥' + total}" id="total" th:total="${total}">+7.88</strong></td>
+     <input type="hidden" id="number" th:value="${number}"/>
     </tr>
     <tr>
      <td width="120" align="left">运费总额：</td>
      <td><strong class="red" th:text="${'￥' + 0}">+121.88</strong></td>
     </tr>
-    <tr>
+    <tr class="hide">
      <td width="120" align="left">促销优惠：</td>
      <td><strong class="red" th:text="${'￥' + 0}">+341.88</strong></td>
     </tr>
@@ -160,7 +167,7 @@
     </tr>
     <tr>
      <td colspan="2" style="height:50px;">
-      <a href="success.html"><img th:src="@{/images/tijao.png}" width="142" height="32" /></a>
+      <a class="jie_1" id="jq_btn_confirm"><img th:src="@{/images/tijao.png}" width="142" height="32" /></a>
      </td>
     </tr>
    </table><!--zongjia/-->

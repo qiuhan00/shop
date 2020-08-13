@@ -16,5 +16,6 @@ public class CartListDto extends CartEntity{
 	private String introduce; //商品简介
 	private BigDecimal price;// 定价
 	private String picture;// 小图片地址
+	private String productName;
 	
 }

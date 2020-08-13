@@ -31,7 +31,7 @@
      <th>操作</th>
     </tr>
     <tr th:each="item:${carts}" th:fragment="carts_item" class="jq_carts_item">
-     <td><input type="checkbox" /></td>
+     <td><input type="checkbox" name="checkBox" class="jq_product_cbox" th:value="${item.id}"/></td>
      <td>
       <dl>
        <dt><a href="proinfo.html"><img th:src="@{${item.picture}}" width="85" height="85" /></a></dt>

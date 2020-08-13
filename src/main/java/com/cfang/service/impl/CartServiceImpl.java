@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.cfang.common.ShopConstants;
 import com.cfang.dto.CartListDto;
 import com.cfang.entity.CartEntity;
 import com.cfang.entity.ProductEntity;
@@ -30,6 +31,7 @@ public class CartServiceImpl implements CartService{
 
 	@Override
 	public boolean addCart(CartEntity entity) {
+		entity.setStatus(ShopConstants.CAT_STATUS_ADD);
 		int i = cartMapper.insert(entity);
 		return i > 0;
 	}
@@ -64,6 +66,7 @@ public class CartServiceImpl implements CartService{
 			dto.setPicture(entity.getPicture());
 			dto.setIntroduce(entity.getIntroduce());
 			dto.setPrice(entity.getPrice());
+			dto.setProductName(entity.getProductName());
 			ret.add(dto);
 		});
 		return ret;

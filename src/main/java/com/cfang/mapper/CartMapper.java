@@ -15,4 +15,6 @@ public interface CartMapper extends CommonMapper<CartEntity>{
 	int clearCart(Integer userId);
 	
 	List<CartListDto> selectUserCart(Integer userId);
+	
+	int updateStatus(CartEntity entity); 
 }

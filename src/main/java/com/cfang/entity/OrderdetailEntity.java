@@ -14,10 +14,10 @@ import lombok.Data;
 @Table(name = "tbl_order_detail")
 public class OrderdetailEntity extends BaseEntity{
 
-	private Integer orderID;
-	private Integer productID; 
+	private String orderNo;
+	private Long productCode; 
 	private BigDecimal price;
-	private Integer number;
+	private Integer quantity;
 	private BigDecimal fee;	//配送费
 	private String productName;
 	private BigDecimal total0;// 小计

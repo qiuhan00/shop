@@ -10,6 +10,10 @@
     	select a.id,a.product_code as productCode,a.quantity,a.user_id as userId,b.introduce,b.price,b.picture
     	from tbl_cart a
     	left join tbl_product b on a.product_code=b.product_code
-    	where a.user_id=#{id}
+    	where a.user_id=#{id} and a.status='I'
     </select>
+    
+    <update id="updateStatus" parameterType="CartEntity">
+    	update tbl_cart set status=#{status} where id=#{id}
+    </update>
 </mapper>

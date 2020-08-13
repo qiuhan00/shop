@@ -17,7 +17,7 @@
     </select>
     
     <select id="selectByUserCode" parameterType="string" resultType="UserAddressEntity">
-    	select * from tbl_user_address where type='1' and user_code=#{code}
+    	select * from tbl_user_address where user_code=#{code} order by type
     </select>
     
     <update id="updateAddress" parameterType="UserAddressEntity">

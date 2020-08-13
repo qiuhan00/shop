@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.alibaba.fastjson.JSONObject;
 import com.cfang.dto.CartListDto;
 import com.cfang.dto.UserInfoDto;
+import com.cfang.dto.req.OrderReq;
 import com.cfang.entity.CartEntity;
 import com.cfang.entity.PayChannelEntity;
 import com.cfang.entity.ProductEntity;
@@ -54,8 +55,6 @@ public class OrderController {
 	@PostMapping("addCart")
 	public void addCart(CartEntity entity, HttpServletResponse response, UserInfoDto user) {
 		entity.setUserId(user.getId());
-		entity.setCreateTime(new Date());
-		entity.setUpdateTime(new Date());
 		boolean result = cartService.addCart(entity);
 		FlushUtil.flushJsonByObject(result, response);
 	}
@@ -112,5 +111,17 @@ public class OrderController {
 		List<PayChannelEntity> paychannels = orderService.selectAllPays();
 		model.addAttribute("paychannels", paychannels);
 		return "user/order";
+	}
+	
+	@PostMapping("createOrder")
+	public void createOrder(UserInfoDto user, @RequestBody OrderReq req, HttpServletResponse response) {
+		orderService.createOrder(user, req);
+		FlushUtil.success("success", response);
+	}
+	
+	@GetMapping("success")
+	public String success() {
+		
+		return "user/success";
 	}
 }
