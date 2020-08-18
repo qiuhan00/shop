@@ -42,10 +42,10 @@ var OrderCls = {
 			type: 'post',
 			data: JSON.stringify(_order),
 			contentType:"application/json",
-			success: function (data) {
-				if(200 == data.code){
+			success: function (result) {
+				if(200 == result.code){
 					layer.msg("下单成功..",{icon:1,time:2000,shade:0.3},function(){
-						window.location.href="/order/success"
+						window.location.href="/order/success?payName="+ result.data.payName + "&orderNo=" + result.data.orderNo;
 					});
 				}else{
 					layer.msg("系统异常，请稍候重试..",{icon:2,time:2000,shade:0.3});

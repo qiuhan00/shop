@@ -9,8 +9,22 @@
 <script type="text/javascript" th:src="@{/js/wb.js}"></script>
 <script type="text/javascript" th:src="@{/layer/layer.js}"></script>
 <script type="text/javascript" th:src="@{/js/shop/common.js}"></script>
+<script type="text/javascript">
+$(function(){
+	$("#pay").on("click", function(){
+		$.get("/order/pay?orderNo="+$(this).attr("orderNo"),null,function(data){
+			if(200 == data.code){
+				layer.msg("支付成功..",{icon:1,time:2000,shade:0.3},function(){
+					CommonCls.toIndex();
+				});
+			}else{
+				layer.msg("系统异常，请稍候重试..",{icon:2,time:2000,shade:0.3});
+			}
+		})
+	})
+})
+</script>
 </head>
-
 <body>
  <div class="mianCont">
   <div class="top" th:include="common::top"></div>
@@ -22,9 +36,9 @@
   <div class="cont">
    <div class="chenggong">
     <h3>下单成功</h3>
-    <div class="zhifu">
-     您选择的支付方式是 <strong class="red">支付宝</strong><br />
-     <a href="https://www.alipay.com/" target="_blank"><img src="/images/zhifu.png" width="133" height="41" /></a>
+    <div class="zhifu" style="width:270px;">
+     您选择的支付方式是 <strong class="red" th:text="${payName}">支付宝</strong><br />
+     <a class="jie_1" id="pay" th:orderNo="${orderNo}"><img src="/images/zhifu.png" width="133" height="41" /></a>
     </div><!--zhifu/-->
    </div><!--chenggong/-->
   </div><!--cont/-->

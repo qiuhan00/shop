@@ -62,7 +62,7 @@ public class OrderServiceImpl implements OrderService{
 
 	@Override
 	@Transactional
-	public void createOrder(UserInfoDto user, OrderReq req) {
+	public OrderEntity createOrder(UserInfoDto user, OrderReq req) {
 		OrderEntity orderEntity = new OrderEntity();
 		orderEntity.setAddressId(req.getAddressId());
 		orderEntity.setAmount(req.getAmount());
@@ -70,7 +70,7 @@ public class OrderServiceImpl implements OrderService{
 		orderEntity.setQuantity(req.getQuantity());
 		orderEntity.setOrderNo(createOrderNo());
 		orderEntity.setFee(BigDecimal.ZERO);
-		orderEntity.setPayStatus("n");
+		orderEntity.setPayStatus(ShopConstants.PRODUCT_N);
 		orderEntity.setStatus(ShopConstants.orderStatus.P.name());
 		orderEntity.setUserCode(user.getUserCode());
 		orderEntity.setScore(calcScore(req.getAmount()));
@@ -93,8 +93,14 @@ public class OrderServiceImpl implements OrderService{
 			cartMapper.updateStatus(entity);
 		});
 		//放入延迟队列,时间单位秒
-		OrderDelayed orderDelayed = new OrderDelayed(orderEntity.getOrderNo(), req.getCarts(), 60 * 15);
+		OrderDelayed orderDelayed = new OrderDelayed(orderEntity, req.getCarts(), 10);
 		OR_QUEUE.add(orderDelayed);
+		return orderEntity;
+	}
+	
+	@Override
+	public int updateOrder(OrderEntity entity) {
+		return orderMapper.updateOrder(entity);
 	}
 
 	private String createOrderNo() {
@@ -112,18 +118,17 @@ public class OrderServiceImpl implements OrderService{
 		log.info("定时任务检查超时订单 start...");
 		OrderDelayed orderDelayed = OR_QUEUE.poll();
 		if(null != orderDelayed) {
-			log.warn("订单{} 超时未支付", orderDelayed.getOrderNo());
+			OrderEntity orderEntity = orderDelayed.getOrderEntity();
+			log.warn("订单{} 超时未支付", orderEntity.getOrderNo());
 			orderDelayed.getCarts().forEach(item -> {
 				CartEntity entity = new CartEntity().setStatus(ShopConstants.CAT_STATUS_O);
 				entity.setId(item);
 				cartMapper.updateStatus(entity);
 			});
-			OrderEntity entity = new OrderEntity().setStatus(ShopConstants.orderStatus.C.name())
-					.setOrderNo(orderDelayed.getOrderNo());
-			orderMapper.cancelOrder(entity);
+			orderEntity.setStatus(ShopConstants.orderStatus.C.name());
+			orderMapper.updateOrder(orderEntity);
 		}
 		log.info("定时任务检查超时订单 end...");
 	}
-	
-	
+
 }

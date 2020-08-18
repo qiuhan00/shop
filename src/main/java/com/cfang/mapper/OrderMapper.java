@@ -12,6 +12,6 @@ import com.cfang.entity.OrderEntity;
  */
 public interface OrderMapper extends CommonMapper<OrderEntity>{
 
-	@Update("update tbl_order set status = #{status},update_time=#{updateTime} where order_no=#{orderNo}")
-	int cancelOrder(OrderEntity orderEntity);
+	@Update("update tbl_order set status = #{status},update_time=#{updateTime},pay_status=#{payStatus} where order_no=#{orderNo}")
+	int updateOrder(OrderEntity orderEntity);
 }

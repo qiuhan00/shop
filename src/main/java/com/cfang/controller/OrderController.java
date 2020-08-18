@@ -3,6 +3,7 @@ package com.cfang.controller;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -16,10 +17,13 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.alibaba.fastjson.JSONObject;
+import com.cfang.common.ShopConstants;
 import com.cfang.dto.CartListDto;
 import com.cfang.dto.UserInfoDto;
 import com.cfang.dto.req.OrderReq;
+import com.cfang.dto.resp.OrderResp;
 import com.cfang.entity.CartEntity;
+import com.cfang.entity.OrderEntity;
 import com.cfang.entity.PayChannelEntity;
 import com.cfang.entity.ProductEntity;
 import com.cfang.entity.UserAddressEntity;
@@ -115,13 +119,28 @@ public class OrderController {
 	
 	@PostMapping("createOrder")
 	public void createOrder(UserInfoDto user, @RequestBody OrderReq req, HttpServletResponse response) {
-		orderService.createOrder(user, req);
-		FlushUtil.success("success", response);
+		OrderEntity entity = orderService.createOrder(user, req);
+		String payName = orderService.selectAllPays().stream().filter(item -> req.getPayChannelId() == item.getId()).findFirst().get().getPayName();
+		String orderNo = entity.getOrderNo();
+		OrderResp resp = new OrderResp().setOrderNo(orderNo).setPayName(payName);
+		FlushUtil.success(resp, response);
 	}
 	
 	@GetMapping("success")
-	public String success() {
-		
+	public String success(HttpServletRequest request, Model model) {
+		String payName = request.getParameter("payName");
+		String orderNo = request.getParameter("orderNo");
+		model.addAttribute("payName", payName);
+		model.addAttribute("orderNo", orderNo);
 		return "user/success";
+	}
+	
+	@GetMapping("pay")
+	public void pay(HttpServletResponse response, Model model, String orderNo) {
+		OrderEntity entity = new OrderEntity().setOrderNo(orderNo)
+				.setStatus(ShopConstants.orderStatus.I.name())
+				.setPayStatus(ShopConstants.PRODUCT_Y);
+		int result = orderService.updateOrder(entity);
+		FlushUtil.success(result, response);
 	}
 }

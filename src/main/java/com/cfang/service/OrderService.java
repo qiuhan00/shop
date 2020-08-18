@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.cfang.dto.UserInfoDto;
 import com.cfang.dto.req.OrderReq;
+import com.cfang.entity.OrderEntity;
 import com.cfang.entity.PayChannelEntity;
 
 /**
@@ -14,5 +15,7 @@ public interface OrderService {
 
 	List<PayChannelEntity> selectAllPays();
 	
-	void createOrder(UserInfoDto user, OrderReq req);
+	OrderEntity createOrder(UserInfoDto user, OrderReq req);
+	
+	int updateOrder(OrderEntity entity);
 }

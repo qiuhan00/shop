@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.concurrent.Delayed;
 import java.util.concurrent.TimeUnit;
 
+import com.cfang.entity.OrderEntity;
+
 import cn.hutool.core.date.DateUtil;
 import lombok.Getter;
 
@@ -14,13 +16,13 @@ import lombok.Getter;
 public class OrderDelayed implements Delayed{
 	
 	@Getter
-	private String orderNo;//订单号
+	private OrderEntity orderEntity;//订单号
 	@Getter
 	private List<Integer> carts;//购物车id
 	private long expireTime;//有效期
 	
-	public OrderDelayed(String orderNo, List<Integer> carts, long expireTime) {
-        this.orderNo = orderNo;
+	public OrderDelayed(OrderEntity orderEntity, List<Integer> carts, long expireTime) {
+        this.orderEntity = orderEntity;
         this.carts = carts;
         this.expireTime = DateUtil.current(false) + expireTime * 1000;
     }
