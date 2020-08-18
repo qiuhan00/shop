@@ -93,7 +93,7 @@ public class OrderServiceImpl implements OrderService{
 			cartMapper.updateStatus(entity);
 		});
 		//放入延迟队列,时间单位秒
-		OrderDelayed orderDelayed = new OrderDelayed(orderEntity, req.getCarts(), 10);
+		OrderDelayed orderDelayed = new OrderDelayed(orderEntity, req.getCarts(), 60 * 15);
 		OR_QUEUE.add(orderDelayed);
 		return orderEntity;
 	}
