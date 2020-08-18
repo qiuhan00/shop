@@ -16,6 +16,7 @@ import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.StringHttpMessageConverter;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.EnableAsync;
+import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.web.client.RestTemplate;
 
 import com.cfang.service.MapAreaService;
@@ -29,6 +30,7 @@ import tk.mybatis.spring.annotation.MapperScan;
 @EnableAsync
 @ServletComponentScan(basePackages = "com.cfang.filter")
 @ForestScan(basePackages = "com.cfang.httpInterface")
+@EnableScheduling
 public class ShopApplication{
 
 	public static void main(String[] args) {

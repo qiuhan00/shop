@@ -4,13 +4,17 @@ import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 import java.util.Random;
+import java.util.concurrent.DelayQueue;
+import java.util.concurrent.TimeUnit;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.cfang.common.ShopConstants;
+import com.cfang.dto.OrderDelayed;
 import com.cfang.dto.UserInfoDto;
 import com.cfang.dto.req.OrderReq;
 import com.cfang.entity.CartEntity;
@@ -22,17 +26,23 @@ import com.cfang.mapper.OrderDetailMapper;
 import com.cfang.mapper.OrderMapper;
 import com.cfang.mapper.PayChannelMapper;
 import com.cfang.service.OrderService;
+import com.google.common.collect.Lists;
+import com.google.common.collect.Queues;
 
 import cn.hutool.core.date.DatePattern;
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.lang.UUID;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * @description：
  * @author cfang 2020年8月10日
  */
 @Service
+@Slf4j
 public class OrderServiceImpl implements OrderService{
+	
+	private final static DelayQueue<OrderDelayed> OR_QUEUE = new DelayQueue<OrderDelayed>();
 	
 	@Autowired
 	PayChannelMapper payChannelMapper;
@@ -82,6 +92,9 @@ public class OrderServiceImpl implements OrderService{
 			entity.setId(item);
 			cartMapper.updateStatus(entity);
 		});
+		//放入延迟队列,时间单位秒
+		OrderDelayed orderDelayed = new OrderDelayed(orderEntity.getOrderNo(), req.getCarts(), 60 * 15);
+		OR_QUEUE.add(orderDelayed);
 	}
 
 	private String createOrderNo() {
@@ -93,4 +106,24 @@ public class OrderServiceImpl implements OrderService{
 	private Integer calcScore(BigDecimal amount) {
 		return amount.divide(BigDecimal.TEN).intValue();
 	}
+	
+	@Scheduled(cron = "0/5 * * * * ?")
+	public void configureTasks() {
+		log.info("定时任务检查超时订单 start...");
+		OrderDelayed orderDelayed = OR_QUEUE.poll();
+		if(null != orderDelayed) {
+			log.warn("订单{} 超时未支付", orderDelayed.getOrderNo());
+			orderDelayed.getCarts().forEach(item -> {
+				CartEntity entity = new CartEntity().setStatus(ShopConstants.CAT_STATUS_O);
+				entity.setId(item);
+				cartMapper.updateStatus(entity);
+			});
+			OrderEntity entity = new OrderEntity().setStatus(ShopConstants.orderStatus.C.name())
+					.setOrderNo(orderDelayed.getOrderNo());
+			orderMapper.cancelOrder(entity);
+		}
+		log.info("定时任务检查超时订单 end...");
+	}
+	
+	
 }

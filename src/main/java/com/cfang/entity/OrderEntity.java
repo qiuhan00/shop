@@ -5,12 +5,14 @@ import java.math.BigDecimal;
 import javax.persistence.Table;
 
 import lombok.Data;
+import lombok.experimental.Accessors;
 
 /**
  * @description：
  * @author cfang 2020年7月14日
  */
 @Data
+@Accessors(chain = true)
 @Table(name = "tbl_order")
 public class OrderEntity extends BaseEntity{
 

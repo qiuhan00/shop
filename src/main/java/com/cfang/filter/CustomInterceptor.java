@@ -13,6 +13,8 @@ import org.apache.ibatis.plugin.Invocation;
 import org.apache.ibatis.plugin.Plugin;
 import org.apache.ibatis.plugin.Signature;
 
+import lombok.extern.slf4j.Slf4j;
+
 /**
  * @description：自定义 Mybatis 插件，自动设置 createTime 和 updatTime 的值，拦截 update 操作（添加和修改）
  * @author cfang 2020年7月24日
@@ -20,6 +22,7 @@ import org.apache.ibatis.plugin.Signature;
 @Intercepts({
 	@Signature(type = Executor.class, method = "update", args = {MappedStatement.class, Object.class})
 })
+@Slf4j
 public class CustomInterceptor implements Interceptor{
 
 	@Override
@@ -34,9 +37,13 @@ public class CustomInterceptor implements Interceptor{
             fieldCreate.set(object, new Date());
         }else{
             if (SqlCommandType.UPDATE.equals(sqlCommandType)) {
-                Field fieldUpdate = object.getClass().getField("updateTime");
-                fieldUpdate.setAccessible(true);
-                fieldUpdate.set(object, new Date());
+            	try {
+            		Field fieldUpdate = object.getClass().getField("updateTime");
+            		fieldUpdate.setAccessible(true);
+            		fieldUpdate.set(object, new Date());
+				} catch (Exception e) {
+					log.warn("SQL注入updateTime异常，method:{}", invocation.getMethod().getName());
+				}
             }
         }
 		return invocation.proceed();
