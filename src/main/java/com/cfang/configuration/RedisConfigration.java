@@ -4,6 +4,8 @@ import java.text.SimpleDateFormat;
 import java.time.Duration;
 import java.util.Map;
 
+import org.redisson.api.RedissonClient;
+import org.redisson.spring.cache.RedissonSpringCacheManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.CacheEvict;
@@ -41,6 +43,8 @@ public class RedisConfigration extends CachingConfigurerSupport{
 
 	@Autowired
 	private RedisConnectionFactory factory;
+	@Autowired
+	RedissonClient redissonClient;
 	
 	/**
 	 * 设置默认缓存管理策略
@@ -56,6 +60,7 @@ public class RedisConfigration extends CachingConfigurerSupport{
         		.withInitialCacheConfigurations(this.getRedisCacheConfigurationMap()) //不同的有效期的缓存name，使用@Cacheable(cacheNames = "cacheTime30", key = "'towns'")
         		.cacheDefaults(redisCacheConfiguration) //默认的缓存策略设置
         		.build();
+//		return new RedissonSpringCacheManager(redissonClient);
 	}
 	
 	@Bean
