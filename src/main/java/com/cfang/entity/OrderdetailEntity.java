@@ -3,6 +3,7 @@ package com.cfang.entity;
 import java.math.BigDecimal;
 
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import lombok.Data;
 
@@ -21,4 +22,6 @@ public class OrderdetailEntity extends BaseEntity{
 	private BigDecimal fee;	//配送费
 	private String productName;
 	private BigDecimal total0;// 小计
+	@Transient
+	private String picture;
 }

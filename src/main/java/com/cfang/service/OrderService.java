@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.cfang.dto.UserInfoDto;
 import com.cfang.dto.req.OrderReq;
+import com.cfang.dto.resp.VipOrderResp;
 import com.cfang.entity.OrderEntity;
 import com.cfang.entity.PayChannelEntity;
 
@@ -18,4 +19,6 @@ public interface OrderService {
 	OrderEntity createOrder(UserInfoDto user, OrderReq req);
 	
 	int updateOrder(OrderEntity entity);
+	
+	List<VipOrderResp> selectUserOrder(String userCode);
 }

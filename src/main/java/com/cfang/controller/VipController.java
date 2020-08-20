@@ -1,6 +1,7 @@
 package com.cfang.controller;
 
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
@@ -13,14 +14,17 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.cfang.common.ShopConstants;
 import com.cfang.dto.UserInfoDto;
 import com.cfang.dto.UserRegisterDto;
 import com.cfang.dto.VipUserDto;
+import com.cfang.dto.resp.VipOrderResp;
 import com.cfang.entity.MessageEntity;
 import com.cfang.entity.Province;
 import com.cfang.entity.UserAddressEntity;
 import com.cfang.service.MapAreaService;
 import com.cfang.service.MessageService;
+import com.cfang.service.OrderService;
 import com.cfang.service.UserService;
 import com.cfang.utils.FlushUtil;
 import com.google.common.collect.Lists;
@@ -39,6 +43,8 @@ public class VipController {
 	private UserService userService;
 	@Autowired
 	private MessageService messageService;
+	@Autowired
+	OrderService orderService;
 	
 	@GetMapping("toVip")
 	public String toVip(UserInfoDto userEntity, Model model) {
@@ -99,6 +105,16 @@ public class VipController {
 				List<UserAddressEntity> address = userService.selectByUserCode(userEntity.getUserCode());
 				model.addAttribute("address", address.stream().filter(item -> item.getType().equals("1")).collect(Collectors.toList()));
 			}
+		}
+		if("vipOrderRight".equals(viewName)) {
+			List<VipOrderResp> orders = orderService.selectUserOrder(userEntity.getUserCode());
+			model.addAttribute("orders", orders);
+			Map<String, Long> collect = orders.stream().filter(it -> !ShopConstants.orderStatus.C.name().equals(it.getStatus()))
+					.collect(Collectors.groupingBy(VipOrderResp::getPayStatus, Collectors.counting()));
+			model.addAttribute("paid", null == collect.get("y") ? 0 : collect.get("y"));
+			model.addAttribute("unpaid", null == collect.get("n") ? 0 : collect.get("n"));
+			model.addAttribute("cancle", orders.stream().filter(it -> ShopConstants.orderStatus.C.name().equals(it.getStatus())).collect(Collectors.toList()).size());
+			
 		}
 		return "user/vip::" + viewName;
 	}

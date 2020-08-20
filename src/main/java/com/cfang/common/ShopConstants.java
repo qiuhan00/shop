@@ -1,5 +1,7 @@
 package com.cfang.common;
 
+import java.util.Arrays;
+
 import antlr.actions.python.CodeLexer;
 
 /**
@@ -32,6 +34,21 @@ public interface ShopConstants {
 		}
 		public String getStatus() {
 			return status;
+		}
+	}
+	
+	enum payStatus{
+		n("待付款"),y("已付款");
+		
+		private String status;
+		private payStatus(String status) {
+			this.status = status;
+		}
+		public String getStatus() {
+			return status;
+		}
+		public static String getStatus(String name) {
+			return Arrays.asList(payStatus.values()).stream().filter(it -> name.equals(it.name())).findFirst().get().status;
 		}
 	}
 	

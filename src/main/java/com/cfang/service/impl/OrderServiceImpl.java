@@ -1,6 +1,7 @@
 package com.cfang.service.impl;
 
 import java.math.BigDecimal;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Random;
@@ -14,9 +15,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.cfang.common.ShopConstants;
+import com.cfang.common.ShopConstants.payStatus;
 import com.cfang.dto.OrderDelayed;
 import com.cfang.dto.UserInfoDto;
 import com.cfang.dto.req.OrderReq;
+import com.cfang.dto.resp.VipOrderResp;
 import com.cfang.entity.CartEntity;
 import com.cfang.entity.OrderEntity;
 import com.cfang.entity.OrderdetailEntity;
@@ -25,6 +28,7 @@ import com.cfang.mapper.CartMapper;
 import com.cfang.mapper.OrderDetailMapper;
 import com.cfang.mapper.OrderMapper;
 import com.cfang.mapper.PayChannelMapper;
+import com.cfang.mapper.ProductMapper;
 import com.cfang.service.OrderService;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Queues;
@@ -52,6 +56,8 @@ public class OrderServiceImpl implements OrderService{
 	OrderDetailMapper orderDetailMapper;
 	@Autowired
 	CartMapper cartMapper;
+	@Autowired
+	ProductMapper productMapper;
 
 	@Override
 	@Cacheable(value = "pay.channel", key = "'records'")
@@ -102,6 +108,24 @@ public class OrderServiceImpl implements OrderService{
 	public int updateOrder(OrderEntity entity) {
 		return orderMapper.updateOrder(entity);
 	}
+	
+	@Override
+	public List<VipOrderResp> selectUserOrder(String userCode) {
+		List<VipOrderResp> list = orderMapper.selectUserOrder(userCode);
+		list.forEach(item -> {
+			item.getDetails().forEach(it -> {
+				it.setPicture(productMapper.selectByProductCode(it.getProductCode()).getPicture());
+				it.setTotal0(it.getPrice().multiply(BigDecimal.valueOf(it.getQuantity())));
+			});
+			item.setCreateTimeStr(DateUtil.format(item.getCreateTime(), DatePattern.NORM_DATETIME_FORMAT));
+			if(ShopConstants.orderStatus.C.name().equals(item.getStatus())) {
+				item.setPayStatusStr(ShopConstants.orderStatus.C.getStatus());
+			}else {
+				item.setPayStatusStr(ShopConstants.payStatus.getStatus(item.getPayStatus()));
+			}
+		});
+		return list;
+	}
 
 	private String createOrderNo() {
 		String time = DateUtil.format(new Date(), DatePattern.PURE_DATETIME_PATTERN);
@@ -115,7 +139,7 @@ public class OrderServiceImpl implements OrderService{
 	
 	@Scheduled(cron = "0/5 * * * * ?")
 	public void configureTasks() {
-		log.info("定时任务检查超时订单 start...");
+//		log.info("定时任务检查超时订单 start...");
 		OrderDelayed orderDelayed = OR_QUEUE.poll();
 		if(null != orderDelayed) {
 			OrderEntity orderEntity = orderDelayed.getOrderEntity();
@@ -128,7 +152,6 @@ public class OrderServiceImpl implements OrderService{
 			orderEntity.setStatus(ShopConstants.orderStatus.C.name());
 			orderMapper.updateOrder(orderEntity);
 		}
-		log.info("定时任务检查超时订单 end...");
+//		log.info("定时任务检查超时订单 end...");
 	}
-
 }

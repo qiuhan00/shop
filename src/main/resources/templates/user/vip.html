@@ -192,3 +192,40 @@
     </tr>
    </table><!--vipAdress/-->
 </div>
+
+<div class="contRight" th:fragment="vipOrderRight">
+    <h1 class="vipName hide"><span>用户名：</span>纯小绿先森</h1>
+    <h2 class="oredrName">
+    我的订单 
+    <span style="margin-left:40px;">已付款 <span class="red" th:text="${paid}">10</span> </span>
+    <span>待付款 <span class="red" th:text="${unpaid}">15</span></span>
+    <span>已取消 <span class="red" th:text="${cancle}">15</span></span>
+    </h2>
+    <table class="vipOrder">
+     <th:block th:each="item:${orders}">
+	     <tr>
+	      <td style="font-weight:bolder;">订单号：<span th:text="${item.orderNo}">OD123456</span></td>
+		  <td>收件人：<span th:text="${item.consignee}">张益达</span></td>
+		  <td>下单时间：<span th:text="${item.createTimeStr}">2014年6月23日11:32:17</span></td>
+		  <td><a class="jie_1"><strong th:text="${item.payStatusStr}">等待付款</strong></a></td>
+	     </tr>
+		  <tr th:each="node:${item.details}">
+			<td><a class="jie_1"><img th:src="@{${node.picture}}" width="60" height="55"></a></td>
+			<td th:text="${node.productName}">10</td>
+			<td>￥<span th:text="${node.price}" style="font-weight:bolder;">16.9</span></td>
+			<td><span th:text="${node.quantity}" style="font-weight:bolder;">10</span>件</td>
+			<td class="">小计：￥<span th:text="${node.total0}" style="font-weight:bolder;">10</span></td>
+			<td><a class="jie_1">查看</a></td>
+		  </tr>
+	  </th:block>
+    </table><!--vipOrder/-->
+    <br/>
+    <div class="scott">
+    	<span class="disabled"> < </span>
+    	<span class="current">1</span>
+    	<a href="#?page=2">2</a><a href="#?page=3">3</a>
+    	<a href="#?page=4">4</a><a href="#?page=5">5</a><a href="#?page=6">6</a><a href="#?page=7">7</a>...<a href="#?page=199">199</a><a href="#?page=200">200</a>
+    	<a href="#?page=2"> > </a>
+    </div>
+    <br />
+ </div>
