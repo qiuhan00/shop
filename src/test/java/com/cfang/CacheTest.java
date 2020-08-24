@@ -24,6 +24,7 @@ public class CacheTest extends BaseTest{
 	@Test
 	public void hasKey() {
 		System.out.println(redisService.hasKey("user"));
+		redisService.incr("num", 5);
 	}
 	
 	@Test
