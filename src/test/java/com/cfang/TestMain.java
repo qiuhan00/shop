@@ -26,6 +26,10 @@ public class TestMain {
 		System.out.println(ShopConstants.errorCode.INVALID_PARAM.getCode());
 		System.out.println(ShopConstants.errorCode.INVALID_PARAM.getMsg());
 		
+		int bitMap = Integer.valueOf("11111",2);
+		System.out.println((3<<1)+1);
+		System.out.println((bitMap & 0x1f) == 0x1f);
+		System.out.println(Integer.toBinaryString(16));
 	}
 	
 	private static String desensitizedPhoneNumber(String phoneNumber){

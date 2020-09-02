@@ -28,12 +28,15 @@ import com.cfang.dto.UserInfoDto;
 import com.cfang.dto.UserLoginDto;
 import com.cfang.dto.UserRegisterDto;
 import com.cfang.entity.UserEntity;
+import com.cfang.entity.UserLoginRecordsEntity;
 import com.cfang.service.RedisService;
 import com.cfang.service.TokenService;
+import com.cfang.service.UserLoginRecordsService;
 import com.cfang.service.UserService;
 import com.cfang.utils.FlushUtil;
 import com.cfang.utils.RandomValidateCodeUtil;
 
+import cn.hutool.core.date.DateUtil;
 import cn.hutool.system.UserInfo;
 
 /**
@@ -48,6 +51,8 @@ public class UserController {
 	private UserService userService;
 	@Autowired
 	TokenService tokenService;
+	@Autowired
+	UserLoginRecordsService userLoginRecordsService;
 
 	@GetMapping("toRedirect/{toView}")
 	public String toRegister(@PathVariable("toView") String toView, String toUrl, Model model) throws Exception {
@@ -128,6 +133,10 @@ public class UserController {
 		UserInfoDto user = userService.loginUser(dto);
 		if(null != user) {
 			request.getSession().setAttribute("user", user);
+			UserLoginRecordsEntity entity = new UserLoginRecordsEntity()
+					.setLoginTs(DateUtil.date())
+					.setUserCode(user.getUserCode());
+			userLoginRecordsService.saveRecord(entity);
 		}
 		String toURL = "";
 		if(StringUtils.isNotBlank(dto.getToUrl())) {
