@@ -28,7 +28,7 @@ public class UserLoginRecordsServiceImpl implements UserLoginRecordsService{
 			entity.setLoginBit(1l);
 			userLoginRecordsMapper.insertSelective(entity);
 		}else {
-			Date now = DateUtil.date();
+			Date now = entity.getLoginTs();
 			long day = DateUtil.betweenDay(dbEntity.getLoginTs(), now, false);
 			if (day> 0) {
 				long result = (dbEntity.getLoginBit() << day) + 1;
