@@ -58,6 +58,8 @@ public class UserController {
 	public String toRegister(@PathVariable("toView") String toView, String toUrl, Model model) throws Exception {
 		if(StringUtils.isNotBlank(toUrl)) {
 			model.addAttribute("toURL", URLEncoder.encode(toUrl, "utf-8"));
+		}
+		if("login".equals(toView)){
 			model.addAttribute("token", tokenService.createToken());
 		}
 		return "user/" + toView;
