@@ -25,8 +25,8 @@ CREATE TABLE `tbl_catalog` (
   `show_in_nav` char(1) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
   `parent_code` varchar(10) DEFAULT NULL,
   `node_level` int DEFAULT NULL,
-  `create_time` datetime NOT CURRENT_TIMESTAMP,
-  `update_time` datetime NOT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `create_time` datetime DEFAULT CURRENT_TIMESTAMP,
+  `update_time` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -146,12 +146,12 @@ CREATE TABLE `tbl_product` (
   `status` int DEFAULT NULL,
   `show_in_nav` char(1) DEFAULT 'n',
   `catalog_id` int DEFAULT NULL,
-  `create_time` datetime NOT CURRENT_TIMESTAMP,
-  `update_time` datetime NOT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `create_time` datetime DEFAULT CURRENT_TIMESTAMP,
+  `update_time` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-c
+drop table if exists tbl_province;
 CREATE TABLE `tbl_province` (
   `id` int NOT NULL AUTO_INCREMENT,
   `name` varchar(20) DEFAULT NULL,
@@ -184,8 +184,8 @@ CREATE TABLE `tbl_user` (
   `card_no` varchar(20) DEFAULT NULL COMMENT '证件号',
   `email` varchar(20) DEFAULT NULL,
   `grade` int DEFAULT NULL COMMENT '等级',
-  `create_time` datetime NOT CURRENT_TIMESTAMP,
-  `update_time` datetime NOT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `create_time` datetime DEFAULT CURRENT_TIMESTAMP,
+  `update_time` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
