@@ -1,5 +1,5 @@
 singleServerConfig:
-  address: "redis://111.231.51.200:6379"
+  address: "redis://xxx.xxx.xxx.xxx:6379"
   password: null
   clientName: null
   database: 15 #选择使用哪个数据库0~15
