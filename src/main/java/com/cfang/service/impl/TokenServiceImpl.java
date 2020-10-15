@@ -2,6 +2,7 @@ package com.cfang.service.impl;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.cfang.utils.CommonRedisUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,12 +22,12 @@ public class TokenServiceImpl implements TokenService{
 	private static final String TOKEN_PREFIX  = "token:";
 	private static final String TOKEN_NAME = "token";
 	@Autowired
-	RedisService redisService;
+	CommonRedisUtil commonRedisUtil;
 	
 	@Override
 	public String createToken() {
 		String token = TOKEN_PREFIX + UUID.fastUUID().toString(true);
-		redisService.set(token, token, 60);
+		commonRedisUtil.set(token, token, 60);
 		return token;
 	}
 
@@ -39,10 +40,10 @@ public class TokenServiceImpl implements TokenService{
 				throw new RuntimeException("接口未携带token参数");
 			}
 		}
-		if(!redisService.hasKey(token)) {
+		if(!commonRedisUtil.hasKey(token)) {
 			throw new RuntimeException("重复提交，稍后重试");
 		}
-		boolean result = redisService.del(token);
+		boolean result = commonRedisUtil.del(token);
 		if(!result) {
 			throw new RuntimeException("重复提交，稍后重试");
 		}

@@ -41,7 +41,8 @@ import com.google.common.collect.Maps;
  * describe：
  * @author cfang 2020年7月13日
  */
-@Configuration
+@Deprecated
+//@Configuration
 //@AutoConfigureAfter(RedisAutoConfiguration.class)
 public class RedisConfigration extends CachingConfigurerSupport{
 

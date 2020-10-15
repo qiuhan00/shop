@@ -21,7 +21,8 @@ import lombok.extern.slf4j.Slf4j;
  * @description：redisTemplate封装
  * @author cfang 2020年7月28日
  */
-@Component
+@Deprecated
+//@Component
 @Slf4j
 public class RedisService {
 
@@ -101,16 +102,16 @@ public class RedisService {
 	 * @param value
 	 * @return
 	 */
-	public boolean set(String key, Object value) {
-		boolean result = false;
-        try {
-            redisTemplate.opsForValue().set(key, value);
-            result = true;
-        } catch (Exception e) {
-        	log.warn(String.format("设置键值 %s:%s 在异常，msg:%s", key,JSON.toJSONString(value), e.getMessage()));
-        }
-        return result;
-    }
+		public boolean set(String key, Object value) {
+			boolean result = false;
+	        try {
+	            redisTemplate.opsForValue().set(key, value);
+	            result = true;
+	        } catch (Exception e) {
+	            log.warn(String.format("设置键值 %s:%s 在异常，msg:%s", key,JSON.toJSONString(value), e.getMessage()));
+	        }
+	        return result;
+	    }
 	/**
 	 * 带有效期的设值
 	 * @param key

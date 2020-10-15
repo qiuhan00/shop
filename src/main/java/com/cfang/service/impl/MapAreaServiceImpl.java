@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
+import com.cfang.utils.CommonRedisUtil;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -68,7 +69,7 @@ public class MapAreaServiceImpl implements MapAreaService{
 	@Autowired
 	RestTemplate restTemplate;
 	@Autowired
-	RedisService redisService;
+	CommonRedisUtil commonRedisUtil;
 	
 	/**
 	 * @CacheEvict 删除缓存
@@ -205,7 +206,7 @@ public class MapAreaServiceImpl implements MapAreaService{
 	@Override
 	public void initArea() {
 		 List<Province> provinces = provinceMapper.selectAll();
-		 redisService.set("areas::provinces", provinces, 60 * 60);
+		 commonRedisUtil.set("areas::provinces", provinces, 60 * 60);
 		 log.info("==>初始化加载地区信息完成");
 	}
 
