@@ -3,6 +3,7 @@ package com.cfang.service.impl;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import com.cfang.annotation.ApiLog;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
@@ -33,6 +34,7 @@ public class CataLogServiceImpl implements CataLogService{
 	 */
 	@Override
 	@Cacheable(value = "catalogs", key = "'catalogs'", sync = true)
+	@ApiLog(operatorType = "select", operatorModule = "产品", operatorDesc = "查询产品树")
 	public List<IndexProductTree> selectIndexProduct() {
 		List<CatalogEntity> catalogs = cataLogMapper.selectAll();
 		return assembly(catalogs);

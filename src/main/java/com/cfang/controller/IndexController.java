@@ -1,11 +1,12 @@
 package com.cfang.controller;
 
-import java.io.IOException;
-import java.util.List;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
+import com.cfang.annotation.ApiLog;
+import com.cfang.dto.IndexProductTree;
+import com.cfang.dto.UserInfoDto;
+import com.cfang.entity.ProductEntity;
+import com.cfang.service.CataLogService;
+import com.cfang.service.ProductService;
+import com.cfang.utils.FlushUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,16 +14,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.alibaba.fastjson.JSON;
-import com.cfang.config.ApiLog;
-import com.cfang.dto.IndexProductTree;
-import com.cfang.dto.UserInfoDto;
-import com.cfang.entity.ProductEntity;
-import com.cfang.entity.UserEntity;
-import com.cfang.service.CataLogService;
-import com.cfang.service.ProductService;
-import com.cfang.service.TokenService;
-import com.cfang.utils.FlushUtil;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.util.List;
 
 @Controller
 @RequestMapping("")
@@ -33,7 +27,6 @@ public class IndexController {
 	@Autowired
 	private ProductService productService;
 	
-	@ApiLog(operaterType = "index", operaterModule = "首页模块")
 	@GetMapping(value = {"/shop", ""})
 	public String index(Model model, HttpServletRequest request, UserInfoDto user) {
 		List<IndexProductTree> trees = cataLogService.selectIndexProduct();

@@ -43,10 +43,31 @@
         </encoder>
     </appender>
 
+    <appender name="aoplog-main" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOG_HOME}/aoplog-main.log</file>
+        <append>true</append>
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <fileNamePattern>${LOG_HOME}/aoplog-main.log.%d{yyyy-MM-dd}.%i</fileNamePattern>
+            <maxFileSize>50MB</maxFileSize>
+            <maxHistory>7</maxHistory>
+            <totalSizeCap>512MB</totalSizeCap>
+            <cleanHistoryOnStart>true</cleanHistoryOnStart>
+        </rollingPolicy>
+        <encoder>
+            <Pattern>[TRACEID:%X{traceId}] %date %level %msg%n%n</Pattern>
+            <charset>UTF-8</charset>
+        </encoder>
+    </appender>
+
     <logger name="com.cfang.swagger" additivity="false">
         <level value="DEBUG"/>
         <appender-ref ref="swagger-main"/>
     </logger>
+
+    <logger name="com.cfang.config.WebLogAspect" level="INFO" additivity="false">
+        <appender-ref ref="aoplog-main"/>
+    </logger>
+
 
     <root>
         <level value="INFO"/>
